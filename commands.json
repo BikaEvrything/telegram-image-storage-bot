@@ -1,0 +1,46 @@
+[
+  {
+    "name": "delete",
+    "file": "src/commands/delete.js"
+  },
+  {
+    "name": "export",
+    "file": "src/commands/export.js"
+  },
+  {
+    "name": "help",
+    "file": "src/commands/help.js"
+  },
+  {
+    "name": "list",
+    "file": "src/commands/list.js"
+  },
+  {
+    "name": "note",
+    "file": "src/commands/note.js"
+  },
+  {
+    "name": "reset",
+    "file": "src/commands/reset.js"
+  },
+  {
+    "name": "save",
+    "file": "src/commands/save.js"
+  },
+  {
+    "name": "search",
+    "file": "src/commands/search.js"
+  },
+  {
+    "name": "start",
+    "file": "src/commands/start.js"
+  },
+  {
+    "name": "tag",
+    "file": "src/commands/tag.js"
+  },
+  {
+    "name": "view",
+    "file": "src/commands/view.js"
+  }
+]

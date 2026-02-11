@@ -1,0 +1,418 @@
+{
+  "projectId": "23a78649-0459-4ee7-8c52-35a1af635bdd",
+  "commands": [
+    {
+      "command": "/delete",
+      "description": "Removes an item from your library.",
+      "usage": "/delete <id>",
+      "examples": [
+        "User: /delete a1b2c3d4 → Bot: Deleted."
+      ],
+      "notes": "Deletion is permanent in this version."
+    },
+    {
+      "command": "/export",
+      "description": "Exports a compact JSON summary of your saved items (metadata only).",
+      "usage": "/export",
+      "examples": [
+        "User: /export → Bot: sends JSON text or a JSON document"
+      ],
+      "notes": "No image files are included in export, only ids and metadata."
+    },
+    {
+      "command": "/help",
+      "description": "Shows all public commands with short examples.",
+      "usage": "/help",
+      "examples": [
+        "User: /help → Bot: shows command list and examples"
+      ],
+      "notes": "If you forget item ids, use /list or /search."
+    },
+    {
+      "command": "/list",
+      "description": "Lists your most recent saved images (5 per page).",
+      "usage": "/list [page]",
+      "examples": [
+        "User: /list → Bot: shows page 1",
+        "User: /list 2 → Bot: shows page 2"
+      ],
+      "notes": "Use /view <id> to open an item."
+    },
+    {
+      "command": "/note",
+      "description": "Sets or replaces a freeform note for an item.",
+      "usage": "/note <id> <text>",
+      "examples": [
+        "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
+      ],
+      "notes": "Notes are limited to 2000 characters."
+    },
+    {
+      "command": "/reset",
+      "description": "Clears the long-term AI conversation memory for your user.",
+      "usage": "/reset",
+      "examples": [
+        "User: /reset → Bot: Memory cleared."
+      ],
+      "notes": "This does not delete your saved images."
+    },
+    {
+      "command": "/save",
+      "description": "Saves the replied-to photo or image document (useful in groups).",
+      "usage": "Reply to an image with /save",
+      "examples": [
+        "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+      ],
+      "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+    },
+    {
+      "command": "/search",
+      "description": "Searches your library by tags, caption text, and note text (paginated).",
+      "usage": "/search <query> [page]",
+      "examples": [
+        "User: /search receipts → Bot: results page 1",
+        "User: /search travel 2 → Bot: results page 2"
+      ],
+      "notes": "Search is always scoped to your userId."
+    },
+    {
+      "command": "/start",
+      "description": "Welcomes the user, explains how to save images, and shows the main commands.",
+      "usage": "/start",
+      "examples": [
+        "User: /start → Bot: explains how to save images and shows key commands"
+      ],
+      "notes": "Send a photo or an image document to save it automatically."
+    },
+    {
+      "command": "/tag",
+      "description": "Sets or replaces tags for an item.",
+      "usage": "/tag <id> <comma-separated-tags>",
+      "examples": [
+        "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
+        "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
+      ],
+      "notes": "Tags are normalized to lowercase."
+    },
+    {
+      "command": "/view",
+      "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+      "usage": "/view <id>",
+      "examples": [
+        "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+      ],
+      "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+    }
+  ],
+  "aiMessages": [
+    {
+      "role": "user",
+      "content": "make me an image storage bot"
+    },
+    {
+      "role": "assistant",
+      "content": "Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is missing). Includes all requested commands, de-duplication by file_unique_id/messageId, CookMyBots AI gateway integration, and Render-friendly boot logic with webhook clearing and conflict backoff.\n\nFiles touched (26): .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js…\nValidation: ✅ project passes syntax/basic checks after this edit."
+    }
+  ],
+  "createdBy": "698c5da5448c6e227437206a",
+  "source": "ai-cold-start",
+  "description": "",
+  "platform": "telegram",
+  "planMarkdown": "Bot: Telegram Image Storage Bot (Node.js ESM + grammY)\n\nSummary:\nA production-ready Telegram bot that lets users (and optionally groups) store images sent in chat, organize them into albums/tags, search and retrieve them later, and export or delete their library. The bot treats Telegram as the primary ingestion surface and maintains a durable index in MongoDB, while storing original files either in Telegram (by file_id) for lightweight use cases or in external object storage/simple filesystem storage for long-term retention and portability.\n\nThe bot is designed as a single Node.js service using grammY. It focuses on safe defaults (privacy, least-data retention), predictable UX (explicit save confirmations, clear retrieval flows), and operational stability (rate limiting, retries, observability).\n\nProduct goals:\nPrimary user value\n1) Quickly save images from Telegram chats (private chats and optionally groups) with minimal friction.\n2) Find and retrieve saved images later using search, tags, albums, dates, and free-text notes.\n3) Share and export stored images without losing organization.\n\nCore use cases\n1) Personal image locker: a user forwards/sends photos to the bot, adds tags like “receipt” or “inspiration,” and later searches and retrieves them.\n2) Group curation (optional): a group adds the bot and images are saved to a shared collection with scoped permissions.\n3) Reference library: users create albums (e.g., “Project A”), store images, and export an album as a set.\n\nSuccess criteria\n1) High capture success rate: images are reliably saved with a confirmation and retrievable via a stable identifier.\n2) Fast retrieval: common searches return quickly, with paging.\n3) Trust: transparent retention policy, easy deletion, and predictable privacy boundaries.\n\nNon-goals (to keep scope controlled)\n1) Not a general cloud drive replacement (no arbitrary file types beyond images unless extended later).\n2) No complex collaborative editing; shared collections are simple ownership/role-based.\n3) No heavy image processing pipelines; only lightweight metadata extraction if needed.\n\nHigh-level architecture:\nHigh-level components (single Node.js service)\n1) grammY update handler layer\n   1) Routes updates (messages, callbacks, inline queries if used) into feature modules.\n   2) Performs authentication context building (user, chat, role) and basic input validation.\n\n2) Domain services\n   1) Ingestion service: normalizes incoming Telegram media, chooses storage mode, persists metadata.\n   2) Library service: tagging, albums, notes, deduplication checks, pagination.\n   3) Search service: builds MongoDB queries for tags/albums/date ranges/text; returns stable result pages.\n   4) Delivery service: sends stored images back to user, choosing best transport (cached Telegram fileid when available; otherwise upload from storage).\n\n3) Persistence\n   1) MongoDB stores all metadata and relationships (users, images, tags, albums, permissions, audit events).\n   2) File bytes strategy (selectable by configuration)\n      1) Telegram-only mode: store Telegram fileid plus minimal metadata. Fast, cheap, but depends on Telegram retention behavior and limits.\n      2) Durable mode: download the file once and store it in object storage or simple filesystem storage; keep Telegram fileid as an optimization cache.\n\n4) Background work within the same process\n   1) A simple in-process job runner for tasks like “download and persist media after acknowledging user,” “cleanup orphaned files,” and “rebuild derived stats.”\n   2) Use MongoDB as the source of truth for job states if reliability is required; otherwise use an in-memory queue with careful backpressure (acceptable only if occasional loss is tolerable).\n\n5) Configuration and secrets\n   1) TELEGRAMBOTTOKEN from environment variables.\n   2) Storage mode and MongoDB connection from environment variables.\n\nOperational boundaries\n1) The bot is stateless aside from MongoDB and the chosen file storage. Multiple instances are possible in principle, but the plan assumes a single service instance; design avoids relying on in-memory state for correctness.\n2) Rate limiting and backpressure are enforced to prevent running into Telegram API limits or exhausting memory when users bulk-upload images.\n\nData model:\nKey entities in MongoDB (document-oriented, with indexes)\n\n1) users\n1) Fields\n   1) telegramUserId (unique)\n   2) createdAt, lastSeenAt\n   3) settings: defaultPrivacyScope, defaultAlbumId, language, timezone\n   4) plan/limits: maxImages, maxStorageBytes (if you later add tiers)\n2) Indexes\n   1) telegramUserId unique\n\n2) chats (optional, only if group features enabled)\n1) Fields\n   1) telegramChatId (unique)\n   2) type (private/group/supergroup)\n   3) title\n   4) createdAt\n2) Indexes\n   1) telegramChatId unique\n\n3) collections\nRepresents a logical library scope.\n1) Types\n   1) user collection: owned by one user\n   2) group collection: owned by a chat with roles\n2) Fields\n   1) collectionId\n   2) ownerType (user/chat)\n   3) ownerId (telegramUserId or telegramChatId)\n   4) createdAt\n   5) policy: whoCanSave, whoCanView, whoCanDelete (for group collections)\n3) Indexes\n   1) ownerType+ownerId unique\n\n4) images\n1) Fields\n   1) imageId (bot-generated stable id)\n   2) collectionId\n   3) uploaderTelegramUserId\n   4) source\n      1) telegram: chatId, messageId\n      2) originType: sent/forwarded\n   5) telegram\n      1) fileId (best size) and optionally fileUniqueId\n      2) width, height, fileSize\n   6) storage\n      1) mode: telegramonly or durable\n      2) objectKey/path (if durable)\n      3) sha256 (if computed) for dedupe and integrity\n   7) metadata\n      1) captionText (normalized)\n      2) note (user-added)\n      3) tags: array of tagIds or normalized tag strings\n      4) albumIds: array\n      5) takenAt (if user sets; optional)\n   8) lifecycle\n      1) createdAt\n      2) deletedAt (soft delete)\n      3) purgeAt (optional)\n2) Indexes\n   1) collectionId + createdAt (for browsing)\n   2) collectionId + tags (multikey)\n   3) collectionId + albumIds (multikey)\n   4) collectionId + text index on captionText and note (if using MongoDB text search)\n   5) telegram.fileUniqueId (optional, for dedupe)\n\n5) tags\n1) Fields\n   1) tagId\n   2) collectionId\n   3) nameNormalized, nameDisplay\n   4) createdAt\n2) Indexes\n   1) collectionId + nameNormalized unique\n\n6) albums\n1) Fields\n   1) albumId\n   2) collectionId\n   3) title\n   4) description\n   5) createdAt\n2) Indexes\n   1) collectionId + title\n\n7) permissions (only for group collections)\n1) Fields\n   1) collectionId\n   2) telegramUserId\n   3) role: admin/editor/viewer\n   4) createdAt\n2) Indexes\n   1) collectionId + telegramUserId unique\n\n8) auditevents (lightweight, optional but useful)\n1) Fields\n   1) eventId\n   2) collectionId\n   3) actorTelegramUserId\n   4) action: saveimage, deleteimage, addtag, removetag, exportalbum\n   5) entityId\n   6) createdAt\n2) Indexes\n   1) collectionId + createdAt\n\nStorage notes\n1) In durable mode, store original bytes under a deterministic path/objectKey derived from imageId (and optionally content hash). Keep metadata in MongoDB.\n2) Soft delete first, then purge bytes on a scheduled cleanup to prevent accidental loss.\n\nKey flows:\n1) Onboarding and help\n1) User sends /start.\n2) Bot creates or updates user record and creates the default user collection.\n3) Bot explains how to save images: send a photo, optionally add a caption with tags, and how to retrieve later.\n4) Bot offers a one-tap settings flow (storage mode explanation, default album).\n\n2) Saving an image (private chat)\n1) User sends a photo (or image document).\n2) Bot validates the media type and extracts best-quality variant, caption, and message context.\n3) Bot immediately acknowledges with a short confirmation message and a stable reference (imageId) to build trust.\n4) Persistence steps\n   1) Create images document with telegram file metadata.\n   2) Parse tags from caption (e.g., words prefixed with #) and upsert tags.\n   3) Attach tags/albums to the image record.\n5) Durable mode additional steps\n   1) Download file via Telegram API.\n   2) Store bytes in object storage/simple filesystem storage.\n   3) Update images.storage with location and integrity hash.\n6) Bot offers quick actions via inline buttons (Add tag, Add note, Add to album, Delete).\n\n3) Saving from groups (optional)\n1) Group adds the bot; admin runs /enablegrouplibrary.\n2) Bot creates a group collection and sets a default policy (e.g., only admins can delete; members can save).\n3) When images are posted in the group, bot saves only when explicitly triggered (to avoid surprising behavior), for example:\n   1) A user replies to an image with “/save” or uses a context command, or\n   2) The bot offers a “Save to group library” button if permitted.\n4) Permissions are checked against collection policy and stored roles.\n\n4) Tagging and notes\n1) User uses /tag or taps “Add tag” on a saved image.\n2) Bot prompts for tag names and normalizes them.\n3) Bot updates image document and tag catalog.\n4) Notes are stored as user-provided text on the image; optionally support one note per image per collection.\n\n5) Browsing and search\n1) /recent shows the newest images with paging (next/prev).\n2) /search supports queries:\n   1) by tag: tag:receipt\n   2) by album: album:\"Project A\"\n   3) by date range: from:2026-01-01 to:2026-01-31\n   4) text: words searched over caption and note\n3) Bot returns a compact list view (first N results) and supports paging.\n4) Tapping a result sends the image and metadata (tags, album, saved date) and actions.\n\n6) Retrieving an image\n1) User requests by id or by selecting from search results.\n2) Delivery chooses:\n   1) If telegram fileid exists and is still valid, send photo by fileid.\n   2) If durable storage exists, upload bytes from storage.\n3) Bot includes metadata and quick actions.\n\n7) Export\n1) /exportalbum or /export with filters.\n2) Bot warns about size and time.\n3) Bot generates an export job within the same process:\n   1) Collect image list.\n   2) Optionally package metadata in a simple JSON manifest.\n   3) Send images back in batches within Telegram limits, or provide a downloadable archive if within supported constraints.\n4) Record audit event.\n\n8) Deletion and retention\n1) /delete can delete by id, by search filter, or an entire album.\n2) Default is soft delete with an undo window (configurable).\n3) A cleanup task purges soft-deleted items after the window.\n4) /purgemydata deletes all user data upon explicit confirmation.\n\n9) Admin and safety flows\n1) /status for bot admins shows health and basic metrics.\n2) Abuse prevention:\n   1) Per-user ingestion rate limits.\n   2) Maximum file size enforcement.\n   3) Optional allowlist for early-stage launches.\n3) Error handling:\n   1) User-friendly error messages.\n   2) Retries for transient Telegram/network errors.\n   3) Dead-letter style recording in MongoDB for failed durable downloads (so they can be retried).\n\nTech stack:\nRuntime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.\n\nNon-functional requirements:\nReliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB.\n\nBot commands:\n• /start — Initialize your library and learn how to save and retrieve images. (usage: /start) [Getting started]\n• /help — Show usage instructions and examples for saving, tagging, and searching. (usage: /help) [Getting started]\n• /save — Save the replied-to image into your library (useful in groups). (usage: Reply to an image with /save) [Ingestion]\n• /recent — Browse your most recently saved images with pagination. (usage: /recent) [Browse]\n• /search — Search your library by tag, album, date range, or text. (usage: /search tag:receipt from:2026-01-01 to:2026-01-31 text:invoice) [Browse]\n• /image — Retrieve a specific image by its id. (usage: /image <imageId>) [Retrieve]\n• /tag — Add or remove tags on an image. (usage: /tag <imageId> add receipt,travel OR /tag <imageId> remove travel) [Organize]\n• /note — Add or edit a note on an image. (usage: /note <imageId> This is the final version) [Organize]\n• /albumcreate — Create a new album in your library. (usage: /albumcreate <title>) [Organize]\n• /albumadd — Add an image to an album. (usage: /albumadd <imageId> <albumTitleOrId>) [Organize]\n• /albumremove — Remove an image from an album. (usage: /albumremove <imageId> <albumTitleOrId>) [Organize]\n• /albums — List your albums and open one to browse. (usage: /albums) [Organize]\n• /export — Export images matching a filter (may send in batches). (usage: /export album:\"Project A\" OR /export tag:receipt) [Export]\n• /delete — Delete an image (soft delete with optional undo window). (usage: /delete <imageId>) [Lifecycle]\n• /undodelete — Restore a recently deleted image (if within the undo window). (usage: /undodelete <imageId>) [Lifecycle]\n• /purgemydata — Permanently delete all your data after confirmation. (usage: /purgemydata) [Privacy]\n• /enablegrouplibrary — Enable and configure a group-shared image library (admins only). (usage: /enablegrouplibrary) [Groups]\n• /grouppolicy — View or change group library permissions (admins only). (usage: /grouppolicy) [Groups]\n• /status — Show bot health, storage mode, and recent error counts (bot admins only). (usage: /status) [Admin]\n",
+  "planSections": {
+    "productGoals": "Primary user value\n1) Quickly save images from Telegram chats (private chats and optionally groups) with minimal friction.\n2) Find and retrieve saved images later using search, tags, albums, dates, and free-text notes.\n3) Share and export stored images without losing organization.\n\nCore use cases\n1) Personal image locker: a user forwards/sends photos to the bot, adds tags like “receipt” or “inspiration,” and later searches and retrieves them.\n2) Group curation (optional): a group adds the bot and images are saved to a shared collection with scoped permissions.\n3) Reference library: users create albums (e.g., “Project A”), store images, and export an album as a set.\n\nSuccess criteria\n1) High capture success rate: images are reliably saved with a confirmation and retrievable via a stable identifier.\n2) Fast retrieval: common searches return quickly, with paging.\n3) Trust: transparent retention policy, easy deletion, and predictable privacy boundaries.\n\nNon-goals (to keep scope controlled)\n1) Not a general cloud drive replacement (no arbitrary file types beyond images unless extended later).\n2) No complex collaborative editing; shared collections are simple ownership/role-based.\n3) No heavy image processing pipelines; only lightweight metadata extraction if needed.",
+    "highLevelArchitecture": "High-level components (single Node.js service)\n1) grammY update handler layer\n   1) Routes updates (messages, callbacks, inline queries if used) into feature modules.\n   2) Performs authentication context building (user, chat, role) and basic input validation.\n\n2) Domain services\n   1) Ingestion service: normalizes incoming Telegram media, chooses storage mode, persists metadata.\n   2) Library service: tagging, albums, notes, deduplication checks, pagination.\n   3) Search service: builds MongoDB queries for tags/albums/date ranges/text; returns stable result pages.\n   4) Delivery service: sends stored images back to user, choosing best transport (cached Telegram fileid when available; otherwise upload from storage).\n\n3) Persistence\n   1) MongoDB stores all metadata and relationships (users, images, tags, albums, permissions, audit events).\n   2) File bytes strategy (selectable by configuration)\n      1) Telegram-only mode: store Telegram fileid plus minimal metadata. Fast, cheap, but depends on Telegram retention behavior and limits.\n      2) Durable mode: download the file once and store it in object storage or simple filesystem storage; keep Telegram fileid as an optimization cache.\n\n4) Background work within the same process\n   1) A simple in-process job runner for tasks like “download and persist media after acknowledging user,” “cleanup orphaned files,” and “rebuild derived stats.”\n   2) Use MongoDB as the source of truth for job states if reliability is required; otherwise use an in-memory queue with careful backpressure (acceptable only if occasional loss is tolerable).\n\n5) Configuration and secrets\n   1) TELEGRAMBOTTOKEN from environment variables.\n   2) Storage mode and MongoDB connection from environment variables.\n\nOperational boundaries\n1) The bot is stateless aside from MongoDB and the chosen file storage. Multiple instances are possible in principle, but the plan assumes a single service instance; design avoids relying on in-memory state for correctness.\n2) Rate limiting and backpressure are enforced to prevent running into Telegram API limits or exhausting memory when users bulk-upload images.",
+    "dataModel": "Key entities in MongoDB (document-oriented, with indexes)\n\n1) users\n1) Fields\n   1) telegramUserId (unique)\n   2) createdAt, lastSeenAt\n   3) settings: defaultPrivacyScope, defaultAlbumId, language, timezone\n   4) plan/limits: maxImages, maxStorageBytes (if you later add tiers)\n2) Indexes\n   1) telegramUserId unique\n\n2) chats (optional, only if group features enabled)\n1) Fields\n   1) telegramChatId (unique)\n   2) type (private/group/supergroup)\n   3) title\n   4) createdAt\n2) Indexes\n   1) telegramChatId unique\n\n3) collections\nRepresents a logical library scope.\n1) Types\n   1) user collection: owned by one user\n   2) group collection: owned by a chat with roles\n2) Fields\n   1) collectionId\n   2) ownerType (user/chat)\n   3) ownerId (telegramUserId or telegramChatId)\n   4) createdAt\n   5) policy: whoCanSave, whoCanView, whoCanDelete (for group collections)\n3) Indexes\n   1) ownerType+ownerId unique\n\n4) images\n1) Fields\n   1) imageId (bot-generated stable id)\n   2) collectionId\n   3) uploaderTelegramUserId\n   4) source\n      1) telegram: chatId, messageId\n      2) originType: sent/forwarded\n   5) telegram\n      1) fileId (best size) and optionally fileUniqueId\n      2) width, height, fileSize\n   6) storage\n      1) mode: telegramonly or durable\n      2) objectKey/path (if durable)\n      3) sha256 (if computed) for dedupe and integrity\n   7) metadata\n      1) captionText (normalized)\n      2) note (user-added)\n      3) tags: array of tagIds or normalized tag strings\n      4) albumIds: array\n      5) takenAt (if user sets; optional)\n   8) lifecycle\n      1) createdAt\n      2) deletedAt (soft delete)\n      3) purgeAt (optional)\n2) Indexes\n   1) collectionId + createdAt (for browsing)\n   2) collectionId + tags (multikey)\n   3) collectionId + albumIds (multikey)\n   4) collectionId + text index on captionText and note (if using MongoDB text search)\n   5) telegram.fileUniqueId (optional, for dedupe)\n\n5) tags\n1) Fields\n   1) tagId\n   2) collectionId\n   3) nameNormalized, nameDisplay\n   4) createdAt\n2) Indexes\n   1) collectionId + nameNormalized unique\n\n6) albums\n1) Fields\n   1) albumId\n   2) collectionId\n   3) title\n   4) description\n   5) createdAt\n2) Indexes\n   1) collectionId + title\n\n7) permissions (only for group collections)\n1) Fields\n   1) collectionId\n   2) telegramUserId\n   3) role: admin/editor/viewer\n   4) createdAt\n2) Indexes\n   1) collectionId + telegramUserId unique\n\n8) auditevents (lightweight, optional but useful)\n1) Fields\n   1) eventId\n   2) collectionId\n   3) actorTelegramUserId\n   4) action: saveimage, deleteimage, addtag, removetag, exportalbum\n   5) entityId\n   6) createdAt\n2) Indexes\n   1) collectionId + createdAt\n\nStorage notes\n1) In durable mode, store original bytes under a deterministic path/objectKey derived from imageId (and optionally content hash). Keep metadata in MongoDB.\n2) Soft delete first, then purge bytes on a scheduled cleanup to prevent accidental loss.",
+    "keyFlows": "1) Onboarding and help\n1) User sends /start.\n2) Bot creates or updates user record and creates the default user collection.\n3) Bot explains how to save images: send a photo, optionally add a caption with tags, and how to retrieve later.\n4) Bot offers a one-tap settings flow (storage mode explanation, default album).\n\n2) Saving an image (private chat)\n1) User sends a photo (or image document).\n2) Bot validates the media type and extracts best-quality variant, caption, and message context.\n3) Bot immediately acknowledges with a short confirmation message and a stable reference (imageId) to build trust.\n4) Persistence steps\n   1) Create images document with telegram file metadata.\n   2) Parse tags from caption (e.g., words prefixed with #) and upsert tags.\n   3) Attach tags/albums to the image record.\n5) Durable mode additional steps\n   1) Download file via Telegram API.\n   2) Store bytes in object storage/simple filesystem storage.\n   3) Update images.storage with location and integrity hash.\n6) Bot offers quick actions via inline buttons (Add tag, Add note, Add to album, Delete).\n\n3) Saving from groups (optional)\n1) Group adds the bot; admin runs /enablegrouplibrary.\n2) Bot creates a group collection and sets a default policy (e.g., only admins can delete; members can save).\n3) When images are posted in the group, bot saves only when explicitly triggered (to avoid surprising behavior), for example:\n   1) A user replies to an image with “/save” or uses a context command, or\n   2) The bot offers a “Save to group library” button if permitted.\n4) Permissions are checked against collection policy and stored roles.\n\n4) Tagging and notes\n1) User uses /tag or taps “Add tag” on a saved image.\n2) Bot prompts for tag names and normalizes them.\n3) Bot updates image document and tag catalog.\n4) Notes are stored as user-provided text on the image; optionally support one note per image per collection.\n\n5) Browsing and search\n1) /recent shows the newest images with paging (next/prev).\n2) /search supports queries:\n   1) by tag: tag:receipt\n   2) by album: album:\"Project A\"\n   3) by date range: from:2026-01-01 to:2026-01-31\n   4) text: words searched over caption and note\n3) Bot returns a compact list view (first N results) and supports paging.\n4) Tapping a result sends the image and metadata (tags, album, saved date) and actions.\n\n6) Retrieving an image\n1) User requests by id or by selecting from search results.\n2) Delivery chooses:\n   1) If telegram fileid exists and is still valid, send photo by fileid.\n   2) If durable storage exists, upload bytes from storage.\n3) Bot includes metadata and quick actions.\n\n7) Export\n1) /exportalbum or /export with filters.\n2) Bot warns about size and time.\n3) Bot generates an export job within the same process:\n   1) Collect image list.\n   2) Optionally package metadata in a simple JSON manifest.\n   3) Send images back in batches within Telegram limits, or provide a downloadable archive if within supported constraints.\n4) Record audit event.\n\n8) Deletion and retention\n1) /delete can delete by id, by search filter, or an entire album.\n2) Default is soft delete with an undo window (configurable).\n3) A cleanup task purges soft-deleted items after the window.\n4) /purgemydata deletes all user data upon explicit confirmation.\n\n9) Admin and safety flows\n1) /status for bot admins shows health and basic metrics.\n2) Abuse prevention:\n   1) Per-user ingestion rate limits.\n   2) Maximum file size enforcement.\n   3) Optional allowlist for early-stage launches.\n3) Error handling:\n   1) User-friendly error messages.\n   2) Retries for transient Telegram/network errors.\n   3) Dead-letter style recording in MongoDB for failed durable downloads (so they can be retried).",
+    "techStack": "Runtime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.",
+    "nonFunctional": "Reliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB."
+  },
+  "runStatuses": {
+    "23a78649-0459-4ee7-8c52-35a1af635bdd:mlihmp59:619aee": {
+      "phase": "reindex",
+      "stage": "cold_start",
+      "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlihmp59:619aee",
+      "lastUserMessage": "make me an image storage bot",
+      "startedAt": "2026-02-11T20:34:02.848Z",
+      "updatedAt": "2026-02-11T20:37:44.267Z",
+      "message": "Syncing environment template with used env variables…",
+      "commands": [
+        {
+          "name": "delete",
+          "file": "src/commands/delete.js"
+        },
+        {
+          "name": "export",
+          "file": "src/commands/export.js"
+        },
+        {
+          "name": "help",
+          "file": "src/commands/help.js"
+        },
+        {
+          "name": "list",
+          "file": "src/commands/list.js"
+        },
+        {
+          "name": "note",
+          "file": "src/commands/note.js"
+        },
+        {
+          "name": "reset",
+          "file": "src/commands/reset.js"
+        },
+        {
+          "name": "save",
+          "file": "src/commands/save.js"
+        },
+        {
+          "name": "search",
+          "file": "src/commands/search.js"
+        },
+        {
+          "name": "start",
+          "file": "src/commands/start.js"
+        },
+        {
+          "name": "tag",
+          "file": "src/commands/tag.js"
+        },
+        {
+          "name": "view",
+          "file": "src/commands/view.js"
+        }
+      ]
+    }
+  },
+  "runStatus": {
+    "phase": "reindex",
+    "stage": "cold_start",
+    "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlihmp59:619aee",
+    "lastUserMessage": "make me an image storage bot",
+    "startedAt": "2026-02-11T20:34:02.848Z",
+    "updatedAt": "2026-02-11T20:37:44.267Z",
+    "message": "Syncing environment template with used env variables…",
+    "commands": [
+      {
+        "name": "delete",
+        "file": "src/commands/delete.js"
+      },
+      {
+        "name": "export",
+        "file": "src/commands/export.js"
+      },
+      {
+        "name": "help",
+        "file": "src/commands/help.js"
+      },
+      {
+        "name": "list",
+        "file": "src/commands/list.js"
+      },
+      {
+        "name": "note",
+        "file": "src/commands/note.js"
+      },
+      {
+        "name": "reset",
+        "file": "src/commands/reset.js"
+      },
+      {
+        "name": "save",
+        "file": "src/commands/save.js"
+      },
+      {
+        "name": "search",
+        "file": "src/commands/search.js"
+      },
+      {
+        "name": "start",
+        "file": "src/commands/start.js"
+      },
+      {
+        "name": "tag",
+        "file": "src/commands/tag.js"
+      },
+      {
+        "name": "view",
+        "file": "src/commands/view.js"
+      }
+    ]
+  },
+  "envVarDocs": [
+    {
+      "key": "TELEGRAM_BOT_TOKEN",
+      "title": "Telegram Bot Token",
+      "description": "Token from BotFather used to authenticate with the Telegram Bot API.",
+      "usage": "Read on boot in src/lib/config.js and used to create the grammY Bot instance.",
+      "howToGet": "Create a bot with @BotFather and copy the token.",
+      "example": "123456789:ABCDEF_fake_example",
+      "isSecret": true,
+      "required": true
+    },
+    {
+      "key": "MONGODB_URI",
+      "title": "MongoDB Connection String",
+      "description": "Enables long-term storage for the image library and AI memory. If missing, the bot uses in-memory fallback (data is lost on restart).",
+      "usage": "Used by src/lib/db.js and all stores.",
+      "howToGet": "Create a MongoDB database (Atlas or self-hosted) and copy the connection string.",
+      "example": "mongodb+srv://user:pass@cluster.example.mongodb.net/dbname",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "COOKMYBOTS_AI_ENDPOINT",
+      "title": "CookMyBots AI Endpoint",
+      "description": "Base URL for the CookMyBots AI gateway. The bot calls /chat under this base.",
+      "usage": "Used by src/lib/ai.js to call POST {endpoint}/chat.",
+      "howToGet": "Provided by CookMyBots.",
+      "example": "https://api.cookmybots.com/api/ai",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "COOKMYBOTS_AI_KEY",
+      "title": "CookMyBots AI Key",
+      "description": "API key for the CookMyBots AI gateway (Authorization: Bearer ...).",
+      "usage": "Used by src/lib/ai.js for gateway authentication.",
+      "howToGet": "Provided by CookMyBots.",
+      "example": "cmb_ai_key_example",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "AI_TIMEOUT_MS",
+      "title": "AI Timeout",
+      "description": "Timeout for AI gateway requests in milliseconds.",
+      "usage": "Used by src/lib/ai.js AbortController timeout (default 600000).",
+      "howToGet": "Optional setting.",
+      "example": "600000",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "AI_MAX_RETRIES",
+      "title": "AI Retries",
+      "description": "How many times to retry a failed AI gateway request.",
+      "usage": "Used by src/lib/ai.js (default 2).",
+      "howToGet": "Optional setting.",
+      "example": "2",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "CONCURRENCY",
+      "title": "Runner Concurrency",
+      "description": "Controls how many Telegram updates are processed concurrently via @grammyjs/runner.",
+      "usage": "Used by src/index.js run(bot, { concurrency }).",
+      "howToGet": "Optional setting.",
+      "example": "20",
+      "isSecret": false,
+      "required": false
+    }
+  ],
+  "commandDocs": [
+    {
+      "command": "/start",
+      "description": "Welcomes the user, explains how to save images, and shows the main commands.",
+      "usage": "/start",
+      "examples": [
+        "User: /start → Bot: explains how to save images and shows key commands"
+      ],
+      "notes": "Send a photo or an image document to save it automatically."
+    },
+    {
+      "command": "/help",
+      "description": "Shows all public commands with short examples.",
+      "usage": "/help",
+      "examples": [
+        "User: /help → Bot: shows command list and examples"
+      ],
+      "notes": "If you forget item ids, use /list or /search."
+    },
+    {
+      "command": "/save",
+      "description": "Saves the replied-to photo or image document (useful in groups).",
+      "usage": "Reply to an image with /save",
+      "examples": [
+        "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+      ],
+      "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+    },
+    {
+      "command": "/list",
+      "description": "Lists your most recent saved images (5 per page).",
+      "usage": "/list [page]",
+      "examples": [
+        "User: /list → Bot: shows page 1",
+        "User: /list 2 → Bot: shows page 2"
+      ],
+      "notes": "Use /view <id> to open an item."
+    },
+    {
+      "command": "/view",
+      "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+      "usage": "/view <id>",
+      "examples": [
+        "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+      ],
+      "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+    },
+    {
+      "command": "/tag",
+      "description": "Sets or replaces tags for an item.",
+      "usage": "/tag <id> <comma-separated-tags>",
+      "examples": [
+        "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
+        "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
+      ],
+      "notes": "Tags are normalized to lowercase."
+    },
+    {
+      "command": "/note",
+      "description": "Sets or replaces a freeform note for an item.",
+      "usage": "/note <id> <text>",
+      "examples": [
+        "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
+      ],
+      "notes": "Notes are limited to 2000 characters."
+    },
+    {
+      "command": "/delete",
+      "description": "Removes an item from your library.",
+      "usage": "/delete <id>",
+      "examples": [
+        "User: /delete a1b2c3d4 → Bot: Deleted."
+      ],
+      "notes": "Deletion is permanent in this version."
+    },
+    {
+      "command": "/search",
+      "description": "Searches your library by tags, caption text, and note text (paginated).",
+      "usage": "/search <query> [page]",
+      "examples": [
+        "User: /search receipts → Bot: results page 1",
+        "User: /search travel 2 → Bot: results page 2"
+      ],
+      "notes": "Search is always scoped to your userId."
+    },
+    {
+      "command": "/export",
+      "description": "Exports a compact JSON summary of your saved items (metadata only).",
+      "usage": "/export",
+      "examples": [
+        "User: /export → Bot: sends JSON text or a JSON document"
+      ],
+      "notes": "No image files are included in export, only ids and metadata."
+    },
+    {
+      "command": "/reset",
+      "description": "Clears the long-term AI conversation memory for your user.",
+      "usage": "/reset",
+      "examples": [
+        "User: /reset → Bot: Memory cleared."
+      ],
+      "notes": "This does not delete your saved images."
+    }
+  ]
+}
