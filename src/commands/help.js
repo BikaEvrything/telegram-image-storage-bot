@@ -1,4 +1,3 @@
-
 export default function register(bot) {
   bot.command("help", async (ctx) => {
     const msg = [
@@ -14,6 +13,10 @@ export default function register(bot) {
       "/search <query> [page]  Example: /search receipts 2",
       "/export",
       "/reset (clears AI memory)",
+      "",
+      "AI chat:",
+      "Send a normal text message (not starting with /) and I’ll reply.",
+      "In groups, I only reply if you mention me (@username) or reply to one of my messages.",
       "",
       "Saving images:",
       "1) Send a photo, or send an image as a document.",

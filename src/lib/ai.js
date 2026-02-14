@@ -64,11 +64,17 @@ export async function aiChat({ messages, meta = {}, log = console }) {
         throw new Error("AI gateway returned no content.");
       }
 
-      log.info?.("[ai] chat success", { ms: Date.now() - startedAt });
+      log.info?.("[ai] chat success", {
+        ms: Date.now() - startedAt,
+      });
+
       return content;
     } catch (e) {
       const errMsg = safeErr(e);
-      log.error?.("[ai] chat failure", { attempt, err: errMsg });
+      log.error?.("[ai] chat failure", {
+        attempt,
+        err: errMsg,
+      });
 
       if (attempt > maxRetries) throw e;
       await sleep(500 * attempt);

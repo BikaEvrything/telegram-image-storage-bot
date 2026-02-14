@@ -45,17 +45,8 @@ async function startRunnerWith409Retry(bot) {
   while (true) {
     try {
       log.info("[runner] start", { concurrency: cfg.CONCURRENCY });
-
-      const runner = run(bot, { concurrency: cfg.CONCURRENCY });
-
-      runner.isRunning()
-        .then(() => {
-          log.warn("[runner] stopped");
-        })
-        .catch((e) => {
-          log.error("[runner] isRunning failed", { err: safeErr(e) });
-        });
-
+      run(bot, { concurrency: cfg.CONCURRENCY });
+      log.info("[runner] started");
       return;
     } catch (e) {
       const msg = safeErr(e);
@@ -66,7 +57,6 @@ async function startRunnerWith409Retry(bot) {
 
       log.error("[runner] start failed", { err: msg, is409, backoffMs: delay });
       await sleep(delay);
-      continue;
     }
   }
 }
