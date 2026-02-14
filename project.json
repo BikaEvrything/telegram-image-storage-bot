@@ -657,16 +657,534 @@
         },
         "title": "Telegram Image Storage Bot ("
       }
+    },
+    "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmd5bu2:vv9htt": {
+      "phase": "editing",
+      "stage": "chat",
+      "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmd5bu2:vv9htt",
+      "lastUserMessage": "please make my bot able to speak properly or reply to messages",
+      "startedAt": "2026-02-11T20:34:02.848Z",
+      "updatedAt": "2026-02-14T13:41:26.756Z",
+      "message": "Preparing workspace for safe edits…",
+      "commands": [
+        {
+          "name": "delete",
+          "file": "src/commands/delete.js"
+        },
+        {
+          "name": "export",
+          "file": "src/commands/export.js"
+        },
+        {
+          "name": "help",
+          "file": "src/commands/help.js"
+        },
+        {
+          "name": "list",
+          "file": "src/commands/list.js"
+        },
+        {
+          "name": "note",
+          "file": "src/commands/note.js"
+        },
+        {
+          "name": "reset",
+          "file": "src/commands/reset.js"
+        },
+        {
+          "name": "save",
+          "file": "src/commands/save.js"
+        },
+        {
+          "name": "search",
+          "file": "src/commands/search.js"
+        },
+        {
+          "name": "start",
+          "file": "src/commands/start.js"
+        },
+        {
+          "name": "tag",
+          "file": "src/commands/tag.js"
+        },
+        {
+          "name": "view",
+          "file": "src/commands/view.js"
+        }
+      ],
+      "ok": true,
+      "state": {
+        "projectId": "23a78649-0459-4ee7-8c52-35a1af635bdd",
+        "fileStructure": {
+          ".env.sample": {
+            "type": "file",
+            "content": "\nTELEGRAM_BOT_TOKEN=\nMONGODB_URI=\nCOOKMYBOTS_AI_ENDPOINT=https://api.cookmybots.com/api/ai\nCOOKMYBOTS_AI_KEY=\nAI_TIMEOUT_MS=600000\nAI_MAX_RETRIES=2\nCONCURRENCY=20\n"
+          },
+          "CHANGELOG.md": {
+            "type": "file",
+            "content": "# Changelog\n\nAll notable changes to this bot project are recorded here.\n\n## 2026-02-11 20:37:44. UTC\n- Request: make me an image storage bot\n- Summary: Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is mis…\n- Files: .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js, src/commands/delete.js, src/commands/export.js, src/commands/help.js, src/commands/list.js, src/commands/loader.js, src/commands/note.js, src/commands/reset.js, src/commands/save.js (+12…\n\n"
+          },
+          "DOCS.md": {
+            "type": "file",
+            "content": "Image Vault stores a user’s uploaded images into a personal library and lets them retrieve and manage them later.\n\nHow saving works\nSend a Telegram photo or an image document to the bot. The bot saves the Telegram file_id plus metadata (caption, tags, notes). If you upload the same file again, it will be de-duplicated by file_unique_id.\n\nPublic commands\n1) /start\nExplains what the bot does and how to save images.\n\n2) /help\nLists commands and examples.\n\n3) /save\nUsage: reply to an image message with /save\nIf you run /save without replying, the bot will instruct you to send a photo or reply to one.\n\n4) /list [page]\nUsage: /list\nUsage: /list 2\nShows the most recent saved images, 5 per page.\n\n5) /view <id>\nUsage: /view 5f2c9d1a\nRe-sends the saved image and prints its metadata.\n\n6) /tag <id> <comma-separated-tags>\nUsage: /tag 5f2c9d1a receipts,2026,taxes\nAlso supported: /tag 5f2c9d1a (then reply with tag text)\n\n7) /note <id> <text>\nUsage: /note 5f2c9d1a Final version, paid already\n\n8) /delete <id>\nUsage: /delete 5f2c9d1a\n\n9) /search <query> [page]\nUsage: /search receipts\nUsage: /search travel 2\nSearches in tags, caption text, and note text.\n\n10) /export\nExports your saved item metadata as JSON.\n\n11) /reset\nClears the AI conversation memory for your user.\n\nEnvironment variables\n1) TELEGRAM_BOT_TOKEN (required)\nTelegram bot token.\n\n2) MONGODB_URI (optional but recommended)\nMongoDB connection string. When set, the image library and AI memory are stored long-term. When missing, the bot runs with an in-memory fallback (data is lost on restart).\n\n3) COOKMYBOTS_AI_ENDPOINT (required for AI)\nBase URL for the CookMyBots AI gateway. The bot calls /chat under this base.\n\n4) COOKMYBOTS_AI_KEY (required for AI)\nAuth key for the CookMyBots AI gateway.\n\n5) AI_TIMEOUT_MS (optional)\nAI gateway timeout in ms (default 600000).\n\n6) AI_MAX_RETRIES (optional)\nAI gateway retries (default 2).\n\n7) CONCURRENCY (optional)\nRunner concurrency (default 20).\n\nRun instructions\n1) npm run install:root\n2) Set env vars (or create a .env from .env.sample)\n3) npm start\n"
+          },
+          "README.md": {
+            "type": "file",
+            "content": "Image Vault is a Telegram bot that stores your uploaded images into a personal library so you can list, search, view, tag, add notes, delete, and export metadata later.\n\nIt uses grammY for Telegram, MongoDB for storage (with an in-memory fallback when MongoDB is not configured), and the CookMyBots AI gateway for a lightweight natural-language assistant.\n\nKey features\n1) Save images by simply sending a photo or an image document\n2) De-duplicates repeated uploads by file_unique_id per user\n3) List and search your library with pagination\n4) View an item by id (re-sends using Telegram file_id)\n5) Add tags and notes, delete items, and export a JSON summary\n6) AI assistant for non-command text messages, with long-term memory stored in MongoDB when available\n\nArchitecture overview\n1) src/index.js boots the process, validates env, clears webhook, and starts long polling via @grammyjs/runner with conflict backoff\n2) src/bot.js wires middleware, commands, and the catch-all AI text handler\n3) src/commands/*.js are individual command modules registered by src/commands/loader.js\n4) src/lib/db.js manages a single shared Mongo connection (optional)\n5) src/services/imageStore.js is the CRUD layer for saved images\n6) src/services/memoryStore.js is long-term conversation memory with MongoDB or in-memory fallback\n7) src/lib/ai.js wraps CookMyBots AI gateway calls with retries and logging\n\nSetup\nPrerequisites\n1) Node.js 18+\n2) A Telegram bot token from BotFather\n3) Optional but strongly recommended: MongoDB connection string (MONGODB_URI)\n4) CookMyBots AI gateway credentials (COOKMYBOTS_AI_ENDPOINT and COOKMYBOTS_AI_KEY)\n\nInstall\n1) npm run install:root\n2) Copy .env.sample to .env and fill in values\n\nRun locally\n1) npm run dev\n\nRun in production\n1) npm start\n\nEnvironment variables\n1) TELEGRAM_BOT_TOKEN (required) Telegram bot token\n2) MONGODB_URI (optional) MongoDB connection for image library and long-term memory. If missing, the bot still runs but saves to in-memory stores (data will be lost on restart).\n3) COOKMYBOTS_AI_ENDPOINT (required for AI) Base URL of the CookMyBots AI gateway (example: https://api.cookmybots.com/api/ai)\n4) COOKMYBOTS_AI_KEY (required for AI) API key for CookMyBots AI gateway\n5) AI_TIMEOUT_MS (optional) Timeout for AI gateway calls (default 600000)\n6) AI_MAX_RETRIES (optional) Retries for AI calls (default 2)\n7) CONCURRENCY (optional) grammY runner concurrency (default 20)\n\nCommands\n1) /start\nWelcome message and how to save images.\n\n2) /help\nShows the command list and short examples.\n\n3) /save\nReply to a message with a photo or image document to save it. If used without reply, the bot explains how to save.\n\n4) /list [page]\nShows your most recent saved images, 5 per page.\n\n5) /view <id>\nRe-sends a saved image using Telegram file_id and shows its metadata.\n\n6) /tag <id> <comma-separated-tags>\nSets or replaces tags for an item. You can also run /tag <id> and reply with the tags.\n\n7) /note <id> <text>\nSets or replaces a note for an item.\n\n8) /delete <id>\nDeletes an item from your library.\n\n9) /search <query> [page]\nSearches caption, note, and tags for your query, with pagination.\n\n10) /export\nExports a JSON summary (ids + metadata only). If it is too long for a message, it is sent as a document.\n\n11) /reset\nClears long-term AI memory messages for the user.\n\nIntegrations\n1) Telegram Bot API via grammY long polling\n2) MongoDB for persistence\n3) CookMyBots AI Gateway\n   1) POST {COOKMYBOTS_AI_ENDPOINT}/chat\n\nDeployment notes (Render)\n1) Use a background worker or web service; either is fine for long polling.\n2) Set TELEGRAM_BOT_TOKEN in Render env.\n3) Recommended: set MONGODB_URI so data persists.\n4) The bot clears any webhook on boot to avoid conflicts.\n\nTroubleshooting\n1) Bot does not respond\nCheck TELEGRAM_BOT_TOKEN is set and correct.\n\n2) 409 Conflict (another getUpdates)\nThe bot automatically retries with backoff. This can happen during deploy overlap.\n\n3) Data disappears after restart\nSet MONGODB_URI. Without it, the bot uses an in-memory fallback.\n\nExtending the bot\nAdd a new file in src/commands/ and export a default function register(bot). It will be auto-registered by src/commands/loader.js. Then update /help output to include the new command.\n"
+          },
+          "package.json": {
+            "type": "file",
+            "content": "{\n  \"scripts\": {\n    \"install:root\": \"bash -lc \\\"set -e; if [ -f package-lock.json ]; then npm ci; else npm install; fi\\\"\",\n    \"build\": \"npm run install:root && echo build\",\n    \"start\": \"node src/index.js\",\n    \"dev\": \"node --watch src/index.js\"\n  },\n  \"dependencies\": {\n    \"@grammyjs/runner\": \"^2.0.3\",\n    \"dotenv\": \"^16.4.5\",\n    \"grammy\": \"^1.20.0\",\n    \"mongodb\": \"^6.10.0\"\n  },\n  \"name\": \"image-vault-bot\",\n  \"version\": \"0.1.0\",\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=18\"\n  },\n  \"devDependencies\": {}\n}\n"
+          },
+          "src": {
+            "type": "dir",
+            "children": {
+              "bot.js": {
+                "type": "file",
+                "content": "\nimport { Bot } from \"grammy\";\nimport { registerCommands } from \"./commands/loader.js\";\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { aiChat } from \"./lib/ai.js\";\nimport { addTurn, getRecentTurns } from \"./services/memoryStore.js\";\nimport { extractMediaFromMessage, saveImageItem } from \"./services/imageStore.js\";\n\nfunction isCommandText(t) {\n  return String(t || \"\").trim().startsWith(\"/\");\n}\n\nfunction stripMention(text, username) {\n  const t = String(text || \"\");\n  const u = String(username || \"\").trim();\n  if (!u) return t.trim();\n  const re = new RegExp(\"@\" + u + \"\\\\b\", \"ig\");\n  return t.replace(re, \" \").replace(/\\s+/g, \" \").trim();\n}\n\nfunction looksLikeLibraryIntent(t) {\n  const s = String(t || \"\").toLowerCase();\n  return (\n    s.includes(\"show\") ||\n    s.includes(\"find\") ||\n    s.includes(\"list\") ||\n    s.includes(\"search\") ||\n    s.includes(\"images\") ||\n    s.includes(\"photos\") ||\n    s.includes(\"tagged\")\n  );\n}\n\nfunction extractSearchQuery(t) {\n  const s = String(t || \"\").trim();\n  if (!s) return \"\";\n\n  const m = s.match(/tag(?:ged)?\\s+([a-z0-9_\\-]+)/i);\n  if (m?.[1]) return m[1];\n\n  const m2 = s.match(/(?:show|find|search)\\s+(?:my\\s+)?(.+)/i);\n  if (m2?.[1]) return m2[1].trim();\n\n  return s;\n}\n\nexport function createBot(token, log = console) {\n  const bot = new Bot(token);\n\n  bot.catch((err) => {\n    log.error?.(\"[telegram] bot error\", {\n      err: safeErr(err?.error || err),\n      ctx: {\n        chatId: String(err?.ctx?.chat?.id || \"\"),\n        fromId: String(err?.ctx?.from?.id || \"\"),\n        updateId: String(err?.ctx?.update?.update_id || \"\"),\n      },\n    });\n  });\n\n  bot.use(async (ctx, next) => {\n    try {\n      return await next();\n    } catch (e) {\n      log.error?.(\"[telegram] middleware failure\", { err: safeErr(e) });\n      throw e;\n    }\n  });\n\n  bot.use(async (ctx, next) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (userId && chatId) {\n      log.info?.(\"[update]\", {\n        type: ctx.updateType,\n        chatType: ctx.chat?.type,\n        chatId: String(chatId),\n        userId: String(userId),\n      });\n    }\n    return next();\n  });\n\n  registerCommands(bot, log);\n\n  bot.on(\"message:photo\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return;\n\n    const media = extractMediaFromMessage(ctx.message);\n    if (!media) return;\n\n    try {\n      const { item, deduped, reason } = await saveImageItem({\n        mongoUri: cfg.MONGODB_URI,\n        userId: String(userId),\n        chatId: String(chatId || \"\"),\n        messageId: ctx.message.message_id,\n        media,\n        log,\n      });\n\n      const cap = (item?.caption || \"\").trim();\n      const preview = cap ? (cap.length > 80 ? cap.slice(0, 80) + \"…\" : cap) : \"(no caption)\";\n      const extra = deduped ? `\\nAlready saved (de-duplicated by ${reason}). Updated timestamp.` : \"\";\n\n      await ctx.reply(\n        `Saved. Item id: ${item?._id}\\nCaption: ${preview}${extra}\\n\\nAdd tags: /tag ${item?._id} receipts,travel\\nAdd a note: /note ${item?._id} <text>`\n      );\n    } catch (e) {\n      log.error?.(\"[image] save photo failed\", { err: safeErr(e) });\n      await ctx.reply(\"Sorry, I couldn’t save that image.\");\n    }\n  });\n\n  bot.on(\"message:document\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return;\n\n    const media = extractMediaFromMessage(ctx.message);\n    if (!media) return;\n\n    try {\n      const { item, deduped, reason } = await saveImageItem({\n        mongoUri: cfg.MONGODB_URI,\n        userId: String(userId),\n        chatId: String(chatId || \"\"),\n        messageId: ctx.message.message_id,\n        media,\n        log,\n      });\n\n      const cap = (item?.caption || \"\").trim();\n      const preview = cap ? (cap.length > 80 ? cap.slice(0, 80) + \"…\" : cap) : \"(no caption)\";\n      const extra = deduped ? `\\nAlready saved (de-duplicated by ${reason}). Updated timestamp.` : \"\";\n\n      await ctx.reply(\n        `Saved. Item id: ${item?._id}\\nCaption: ${preview}${extra}\\n\\nAdd tags: /tag ${item?._id} receipts,travel\\nAdd a note: /note ${item?._id} <text>`\n      );\n    } catch (e) {\n      log.error?.(\"[image] save document failed\", { err: safeErr(e) });\n      await ctx.reply(\"Sorry, I couldn’t save that image.\");\n    }\n  });\n\n  bot.on(\"message:text\", async (ctx, next) => {\n    const raw = String(ctx.message?.text || \"\");\n    if (isCommandText(raw)) return next();\n\n    const chatType = ctx.chat?.type || \"private\";\n    const isPrivate = chatType === \"private\";\n\n    const botUsername = ctx.me?.username || bot.botInfo?.username || \"\";\n\n    const replyTo = ctx.message?.reply_to_message;\n    const isReplyToBot =\n      !!replyTo?.from?.is_bot &&\n      !!botUsername &&\n      String(replyTo?.from?.username || \"\").toLowerCase() === String(botUsername).toLowerCase();\n\n    const ents = Array.isArray(ctx.message?.entities) ? ctx.message.entities : [];\n    const isMentioned =\n      !!botUsername &&\n      ents.some((e) => {\n        if (!e || e.type !== \"mention\") return false;\n        const s = raw.slice(e.offset, e.offset + e.length);\n        return s.toLowerCase() === (\"@\" + String(botUsername).toLowerCase());\n      });\n\n    if (!isPrivate && !isMentioned && !isReplyToBot) return next();\n\n    const t = stripMention(raw, botUsername);\n    if (!t) return ctx.reply(\"What should I help you with?\");\n\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    try {\n      await addTurn({\n        mongoUri: cfg.MONGODB_URI,\n        platform: \"telegram\",\n        userId: String(userId),\n        chatId: String(chatId || \"\"),\n        role: \"user\",\n        text: t,\n        log,\n      });\n\n      if (looksLikeLibraryIntent(t)) {\n        const q = extractSearchQuery(t);\n        if (!q || q.toLowerCase() === \"my\" || q.toLowerCase() === \"images\") {\n          await ctx.reply('Try: /list or /search <query>. Example: /search receipts');\n        } else {\n          await ctx.reply(`Try: /search ${q}`);\n        }\n      }\n\n      const turns = await getRecentTurns({\n        mongoUri: cfg.MONGODB_URI,\n        platform: \"telegram\",\n        userId: String(userId),\n        chatId: String(chatId || \"\"),\n        limit: 16,\n        log,\n      });\n\n      const messages = [];\n      messages.push({\n        role: \"system\",\n        content:\n          \"You are Image Vault, a helpful assistant inside a Telegram bot. Keep replies short and practical. If the user asks to find images, suggest using /search or /list with a concise example.\",\n      });\n\n      for (const m of turns) {\n        if (!m?.text) continue;\n        messages.push({ role: m.role, content: String(m.text) });\n      }\n\n      const reply = await aiChat({\n        messages,\n        meta: { projectId: \"image-vault\", platform: \"telegram\" },\n        log,\n      });\n\n      await addTurn({\n        mongoUri: cfg.MONGODB_URI,\n        platform: \"telegram\",\n        userId: String(userId),\n        chatId: String(chatId || \"\"),\n        role: \"assistant\",\n        text: reply,\n        log,\n      });\n\n      await ctx.reply(String(reply).slice(0, 3500));\n    } catch (e) {\n      log.error?.(\"[ai] handler failed\", { err: safeErr(e) });\n      await ctx.reply(\"Sorry, I had trouble with that. Try /help.\");\n    }\n  });\n\n  return bot;\n}\n"
+              },
+              "commands": {
+                "type": "dir",
+                "children": {
+                  "delete.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { deleteItem } from \"../services/imageStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"delete\", async (ctx) => {\n    const userId = ctx.from?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const full = String(ctx.message?.text || \"\").trim();\n    const parts = full.split(/\\s+/);\n    const id = parts[1];\n    if (!id) return ctx.reply(\"Usage: /delete <id>\");\n\n    const ok = await deleteItem({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      id,\n    });\n\n    await ctx.reply(ok ? \"Deleted.\" : \"Not found.\");\n  });\n}\n"
+                  },
+                  "export.js": {
+                    "type": "file",
+                    "content": "\nimport { InputFile } from \"grammy\";\nimport { cfg } from \"../lib/config.js\";\nimport { exportItems } from \"../services/imageStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"export\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const rows = await exportItems({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n    });\n\n    const payload = {\n      exportedAt: new Date().toISOString(),\n      count: rows.length,\n      items: rows,\n    };\n\n    const json = JSON.stringify(payload, null, 2);\n\n    if (json.length <= 3500) {\n      return ctx.reply(json);\n    }\n\n    const buf = Buffer.from(json, \"utf8\");\n    const file = new InputFile(buf, \"image-vault-export.json\");\n\n    try {\n      await ctx.api.sendDocument(chatId, file, {\n        caption: `Exported ${rows.length} items (metadata only).`,\n      });\n    } catch {\n      await ctx.reply(\"Export is too large to send here.\");\n    }\n  });\n}\n"
+                  },
+                  "help.js": {
+                    "type": "file",
+                    "content": "\nexport default function register(bot) {\n  bot.command(\"help\", async (ctx) => {\n    const msg = [\n      \"Commands:\",\n      \"/start\",\n      \"/help\",\n      \"/save (reply to an image)\",\n      \"/list [page]  Example: /list 2\",\n      \"/view <id>  Example: /view a1b2c3d4\",\n      \"/tag <id> <tags>  Example: /tag a1b2c3d4 receipts,2026\",\n      \"/note <id> <text>  Example: /note a1b2c3d4 paid already\",\n      \"/delete <id>  Example: /delete a1b2c3d4\",\n      \"/search <query> [page]  Example: /search receipts 2\",\n      \"/export\",\n      \"/reset (clears AI memory)\",\n      \"\",\n      \"Saving images:\",\n      \"1) Send a photo, or send an image as a document.\",\n      \"2) Optionally add a caption.\",\n    ].join(\"\\n\");\n\n    await ctx.reply(msg);\n  });\n}\n"
+                  },
+                  "list.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { listImages } from \"../services/imageStore.js\";\n\nfunction fmtDate(d) {\n  try {\n    return new Date(d).toISOString().slice(0, 10);\n  } catch {\n    return \"\";\n  }\n}\n\nfunction capPreview(s) {\n  const t = String(s || \"\").trim();\n  if (!t) return \"\";\n  return t.length > 50 ? t.slice(0, 50) + \"…\" : t;\n}\n\nexport default function register(bot) {\n  bot.command(\"list\", async (ctx) => {\n    const userId = ctx.from?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const parts = String(ctx.message?.text || \"\").trim().split(/\\s+/);\n    const page = parts[1] ? Number(parts[1]) : 1;\n\n    const res = await listImages({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      page,\n      pageSize: 5,\n    });\n\n    if (!res.items.length) {\n      return ctx.reply(\"No saved images yet. Send me a photo to save your first one.\");\n    }\n\n    const totalPages = Math.max(1, Math.ceil((res.total || 0) / res.pageSize));\n\n    const lines = [];\n    lines.push(`Your saved images (page ${res.page}/${totalPages}):`);\n\n    for (const it of res.items) {\n      const tags = Array.isArray(it.tags) && it.tags.length ? it.tags.join(\", \") : \"\";\n      const cap = capPreview(it.caption);\n      const meta = [fmtDate(it.createdAt), cap].filter(Boolean).join(\" | \");\n      const tagPart = tags ? ` [${tags}]` : \"\";\n      lines.push(`${it._id}: ${meta}${tagPart}`);\n    }\n\n    lines.push(\"\\nUse /view <id> to view one, or /search <query>.\");\n\n    await ctx.reply(lines.join(\"\\n\"));\n  });\n}\n"
+                  },
+                  "loader.js": {
+                    "type": "file",
+                    "content": "\nimport fs from \"node:fs\";\nimport path from \"node:path\";\nimport { fileURLToPath, pathToFileURL } from \"node:url\";\n\nexport async function registerCommands(bot, log = console) {\n  const __filename = fileURLToPath(import.meta.url);\n  const __dirname = path.dirname(__filename);\n\n  const files = fs\n    .readdirSync(__dirname)\n    .filter((f) => f.endsWith(\".js\") && f !== \"loader.js\" && !f.startsWith(\"_\"))\n    .sort();\n\n  for (const f of files) {\n    const url = pathToFileURL(path.join(__dirname, f)).href;\n    try {\n      const mod = await import(url);\n      const fn = mod?.default || mod?.register;\n      if (typeof fn === \"function\") {\n        await fn(bot);\n        log.info?.(\"[commands] registered\", { file: f });\n      } else {\n        log.warn?.(\"[commands] skipped (no export)\", { file: f });\n      }\n    } catch (e) {\n      log.error?.(\"[commands] failed\", { file: f, err: e?.message || String(e) });\n      throw e;\n    }\n  }\n}\n"
+                  },
+                  "note.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { setNote } from \"../services/imageStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"note\", async (ctx) => {\n    const userId = ctx.from?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const full = String(ctx.message?.text || \"\").trim();\n    const parts = full.split(/\\s+/);\n    const id = parts[1];\n    const text = parts.slice(2).join(\" \").trim();\n\n    if (!id || !text) return ctx.reply(\"Usage: /note <id> <text>\");\n\n    const item = await setNote({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      id,\n      note: text,\n    });\n\n    if (!item) return ctx.reply(\"Not found. Try /list.\");\n\n    await ctx.reply(`Updated note for ${item._id}.`);\n  });\n}\n"
+                  },
+                  "reset.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { clearUserMemory } from \"../services/memoryStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"reset\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    await clearUserMemory({\n      mongoUri: cfg.MONGODB_URI,\n      platform: \"telegram\",\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n    });\n\n    await ctx.reply(\"Memory cleared.\");\n  });\n}\n"
+                  },
+                  "save.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { extractMediaFromMessage, saveImageItem } from \"../services/imageStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"save\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const replied = ctx.message?.reply_to_message;\n    if (!replied) {\n      return ctx.reply(\"Reply to a photo (or image document) with /save, or just send me the image directly.\");\n    }\n\n    const media = extractMediaFromMessage(replied);\n    if (!media) {\n      return ctx.reply(\"That message doesn’t look like a photo or image document. Try replying to a photo.\");\n    }\n\n    const { item, deduped, reason } = await saveImageItem({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      messageId: replied.message_id,\n      media,\n    });\n\n    const cap = (item?.caption || \"\").trim();\n    const preview = cap ? (cap.length > 80 ? cap.slice(0, 80) + \"…\" : cap) : \"(no caption)\";\n\n    const extra = deduped ? `\\nAlready saved (de-duplicated by ${reason}). Updated timestamp.` : \"\";\n\n    await ctx.reply(\n      `Saved. Item id: ${item?._id}\\nCaption: ${preview}${extra}\\n\\nTo add tags: /tag ${item?._id} receipts,travel\\nTo add a note: /note ${item?._id} <text>`\n    );\n  });\n}\n"
+                  },
+                  "search.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { searchImages } from \"../services/imageStore.js\";\n\nfunction fmtDate(d) {\n  try {\n    return new Date(d).toISOString().slice(0, 10);\n  } catch {\n    return \"\";\n  }\n}\n\nfunction capPreview(s) {\n  const t = String(s || \"\").trim();\n  if (!t) return \"\";\n  return t.length > 50 ? t.slice(0, 50) + \"…\" : t;\n}\n\nexport default function register(bot) {\n  bot.command(\"search\", async (ctx) => {\n    const userId = ctx.from?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const full = String(ctx.message?.text || \"\").trim();\n    const parts = full.split(/\\s+/);\n    const rawPage = parts[parts.length - 1];\n    const page = /^\\d+$/.test(rawPage) ? Number(rawPage) : 1;\n\n    const query = /^\\d+$/.test(rawPage) ? parts.slice(1, -1).join(\" \") : parts.slice(1).join(\" \");\n    if (!query) return ctx.reply(\"Usage: /search <query> [page]\");\n\n    const res = await searchImages({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      query,\n      page,\n      pageSize: 5,\n    });\n\n    if (!res.items.length) {\n      return ctx.reply(\"No matches.\");\n    }\n\n    const totalPages = Math.max(1, Math.ceil((res.total || 0) / res.pageSize));\n    const lines = [];\n    lines.push(`Results for \"${query}\" (page ${res.page}/${totalPages}):`);\n\n    for (const it of res.items) {\n      const tags = Array.isArray(it.tags) && it.tags.length ? it.tags.join(\", \") : \"\";\n      const cap = capPreview(it.caption);\n      const meta = [fmtDate(it.createdAt), cap].filter(Boolean).join(\" | \");\n      const tagPart = tags ? ` [${tags}]` : \"\";\n      lines.push(`${it._id}: ${meta}${tagPart}`);\n    }\n\n    lines.push(\"\\nUse /view <id> to open one.\");\n\n    await ctx.reply(lines.join(\"\\n\"));\n  });\n}\n"
+                  },
+                  "start.js": {
+                    "type": "file",
+                    "content": "\nexport default function register(bot) {\n  bot.command(\"start\", async (ctx) => {\n    const lines = [\n      \"Image Vault saves your uploaded images into a personal library.\",\n      \"\",\n      \"To save an image, just send me a photo or an image file (document).\",\n      \"I’ll reply with an item id you can use later.\",\n      \"\",\n      \"Main commands: /list, /search, /view <id>, /tag <id> <tags>, /note <id> <text>, /delete <id>, /export, /reset\",\n      \"Tip: You can also reply to an image with /save (useful in groups).\",\n    ];\n    await ctx.reply(lines.join(\"\\n\"));\n  });\n}\n"
+                  },
+                  "tag.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { setTags } from \"../services/imageStore.js\";\n\nfunction parseTags(text) {\n  const raw = String(text || \"\").trim();\n  if (!raw) return [];\n  return raw\n    .split(\",\")\n    .map((t) => t.trim())\n    .filter(Boolean);\n}\n\nexport default function register(bot) {\n  bot.command(\"tag\", async (ctx) => {\n    const userId = ctx.from?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const full = String(ctx.message?.text || \"\").trim();\n    const parts = full.split(/\\s+/);\n    const id = parts[1];\n    if (!id) return ctx.reply(\"Usage: /tag <id> <comma-separated-tags>\");\n\n    let tagText = parts.slice(2).join(\" \").trim();\n\n    if (!tagText) {\n      const replied = ctx.message?.reply_to_message;\n      const replyText = String(replied?.text || \"\").trim();\n      if (replyText) tagText = replyText;\n    }\n\n    if (!tagText) {\n      return ctx.reply(\"Send tags like: /tag <id> receipts,travel (or reply to this command with tag text). \");\n    }\n\n    const tags = parseTags(tagText);\n\n    const item = await setTags({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      id,\n      tags,\n    });\n\n    if (!item) return ctx.reply(\"Not found. Try /list.\");\n\n    await ctx.reply(`Updated tags for ${item._id}: ${(item.tags || []).join(\", \") || \"(none)\"}`);\n  });\n}\n"
+                  },
+                  "view.js": {
+                    "type": "file",
+                    "content": "\nimport { cfg } from \"../lib/config.js\";\nimport { getImageById } from \"../services/imageStore.js\";\n\nfunction fmtDate(d) {\n  try {\n    return new Date(d).toISOString();\n  } catch {\n    return \"\";\n  }\n}\n\nexport default function register(bot) {\n  bot.command(\"view\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    const text = String(ctx.message?.text || \"\").trim();\n    const parts = text.split(/\\s+/);\n    const id = parts[1];\n    if (!id) return ctx.reply(\"Usage: /view <id>\");\n\n    const item = await getImageById({\n      mongoUri: cfg.MONGODB_URI,\n      userId: String(userId),\n      id,\n    });\n\n    if (!item) return ctx.reply(\"Not found. Try /list or /search.\");\n\n    const tags = Array.isArray(item.tags) ? item.tags : [];\n\n    const metaLines = [\n      `Item id: ${item._id}`,\n      `Saved: ${fmtDate(item.createdAt)}`,\n      `Caption: ${(item.caption || \"\").trim() || \"(none)\"}`,\n      `Tags: ${tags.length ? tags.join(\", \") : \"(none)\"}`,\n      `Note: ${(item.note || \"\").trim() || \"(none)\"}`,\n    ];\n\n    try {\n      if (item.mediaType === \"photo\") {\n        await ctx.api.sendPhoto(chatId, item.fileId);\n      } else {\n        await ctx.api.sendDocument(chatId, item.fileId);\n      }\n    } catch {\n      await ctx.reply(\"I couldn’t re-send the file, but the metadata is still saved.\");\n    }\n\n    await ctx.reply(metaLines.join(\"\\n\"));\n  });\n}\n"
+                  }
+                }
+              },
+              "index.js": {
+                "type": "file",
+                "content": "\nimport \"dotenv/config\";\nimport { run } from \"@grammyjs/runner\";\n\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { createBot } from \"./bot.js\";\nimport { closeDb } from \"./lib/db.js\";\n\nprocess.on(\"unhandledRejection\", (reason) => {\n  console.error(\"[process] UnhandledRejection\", { err: safeErr(reason) });\n  process.exit(1);\n});\n\nprocess.on(\"uncaughtException\", (err) => {\n  console.error(\"[process] UncaughtException\", { err: safeErr(err) });\n  process.exit(1);\n});\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nasync function startPollingWithRetry(bot) {\n  const delays = [2000, 5000, 10000, 20000];\n  let i = 0;\n\n  while (true) {\n    try {\n      console.log(\"[boot] starting runner polling\", { concurrency: cfg.CONCURRENCY });\n      run(bot, { concurrency: cfg.CONCURRENCY });\n      return;\n    } catch (e) {\n      const msg = safeErr(e);\n      const is409 = msg.includes(\"409\") || msg.toLowerCase().includes(\"conflict\");\n      console.error(\"[boot] polling failed\", { err: msg, is409 });\n\n      const delay = delays[Math.min(i, delays.length - 1)];\n      i += 1;\n      await sleep(delay);\n    }\n  }\n}\n\nasync function boot() {\n  console.log(\"[boot] starting\", {\n    tokenSet: !!cfg.TELEGRAM_BOT_TOKEN,\n    mongoSet: !!cfg.MONGODB_URI,\n    aiEndpointSet: !!cfg.COOKMYBOTS_AI_ENDPOINT,\n    aiKeySet: !!cfg.COOKMYBOTS_AI_KEY,\n  });\n\n  if (!cfg.TELEGRAM_BOT_TOKEN) {\n    console.error(\"TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.\");\n    process.exit(1);\n  }\n\n  const bot = createBot(cfg.TELEGRAM_BOT_TOKEN, console);\n\n  try {\n    await bot.init();\n  } catch (e) {\n    console.warn(\"[boot] bot.init failed (continuing)\", { err: safeErr(e) });\n  }\n\n  try {\n    await bot.api.deleteWebhook({ drop_pending_updates: true });\n    console.log(\"[boot] webhook cleared\");\n  } catch (e) {\n    console.warn(\"[boot] deleteWebhook failed (continuing)\", { err: safeErr(e) });\n  }\n\n  const stop = async () => {\n    console.log(\"[shutdown] stopping\");\n    try {\n      await bot.stop();\n    } catch (e) {\n      console.error(\"[shutdown] bot.stop failed\", { err: safeErr(e) });\n    }\n\n    await closeDb(console);\n    process.exit(0);\n  };\n\n  process.on(\"SIGINT\", stop);\n  process.on(\"SIGTERM\", stop);\n\n  await startPollingWithRetry(bot);\n}\n\nboot().catch((e) => {\n  console.error(\"[boot] fatal\", { err: safeErr(e) });\n  process.exit(1);\n});\n"
+              },
+              "lib": {
+                "type": "dir",
+                "children": {
+                  "ai.js": {
+                    "type": "file",
+                    "content": "\nimport { safeErr } from \"./safeErr.js\";\nimport { cfg } from \"./config.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nexport async function aiChat({ messages, meta = {}, log = console }) {\n  const endpoint = cfg.COOKMYBOTS_AI_ENDPOINT;\n  const keySet = !!cfg.COOKMYBOTS_AI_KEY;\n\n  if (!endpoint || !keySet) {\n    log.warn?.(\"[ai] missing gateway config\", {\n      endpointSet: !!endpoint,\n      keySet,\n    });\n    throw new Error(\"AI is not configured yet.\");\n  }\n\n  const url = endpoint + \"/chat\";\n  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);\n  const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);\n\n  let attempt = 0;\n  while (true) {\n    attempt += 1;\n    const startedAt = Date.now();\n    log.info?.(\"[ai] chat start\", {\n      attempt,\n      timeoutMs,\n      messageCount: Array.isArray(messages) ? messages.length : 0,\n    });\n\n    const controller = new AbortController();\n    const t = setTimeout(() => controller.abort(), timeoutMs);\n\n    try {\n      const res = await fetch(url, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,\n        },\n        body: JSON.stringify({ messages, meta }),\n        signal: controller.signal,\n      });\n\n      const text = await res.text();\n      let json = null;\n      try {\n        json = text ? JSON.parse(text) : null;\n      } catch {\n        json = null;\n      }\n\n      if (!res.ok) {\n        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;\n        throw new Error(msg);\n      }\n\n      const content = json?.output?.content;\n      if (!content || typeof content !== \"string\") {\n        throw new Error(\"AI gateway returned no content.\");\n      }\n\n      log.info?.(\"[ai] chat success\", {\n        ms: Date.now() - startedAt,\n      });\n\n      return content;\n    } catch (e) {\n      const errMsg = safeErr(e);\n      log.error?.(\"[ai] chat failure\", {\n        attempt,\n        err: errMsg,\n      });\n\n      if (attempt > maxRetries) throw e;\n      await sleep(400 * attempt);\n    } finally {\n      clearTimeout(t);\n    }\n  }\n}\n"
+                  },
+                  "config.js": {
+                    "type": "file",
+                    "content": "\nexport const cfg = {\n  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || \"\",\n  MONGODB_URI: process.env.MONGODB_URI || \"\",\n  COOKMYBOTS_AI_ENDPOINT:\n    (process.env.COOKMYBOTS_AI_ENDPOINT || \"https://api.cookmybots.com/api/ai\").replace(/\\/+$/, \"\"),\n  COOKMYBOTS_AI_KEY: process.env.COOKMYBOTS_AI_KEY || \"\",\n  AI_TIMEOUT_MS: Number(process.env.AI_TIMEOUT_MS || 600000),\n  AI_MAX_RETRIES: Number(process.env.AI_MAX_RETRIES || 2),\n  CONCURRENCY: Number(process.env.CONCURRENCY || 20),\n};\n"
+                  },
+                  "db.js": {
+                    "type": "file",
+                    "content": "\nimport { MongoClient } from \"mongodb\";\nimport { safeErr } from \"./safeErr.js\";\n\nlet _client = null;\nlet _db = null;\nlet _connecting = null;\n\nexport async function getDb(mongoUri, log = console) {\n  if (!mongoUri) return null;\n  if (_db) return _db;\n  if (_connecting) return _connecting;\n\n  _connecting = (async () => {\n    try {\n      _client = new MongoClient(mongoUri, {\n        maxPoolSize: 10,\n        ignoreUndefined: true,\n      });\n      await _client.connect();\n      _db = _client.db();\n      log.info?.(\"[db] connected\", { mongo: true });\n      return _db;\n    } catch (e) {\n      log.error?.(\"[db] connect failed\", { err: safeErr(e) });\n      _client = null;\n      _db = null;\n      throw e;\n    } finally {\n      _connecting = null;\n    }\n  })();\n\n  return _connecting;\n}\n\nexport async function closeDb(log = console) {\n  try {\n    if (_client) {\n      await _client.close();\n      log.info?.(\"[db] closed\");\n    }\n  } catch (e) {\n    log.error?.(\"[db] close failed\", { err: safeErr(e) });\n  } finally {\n    _client = null;\n    _db = null;\n    _connecting = null;\n  }\n}\n\nexport async function getCollections(mongoUri, log = console) {\n  const db = await getDb(mongoUri, log);\n  if (!db) return null;\n\n  const memory = db.collection(\"memory_messages\");\n  const images = db.collection(\"image_items\");\n\n  try {\n    await memory.createIndex({ platform: 1, userId: 1, ts: -1 });\n    await memory.createIndex({ platform: 1, userId: 1, chatId: 1, ts: -1 });\n\n    await images.createIndex({ userId: 1, createdAt: -1 });\n    await images.createIndex({ userId: 1, updatedAt: -1 });\n    await images.createIndex({ userId: 1, fileUniqueId: 1 });\n    await images.createIndex({ userId: 1, messageId: 1 });\n\n    await images.createIndex({ userId: 1, tags: 1 });\n    await images.createIndex({ userId: 1, caption: \"text\", note: \"text\", tagsText: \"text\" });\n  } catch (e) {\n    log.error?.(\"[db] ensureIndexes failed\", { err: safeErr(e) });\n  }\n\n  return { db, memory, images };\n}\n"
+                  },
+                  "safeErr.js": {
+                    "type": "file",
+                    "content": "\nexport function safeErr(err) {\n  return (\n    err?.response?.data?.error?.message ||\n    err?.response?.data?.message ||\n    err?.message ||\n    String(err)\n  );\n}\n"
+                  }
+                }
+              },
+              "services": {
+                "type": "dir",
+                "children": {
+                  "imageStore.js": {
+                    "type": "file",
+                    "content": "\nimport crypto from \"node:crypto\";\nimport { getCollections } from \"../lib/db.js\";\nimport { safeErr } from \"../lib/safeErr.js\";\n\nconst inMem = new Map();\n\nfunction userKey(userId) {\n  return String(userId || \"\");\n}\n\nfunction newId() {\n  return crypto.randomBytes(4).toString(\"hex\");\n}\n\nfunction normalizeTags(tags) {\n  const arr = Array.isArray(tags) ? tags : [];\n  const out = [];\n  for (const t of arr) {\n    const s = String(t || \"\").trim();\n    if (!s) continue;\n    out.push(s.toLowerCase());\n  }\n  return Array.from(new Set(out)).slice(0, 50);\n}\n\nfunction tagsText(tags) {\n  return (tags || []).join(\" \");\n}\n\nfunction isImageDoc(doc) {\n  const mime = String(doc?.mimeType || \"\").toLowerCase();\n  if (mime.startsWith(\"image/\")) return true;\n  const name = String(doc?.fileName || \"\").toLowerCase();\n  return name.endsWith(\".png\") || name.endsWith(\".jpg\") || name.endsWith(\".jpeg\") || name.endsWith(\".webp\") || name.endsWith(\".gif\");\n}\n\nexport function extractMediaFromMessage(msg) {\n  if (!msg) return null;\n\n  const caption = String(msg.caption || \"\").trim();\n\n  if (Array.isArray(msg.photo) && msg.photo.length) {\n    const best = msg.photo[msg.photo.length - 1];\n    return {\n      mediaType: \"photo\",\n      fileId: best.file_id,\n      fileUniqueId: best.file_unique_id,\n      mimeType: \"image/jpeg\",\n      fileName: \"photo.jpg\",\n      caption,\n    };\n  }\n\n  const doc = msg.document;\n  if (doc && isImageDoc({ mimeType: doc.mime_type, fileName: doc.file_name })) {\n    return {\n      mediaType: \"document\",\n      fileId: doc.file_id,\n      fileUniqueId: doc.file_unique_id,\n      mimeType: doc.mime_type || \"application/octet-stream\",\n      fileName: doc.file_name || \"image\",\n      caption,\n    };\n  }\n\n  return null;\n}\n\nexport async function saveImageItem({\n  mongoUri,\n  userId,\n  chatId,\n  messageId,\n  media,\n  log = console,\n}) {\n  const now = new Date();\n\n  if (!media?.fileId || !media?.fileUniqueId) {\n    throw new Error(\"No image media found.\");\n  }\n\n  if (!mongoUri) {\n    const k = userKey(userId);\n    const arr = inMem.get(k) || [];\n\n    const byMsg = arr.find((x) => String(x.messageId) === String(messageId));\n    if (byMsg) {\n      return { item: byMsg, deduped: true, reason: \"messageId\" };\n    }\n\n    const byUnique = arr.find((x) => String(x.fileUniqueId) === String(media.fileUniqueId));\n    if (byUnique) {\n      byUnique.updatedAt = now;\n      byUnique.caption = media.caption || byUnique.caption || \"\";\n      return { item: byUnique, deduped: true, reason: \"fileUniqueId\" };\n    }\n\n    const item = {\n      _id: newId(),\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      messageId: Number(messageId),\n      fileId: media.fileId,\n      fileUniqueId: media.fileUniqueId,\n      mediaType: media.mediaType,\n      mimeType: media.mimeType || \"\",\n      fileName: media.fileName || \"\",\n      caption: media.caption || \"\",\n      tags: [],\n      note: \"\",\n      tagsText: \"\",\n      createdAt: now,\n      updatedAt: now,\n    };\n\n    arr.push(item);\n    inMem.set(k, arr);\n\n    return { item, deduped: false };\n  }\n\n  try {\n    const cols = await getCollections(mongoUri, log);\n    if (!cols?.images) throw new Error(\"DB not available\");\n\n    const base = {\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      messageId: Number(messageId),\n      fileId: media.fileId,\n      fileUniqueId: media.fileUniqueId,\n      mediaType: media.mediaType,\n      mimeType: media.mimeType || \"\",\n      fileName: media.fileName || \"\",\n      caption: media.caption || \"\",\n    };\n\n    const byMsg = await cols.images.findOne({ userId: String(userId), messageId: Number(messageId) });\n    if (byMsg) {\n      await cols.images.updateOne(\n        { _id: byMsg._id },\n        {\n          $set: {\n            ...base,\n            updatedAt: now,\n          },\n        }\n      );\n      const updated = await cols.images.findOne({ _id: byMsg._id });\n      return { item: updated, deduped: true, reason: \"messageId\" };\n    }\n\n    const byUnique = await cols.images.findOne({ userId: String(userId), fileUniqueId: String(media.fileUniqueId) });\n    if (byUnique) {\n      await cols.images.updateOne(\n        { _id: byUnique._id },\n        {\n          $set: {\n            caption: base.caption || byUnique.caption || \"\",\n            fileId: base.fileId,\n            mimeType: base.mimeType,\n            fileName: base.fileName,\n            updatedAt: now,\n          },\n        }\n      );\n      const updated = await cols.images.findOne({ _id: byUnique._id });\n      return { item: updated, deduped: true, reason: \"fileUniqueId\" };\n    }\n\n    const _id = newId();\n    await cols.images.insertOne({\n      _id,\n      ...base,\n      tags: [],\n      note: \"\",\n      tagsText: \"\",\n      createdAt: now,\n      updatedAt: now,\n    });\n\n    const item = await cols.images.findOne({ _id });\n    return { item, deduped: false };\n  } catch (e) {\n    log.error?.(\"[imageStore] save failed\", { err: safeErr(e) });\n    throw e;\n  }\n}\n\nexport async function listImages({ mongoUri, userId, page = 1, pageSize = 5, log = console }) {\n  const p = Math.max(1, Number(page || 1));\n  const limit = Math.min(20, Math.max(1, Number(pageSize || 5)));\n  const skip = (p - 1) * limit;\n\n  if (!mongoUri) {\n    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));\n    return {\n      items: arr.slice(skip, skip + limit),\n      page: p,\n      pageSize: limit,\n      total: arr.length,\n    };\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return { items: [], page: p, pageSize: limit, total: 0 };\n\n  const q = { userId: String(userId) };\n\n  const total = await cols.images.countDocuments(q);\n  const items = await cols.images.find(q).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray();\n  return { items, page: p, pageSize: limit, total };\n}\n\nexport async function getImageById({ mongoUri, userId, id, log = console }) {\n  const _id = String(id || \"\").trim();\n  if (!_id) return null;\n\n  if (!mongoUri) {\n    const arr = inMem.get(userKey(userId)) || [];\n    return arr.find((x) => String(x._id) === _id) || null;\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return null;\n  return await cols.images.findOne({ _id, userId: String(userId) });\n}\n\nexport async function setTags({ mongoUri, userId, id, tags, log = console }) {\n  const _id = String(id || \"\").trim();\n  const t = normalizeTags(tags);\n  const now = new Date();\n\n  if (!mongoUri) {\n    const arr = inMem.get(userKey(userId)) || [];\n    const item = arr.find((x) => String(x._id) === _id);\n    if (!item) return null;\n    item.tags = t;\n    item.tagsText = tagsText(t);\n    item.updatedAt = now;\n    return item;\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return null;\n\n  await cols.images.updateOne(\n    { _id, userId: String(userId) },\n    {\n      $set: {\n        tags: t,\n        tagsText: tagsText(t),\n        updatedAt: now,\n      },\n    }\n  );\n\n  return await cols.images.findOne({ _id, userId: String(userId) });\n}\n\nexport async function setNote({ mongoUri, userId, id, note, log = console }) {\n  const _id = String(id || \"\").trim();\n  const n = String(note || \"\").trim().slice(0, 2000);\n  const now = new Date();\n\n  if (!mongoUri) {\n    const arr = inMem.get(userKey(userId)) || [];\n    const item = arr.find((x) => String(x._id) === _id);\n    if (!item) return null;\n    item.note = n;\n    item.updatedAt = now;\n    return item;\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return null;\n\n  await cols.images.updateOne(\n    { _id, userId: String(userId) },\n    {\n      $set: {\n        note: n,\n        updatedAt: now,\n      },\n    }\n  );\n\n  return await cols.images.findOne({ _id, userId: String(userId) });\n}\n\nexport async function deleteItem({ mongoUri, userId, id, log = console }) {\n  const _id = String(id || \"\").trim();\n\n  if (!mongoUri) {\n    const k = userKey(userId);\n    const arr = inMem.get(k) || [];\n    const idx = arr.findIndex((x) => String(x._id) === _id);\n    if (idx < 0) return false;\n    arr.splice(idx, 1);\n    inMem.set(k, arr);\n    return true;\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return false;\n\n  const res = await cols.images.deleteOne({ _id, userId: String(userId) });\n  return (res?.deletedCount || 0) > 0;\n}\n\nexport async function searchImages({ mongoUri, userId, query, page = 1, pageSize = 5, log = console }) {\n  const q = String(query || \"\").trim();\n  const p = Math.max(1, Number(page || 1));\n  const limit = Math.min(20, Math.max(1, Number(pageSize || 5)));\n  const skip = (p - 1) * limit;\n\n  const terms = q\n    .split(/\\s+/)\n    .map((x) => x.trim())\n    .filter(Boolean)\n    .slice(0, 12);\n\n  if (!mongoUri) {\n    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));\n    const lowered = q.toLowerCase();\n    const hits = arr.filter((it) => {\n      const hay = [it.caption, it.note, (it.tags || []).join(\" \")].join(\" \").toLowerCase();\n      return hay.includes(lowered);\n    });\n    return { items: hits.slice(skip, skip + limit), page: p, pageSize: limit, total: hits.length };\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return { items: [], page: p, pageSize: limit, total: 0 };\n\n  const base = { userId: String(userId) };\n\n  let mongoQuery = base;\n  if (terms.length) {\n    mongoQuery = {\n      ...base,\n      $or: [\n        { caption: { $regex: terms.join(\"|\"), $options: \"i\" } },\n        { note: { $regex: terms.join(\"|\"), $options: \"i\" } },\n        { tags: { $in: terms.map((t) => t.toLowerCase()) } },\n        { tagsText: { $regex: terms.join(\"|\"), $options: \"i\" } },\n      ],\n    };\n  }\n\n  const total = await cols.images.countDocuments(mongoQuery);\n  const items = await cols.images.find(mongoQuery).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray();\n  return { items, page: p, pageSize: limit, total };\n}\n\nexport async function exportItems({ mongoUri, userId, log = console }) {\n  if (!mongoUri) {\n    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));\n    return arr.map((it) => ({\n      id: it._id,\n      mediaType: it.mediaType,\n      mimeType: it.mimeType,\n      fileName: it.fileName,\n      caption: it.caption,\n      tags: it.tags,\n      note: it.note,\n      createdAt: it.createdAt,\n      updatedAt: it.updatedAt,\n    }));\n  }\n\n  const cols = await getCollections(mongoUri, log);\n  if (!cols?.images) return [];\n\n  const rows = await cols.images\n    .find({ userId: String(userId) })\n    .sort({ createdAt: 1 })\n    .toArray();\n\n  return rows.map((it) => ({\n    id: it._id,\n    mediaType: it.mediaType,\n    mimeType: it.mimeType,\n    fileName: it.fileName,\n    caption: it.caption,\n    tags: it.tags,\n    note: it.note,\n    createdAt: it.createdAt,\n    updatedAt: it.updatedAt,\n  }));\n}\n"
+                  },
+                  "memoryStore.js": {
+                    "type": "file",
+                    "content": "\nimport { getCollections } from \"../lib/db.js\";\nimport { safeErr } from \"../lib/safeErr.js\";\nimport { redactSecrets } from \"../utils/redact.js\";\n\nconst inMem = new Map();\n\nfunction keyFor({ platform, userId }) {\n  return `${platform}:${String(userId || \"\")}`;\n}\n\nfunction asTurn(doc) {\n  return {\n    role: doc.role,\n    text: doc.text,\n    ts: doc.ts,\n  };\n}\n\nexport async function addTurn({ mongoUri, platform, userId, chatId, role, text, log = console }) {\n  const clean = redactSecrets(String(text || \"\").slice(0, 4000));\n\n  if (!mongoUri) {\n    const k = keyFor({ platform, userId });\n    const arr = inMem.get(k) || [];\n    arr.push({ platform, userId: String(userId), chatId: String(chatId || \"\"), role, text: clean, ts: new Date() });\n    inMem.set(k, arr.slice(-200));\n    return;\n  }\n\n  try {\n    const cols = await getCollections(mongoUri, log);\n    if (!cols?.memory) return;\n\n    await cols.memory.insertOne({\n      platform,\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      role,\n      text: clean,\n      ts: new Date(),\n    });\n  } catch (e) {\n    log.error?.(\"[memory] addTurn failed\", { err: safeErr(e) });\n  }\n}\n\nexport async function getRecentTurns({ mongoUri, platform, userId, chatId, limit = 16, log = console }) {\n  if (!mongoUri) {\n    const k = keyFor({ platform, userId });\n    const arr = inMem.get(k) || [];\n    return arr.slice(-limit).map(asTurn);\n  }\n\n  try {\n    const cols = await getCollections(mongoUri, log);\n    if (!cols?.memory) return [];\n\n    const q = {\n      platform,\n      userId: String(userId),\n    };\n    if (chatId) q.chatId = String(chatId);\n\n    const rows = await cols.memory\n      .find(q)\n      .sort({ ts: -1 })\n      .limit(limit)\n      .toArray();\n\n    return rows.reverse().map(asTurn);\n  } catch (e) {\n    log.error?.(\"[memory] getRecentTurns failed\", { err: safeErr(e) });\n    return [];\n  }\n}\n\nexport async function clearUserMemory({ mongoUri, platform, userId, chatId, log = console }) {\n  if (!mongoUri) {\n    const k = keyFor({ platform, userId });\n    inMem.delete(k);\n    return;\n  }\n\n  try {\n    const cols = await getCollections(mongoUri, log);\n    if (!cols?.memory) return;\n\n    const q = { platform, userId: String(userId) };\n    if (chatId) q.chatId = String(chatId);\n\n    await cols.memory.deleteMany(q);\n  } catch (e) {\n    log.error?.(\"[memory] clearUserMemory failed\", { err: safeErr(e) });\n  }\n}\n"
+                  }
+                }
+              },
+              "utils": {
+                "type": "dir",
+                "children": {
+                  "redact.js": {
+                    "type": "file",
+                    "content": "\nconst SECRET_PATTERNS = [\n  /\\bsk-[A-Za-z0-9]{10,}\\b/g,\n  /\\bBearer\\s+[A-Za-z0-9\\-_.]{10,}\\b/gi,\n  /\\bAIza[0-9A-Za-z\\-_]{20,}\\b/g,\n  /\\b(?:xox[baprs]-)[0-9A-Za-z\\-]{10,}\\b/g,\n];\n\nexport function redactSecrets(text) {\n  const s = String(text || \"\");\n  let out = s;\n  for (const re of SECRET_PATTERNS) out = out.replace(re, \"[REDACTED]\");\n  return out;\n}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "commands": [
+          {
+            "command": "/delete",
+            "description": "Removes an item from your library.",
+            "usage": "/delete <id>",
+            "examples": [
+              "User: /delete a1b2c3d4 → Bot: Deleted."
+            ],
+            "example": "User: /delete a1b2c3d4 → Bot: Deleted.",
+            "notes": "Deletion is permanent in this version."
+          },
+          {
+            "command": "/export",
+            "description": "Exports a compact JSON summary of your saved items (metadata only).",
+            "usage": "/export",
+            "examples": [
+              "User: /export → Bot: sends JSON text or a JSON document"
+            ],
+            "example": "User: /export → Bot: sends JSON text or a JSON document",
+            "notes": "No image files are included in export, only ids and metadata."
+          },
+          {
+            "command": "/help",
+            "description": "Shows all public commands with short examples.",
+            "usage": "/help",
+            "examples": [
+              "User: /help → Bot: shows command list and examples"
+            ],
+            "example": "User: /help → Bot: shows command list and examples",
+            "notes": "If you forget item ids, use /list or /search."
+          },
+          {
+            "command": "/list",
+            "description": "Lists your most recent saved images (5 per page).",
+            "usage": "/list [page]",
+            "examples": [
+              "User: /list → Bot: shows page 1",
+              "User: /list 2 → Bot: shows page 2"
+            ],
+            "example": "User: /list → Bot: shows page 1",
+            "notes": "Use /view <id> to open an item."
+          },
+          {
+            "command": "/note",
+            "description": "Sets or replaces a freeform note for an item.",
+            "usage": "/note <id> <text>",
+            "examples": [
+              "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
+            ],
+            "example": "User: /note a1b2c3d4 paid already → Bot: Updated note ...",
+            "notes": "Notes are limited to 2000 characters."
+          },
+          {
+            "command": "/reset",
+            "description": "Clears the long-term AI conversation memory for your user.",
+            "usage": "/reset",
+            "examples": [
+              "User: /reset → Bot: Memory cleared."
+            ],
+            "example": "User: /reset → Bot: Memory cleared.",
+            "notes": "This does not delete your saved images."
+          },
+          {
+            "command": "/save",
+            "description": "Saves the replied-to photo or image document (useful in groups).",
+            "usage": "Reply to an image with /save",
+            "examples": [
+              "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+            ],
+            "example": "User: (replies to an image) /save → Bot: Saved. Item id: ...",
+            "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+          },
+          {
+            "command": "/search",
+            "description": "Searches your library by tags, caption text, and note text (paginated).",
+            "usage": "/search <query> [page]",
+            "examples": [
+              "User: /search receipts → Bot: results page 1",
+              "User: /search travel 2 → Bot: results page 2"
+            ],
+            "example": "User: /search receipts → Bot: results page 1",
+            "notes": "Search is always scoped to your userId."
+          },
+          {
+            "command": "/start",
+            "description": "Welcomes the user, explains how to save images, and shows the main commands.",
+            "usage": "/start",
+            "examples": [
+              "User: /start → Bot: explains how to save images and shows key commands"
+            ],
+            "example": "User: /start → Bot: explains how to save images and shows key commands",
+            "notes": "Send a photo or an image document to save it automatically."
+          },
+          {
+            "command": "/tag",
+            "description": "Sets or replaces tags for an item.",
+            "usage": "/tag <id> <comma-separated-tags>",
+            "examples": [
+              "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
+              "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
+            ],
+            "example": "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
+            "notes": "Tags are normalized to lowercase."
+          },
+          {
+            "command": "/view",
+            "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+            "usage": "/view <id>",
+            "examples": [
+              "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+            ],
+            "example": "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption",
+            "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+          }
+        ],
+        "envVarDocs": [
+          {
+            "key": "TELEGRAM_BOT_TOKEN",
+            "title": "Telegram Bot Token",
+            "description": "Token from BotFather used to authenticate with the Telegram Bot API.",
+            "usage": "Read on boot in src/lib/config.js and used to create the grammY Bot instance.",
+            "howToGet": "Create a bot with @BotFather and copy the token.",
+            "example": "123456789:ABCDEF_fake_example",
+            "isSecret": true,
+            "required": true
+          },
+          {
+            "key": "MONGODB_URI",
+            "title": "MongoDB Connection String",
+            "description": "Enables long-term storage for the image library and AI memory. If missing, the bot uses in-memory fallback (data is lost on restart).",
+            "usage": "Used by src/lib/db.js and all stores.",
+            "howToGet": "Create a MongoDB database (Atlas or self-hosted) and copy the connection string.",
+            "example": "mongodb+srv://user:pass@cluster.example.mongodb.net/dbname",
+            "isSecret": true,
+            "required": false
+          },
+          {
+            "key": "COOKMYBOTS_AI_ENDPOINT",
+            "title": "CookMyBots AI Endpoint",
+            "description": "Base URL for the CookMyBots AI gateway. The bot calls /chat under this base.",
+            "usage": "Used by src/lib/ai.js to call POST {endpoint}/chat.",
+            "howToGet": "Provided by CookMyBots.",
+            "example": "https://api.cookmybots.com/api/ai",
+            "isSecret": false,
+            "required": false
+          },
+          {
+            "key": "COOKMYBOTS_AI_KEY",
+            "title": "CookMyBots AI Key",
+            "description": "API key for the CookMyBots AI gateway (Authorization: Bearer ...).",
+            "usage": "Used by src/lib/ai.js for gateway authentication.",
+            "howToGet": "Provided by CookMyBots.",
+            "example": "cmb_ai_key_example",
+            "isSecret": true,
+            "required": false
+          },
+          {
+            "key": "AI_TIMEOUT_MS",
+            "title": "AI Timeout",
+            "description": "Timeout for AI gateway requests in milliseconds.",
+            "usage": "Used by src/lib/ai.js AbortController timeout (default 600000).",
+            "howToGet": "Optional setting.",
+            "example": "600000",
+            "isSecret": false,
+            "required": false
+          },
+          {
+            "key": "AI_MAX_RETRIES",
+            "title": "AI Retries",
+            "description": "How many times to retry a failed AI gateway request.",
+            "usage": "Used by src/lib/ai.js (default 2).",
+            "howToGet": "Optional setting.",
+            "example": "2",
+            "isSecret": false,
+            "required": false
+          },
+          {
+            "key": "CONCURRENCY",
+            "title": "Runner Concurrency",
+            "description": "Controls how many Telegram updates are processed concurrently via @grammyjs/runner.",
+            "usage": "Used by src/index.js run(bot, { concurrency }).",
+            "howToGet": "Optional setting.",
+            "example": "20",
+            "isSecret": false,
+            "required": false
+          }
+        ],
+        "commandDocs": [
+          {
+            "command": "/start",
+            "description": "Welcomes the user, explains how to save images, and shows the main commands.",
+            "usage": "/start",
+            "examples": [
+              "User: /start → Bot: explains how to save images and shows key commands"
+            ],
+            "notes": "Send a photo or an image document to save it automatically."
+          },
+          {
+            "command": "/help",
+            "description": "Shows all public commands with short examples.",
+            "usage": "/help",
+            "examples": [
+              "User: /help → Bot: shows command list and examples"
+            ],
+            "notes": "If you forget item ids, use /list or /search."
+          },
+          {
+            "command": "/save",
+            "description": "Saves the replied-to photo or image document (useful in groups).",
+            "usage": "Reply to an image with /save",
+            "examples": [
+              "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+            ],
+            "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+          },
+          {
+            "command": "/list",
+            "description": "Lists your most recent saved images (5 per page).",
+            "usage": "/list [page]",
+            "examples": [
+              "User: /list → Bot: shows page 1",
+              "User: /list 2 → Bot: shows page 2"
+            ],
+            "notes": "Use /view <id> to open an item."
+          },
+          {
+            "command": "/view",
+            "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+            "usage": "/view <id>",
+            "examples": [
+              "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+            ],
+            "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+          },
+          {
+            "command": "/tag",
+            "description": "Sets or replaces tags for an item.",
+            "usage": "/tag <id> <comma-separated-tags>",
+            "examples": [
+              "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
+              "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
+            ],
+            "notes": "Tags are normalized to lowercase."
+          },
+          {
+            "command": "/note",
+            "description": "Sets or replaces a freeform note for an item.",
+            "usage": "/note <id> <text>",
+            "examples": [
+              "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
+            ],
+            "notes": "Notes are limited to 2000 characters."
+          },
+          {
+            "command": "/delete",
+            "description": "Removes an item from your library.",
+            "usage": "/delete <id>",
+            "examples": [
+              "User: /delete a1b2c3d4 → Bot: Deleted."
+            ],
+            "notes": "Deletion is permanent in this version."
+          },
+          {
+            "command": "/search",
+            "description": "Searches your library by tags, caption text, and note text (paginated).",
+            "usage": "/search <query> [page]",
+            "examples": [
+              "User: /search receipts → Bot: results page 1",
+              "User: /search travel 2 → Bot: results page 2"
+            ],
+            "notes": "Search is always scoped to your userId."
+          },
+          {
+            "command": "/export",
+            "description": "Exports a compact JSON summary of your saved items (metadata only).",
+            "usage": "/export",
+            "examples": [
+              "User: /export → Bot: sends JSON text or a JSON document"
+            ],
+            "notes": "No image files are included in export, only ids and metadata."
+          },
+          {
+            "command": "/reset",
+            "description": "Clears the long-term AI conversation memory for your user.",
+            "usage": "/reset",
+            "examples": [
+              "User: /reset → Bot: Memory cleared."
+            ],
+            "notes": "This does not delete your saved images."
+          }
+        ],
+        "aiMessages": [
+          {
+            "role": "user",
+            "content": "make me an image storage bot"
+          },
+          {
+            "role": "assistant",
+            "content": "Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is missing). Includes all requested commands, de-duplication by file_unique_id/messageId, CookMyBots AI gateway integration, and Render-friendly boot logic with webhook clearing and conflict backoff.\n\nFiles touched (26): .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js…\nValidation: ✅ project passes syntax/basic checks after this edit.",
+            "gitAfterSha": "3677f4457e36be55ee5d08522454e1613b504528"
+          }
+        ],
+        "createdBy": "",
+        "source": "",
+        "description": "",
+        "planMarkdown": "Bot: Telegram Image Storage Bot (Node.js ESM + grammY)\n\nSummary:\nA production-ready Telegram bot that lets users (and optionally groups) store images sent in chat, organize them into albums/tags, search and retrieve them later, and export or delete their library. The bot treats Telegram as the primary ingestion surface and maintains a durable index in MongoDB, while storing original files either in Telegram (by file_id) for lightweight use cases or in external object storage/simple filesystem storage for long-term retention and portability.\n\nThe bot is designed as a single Node.js service using grammY. It focuses on safe defaults (privacy, least-data retention), predictable UX (explicit save confirmations, clear retrieval flows), and operational stability (rate limiting, retries, observability).\n\nProduct goals:\nPrimary user value\n1) Quickly save images from Telegram chats (private chats and optionally groups) with minimal friction.\n2) Find and retrieve saved images later using search, tags, albums, dates, and free-text notes.\n3) Share and export stored images without losing organization.\n\nCore use cases\n1) Personal image locker: a user forwards/sends photos to the bot, adds tags like “receipt” or “inspiration,” and later searches and retrieves them.\n2) Group curation (optional): a group adds the bot and images are saved to a shared collection with scoped permissions.\n3) Reference library: users create albums (e.g., “Project A”), store images, and export an album as a set.\n\nSuccess criteria\n1) High capture success rate: images are reliably saved with a confirmation and retrievable via a stable identifier.\n2) Fast retrieval: common searches return quickly, with paging.\n3) Trust: transparent retention policy, easy deletion, and predictable privacy boundaries.\n\nNon-goals (to keep scope controlled)\n1) Not a general cloud drive replacement (no arbitrary file types beyond images unless extended later).\n2) No complex collaborative editing; shared collections are simple ownership/role-based.\n3) No heavy image processing pipelines; only lightweight metadata extraction if needed.\n\nHigh-level architecture:\nHigh-level components (single Node.js service)\n1) grammY update handler layer\n   1) Routes updates (messages, callbacks, inline queries if used) into feature modules.\n   2) Performs authentication context building (user, chat, role) and basic input validation.\n\n2) Domain services\n   1) Ingestion service: normalizes incoming Telegram media, chooses storage mode, persists metadata.\n   2) Library service: tagging, albums, notes, deduplication checks, pagination.\n   3) Search service: builds MongoDB queries for tags/albums/date ranges/text; returns stable result pages.\n   4) Delivery service: sends stored images back to user, choosing best transport (cached Telegram fileid when available; otherwise upload from storage).\n\n3) Persistence\n   1) MongoDB stores all metadata and relationships (users, images, tags, albums, permissions, audit events).\n   2) File bytes strategy (selectable by configuration)\n      1) Telegram-only mode: store Telegram fileid plus minimal metadata. Fast, cheap, but depends on Telegram retention behavior and limits.\n      2) Durable mode: download the file once and store it in object storage or simple filesystem storage; keep Telegram fileid as an optimization cache.\n\n4) Background work within the same process\n   1) A simple in-process job runner for tasks like “download and persist media after acknowledging user,” “cleanup orphaned files,” and “rebuild derived stats.”\n   2) Use MongoDB as the source of truth for job states if reliability is required; otherwise use an in-memory queue with careful backpressure (acceptable only if occasional loss is tolerable).\n\n5) Configuration and secrets\n   1) TELEGRAMBOTTOKEN from environment variables.\n   2) Storage mode and MongoDB connection from environment variables.\n\nOperational boundaries\n1) The bot is stateless aside from MongoDB and the chosen file storage. Multiple instances are possible in principle, but the plan assumes a single service instance; design avoids relying on in-memory state for correctness.\n2) Rate limiting and backpressure are enforced to prevent running into Telegram API limits or exhausting memory when users bulk-upload images.\n\nData model:\nKey entities in MongoDB (document-oriented, with indexes)\n\n1) users\n1) Fields\n   1) telegramUserId (unique)\n   2) createdAt, lastSeenAt\n   3) settings: defaultPrivacyScope, defaultAlbumId, language, timezone\n   4) plan/limits: maxImages, maxStorageBytes (if you later add tiers)\n2) Indexes\n   1) telegramUserId unique\n\n2) chats (optional, only if group features enabled)\n1) Fields\n   1) telegramChatId (unique)\n   2) type (private/group/supergroup)\n   3) title\n   4) createdAt\n2) Indexes\n   1) telegramChatId unique\n\n3) collections\nRepresents a logical library scope.\n1) Types\n   1) user collection: owned by one user\n   2) group collection: owned by a chat with roles\n2) Fields\n   1) collectionId\n   2) ownerType (user/chat)\n   3) ownerId (telegramUserId or telegramChatId)\n   4) createdAt\n   5) policy: whoCanSave, whoCanView, whoCanDelete (for group collections)\n3) Indexes\n   1) ownerType+ownerId unique\n\n4) images\n1) Fields\n   1) imageId (bot-generated stable id)\n   2) collectionId\n   3) uploaderTelegramUserId\n   4) source\n      1) telegram: chatId, messageId\n      2) originType: sent/forwarded\n   5) telegram\n      1) fileId (best size) and optionally fileUniqueId\n      2) width, height, fileSize\n   6) storage\n      1) mode: telegramonly or durable\n      2) objectKey/path (if durable)\n      3) sha256 (if computed) for dedupe and integrity\n   7) metadata\n      1) captionText (normalized)\n      2) note (user-added)\n      3) tags: array of tagIds or normalized tag strings\n      4) albumIds: array\n      5) takenAt (if user sets; optional)\n   8) lifecycle\n      1) createdAt\n      2) deletedAt (soft delete)\n      3) purgeAt (optional)\n2) Indexes\n   1) collectionId + createdAt (for browsing)\n   2) collectionId + tags (multikey)\n   3) collectionId + albumIds (multikey)\n   4) collectionId + text index on captionText and note (if using MongoDB text search)\n   5) telegram.fileUniqueId (optional, for dedupe)\n\n5) tags\n1) Fields\n   1) tagId\n   2) collectionId\n   3) nameNormalized, nameDisplay\n   4) createdAt\n2) Indexes\n   1) collectionId + nameNormalized unique\n\n6) albums\n1) Fields\n   1) albumId\n   2) collectionId\n   3) title\n   4) description\n   5) createdAt\n2) Indexes\n   1) collectionId + title\n\n7) permissions (only for group collections)\n1) Fields\n   1) collectionId\n   2) telegramUserId\n   3) role: admin/editor/viewer\n   4) createdAt\n2) Indexes\n   1) collectionId + telegramUserId unique\n\n8) auditevents (lightweight, optional but useful)\n1) Fields\n   1) eventId\n   2) collectionId\n   3) actorTelegramUserId\n   4) action: saveimage, deleteimage, addtag, removetag, exportalbum\n   5) entityId\n   6) createdAt\n2) Indexes\n   1) collectionId + createdAt\n\nStorage notes\n1) In durable mode, store original bytes under a deterministic path/objectKey derived from imageId (and optionally content hash). Keep metadata in MongoDB.\n2) Soft delete first, then purge bytes on a scheduled cleanup to prevent accidental loss.\n\nKey flows:\n1) Onboarding and help\n1) User sends /start.\n2) Bot creates or updates user record and creates the default user collection.\n3) Bot explains how to save images: send a photo, optionally add a caption with tags, and how to retrieve later.\n4) Bot offers a one-tap settings flow (storage mode explanation, default album).\n\n2) Saving an image (private chat)\n1) User sends a photo (or image document).\n2) Bot validates the media type and extracts best-quality variant, caption, and message context.\n3) Bot immediately acknowledges with a short confirmation message and a stable reference (imageId) to build trust.\n4) Persistence steps\n   1) Create images document with telegram file metadata.\n   2) Parse tags from caption (e.g., words prefixed with #) and upsert tags.\n   3) Attach tags/albums to the image record.\n5) Durable mode additional steps\n   1) Download file via Telegram API.\n   2) Store bytes in object storage/simple filesystem storage.\n   3) Update images.storage with location and integrity hash.\n6) Bot offers quick actions via inline buttons (Add tag, Add note, Add to album, Delete).\n\n3) Saving from groups (optional)\n1) Group adds the bot; admin runs /enablegrouplibrary.\n2) Bot creates a group collection and sets a default policy (e.g., only admins can delete; members can save).\n3) When images are posted in the group, bot saves only when explicitly triggered (to avoid surprising behavior), for example:\n   1) A user replies to an image with “/save” or uses a context command, or\n   2) The bot offers a “Save to group library” button if permitted.\n4) Permissions are checked against collection policy and stored roles.\n\n4) Tagging and notes\n1) User uses /tag or taps “Add tag” on a saved image.\n2) Bot prompts for tag names and normalizes them.\n3) Bot updates image document and tag catalog.\n4) Notes are stored as user-provided text on the image; optionally support one note per image per collection.\n\n5) Browsing and search\n1) /recent shows the newest images with paging (next/prev).\n2) /search supports queries:\n   1) by tag: tag:receipt\n   2) by album: album:\"Project A\"\n   3) by date range: from:2026-01-01 to:2026-01-31\n   4) text: words searched over caption and note\n3) Bot returns a compact list view (first N results) and supports paging.\n4) Tapping a result sends the image and metadata (tags, album, saved date) and actions.\n\n6) Retrieving an image\n1) User requests by id or by selecting from search results.\n2) Delivery chooses:\n   1) If telegram fileid exists and is still valid, send photo by fileid.\n   2) If durable storage exists, upload bytes from storage.\n3) Bot includes metadata and quick actions.\n\n7) Export\n1) /exportalbum or /export with filters.\n2) Bot warns about size and time.\n3) Bot generates an export job within the same process:\n   1) Collect image list.\n   2) Optionally package metadata in a simple JSON manifest.\n   3) Send images back in batches within Telegram limits, or provide a downloadable archive if within supported constraints.\n4) Record audit event.\n\n8) Deletion and retention\n1) /delete can delete by id, by search filter, or an entire album.\n2) Default is soft delete with an undo window (configurable).\n3) A cleanup task purges soft-deleted items after the window.\n4) /purgemydata deletes all user data upon explicit confirmation.\n\n9) Admin and safety flows\n1) /status for bot admins shows health and basic metrics.\n2) Abuse prevention:\n   1) Per-user ingestion rate limits.\n   2) Maximum file size enforcement.\n   3) Optional allowlist for early-stage launches.\n3) Error handling:\n   1) User-friendly error messages.\n   2) Retries for transient Telegram/network errors.\n   3) Dead-letter style recording in MongoDB for failed durable downloads (so they can be retried).\n\nTech stack:\nRuntime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.\n\nNon-functional requirements:\nReliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB.\n\nBot commands:\n• /start — Initialize your library and learn how to save and retrieve images. (usage: /start) [Getting started]\n• /help — Show usage instructions and examples for saving, tagging, and searching. (usage: /help) [Getting started]\n• /save — Save the replied-to image into your library (useful in groups). (usage: Reply to an image with /save) [Ingestion]\n• /recent — Browse your most recently saved images with pagination. (usage: /recent) [Browse]\n• /search — Search your library by tag, album, date range, or text. (usage: /search tag:receipt from:2026-01-01 to:2026-01-31 text:invoice) [Browse]\n• /image — Retrieve a specific image by its id. (usage: /image <imageId>) [Retrieve]\n• /tag — Add or remove tags on an image. (usage: /tag <imageId> add receipt,travel OR /tag <imageId> remove travel) [Organize]\n• /note — Add or edit a note on an image. (usage: /note <imageId> This is the final version) [Organize]\n• /albumcreate — Create a new album in your library. (usage: /albumcreate <title>) [Organize]\n• /albumadd — Add an image to an album. (usage: /albumadd <imageId> <albumTitleOrId>) [Organize]\n• /albumremove — Remove an image from an album. (usage: /albumremove <imageId> <albumTitleOrId>) [Organize]\n• /albums — List your albums and open one to browse. (usage: /albums) [Organize]\n• /export — Export images matching a filter (may send in batches). (usage: /export album:\"Project A\" OR /export tag:receipt) [Export]\n• /delete — Delete an image (soft delete with optional undo window). (usage: /delete <imageId>) [Lifecycle]\n• /undodelete — Restore a recently deleted image (if within the undo window). (usage: /undodelete <imageId>) [Lifecycle]\n• /purgemydata — Permanently delete all your data after confirmation. (usage: /purgemydata) [Privacy]\n• /enablegrouplibrary — Enable and configure a group-shared image library (admins only). (usage: /enablegrouplibrary) [Groups]\n• /grouppolicy — View or change group library permissions (admins only). (usage: /grouppolicy) [Groups]\n• /status — Show bot health, storage mode, and recent error counts (bot admins only). (usage: /status) [Admin]\n",
+        "planSections": {
+          "productGoals": "Primary user value\n1) Quickly save images from Telegram chats (private chats and optionally groups) with minimal friction.\n2) Find and retrieve saved images later using search, tags, albums, dates, and free-text notes.\n3) Share and export stored images without losing organization.\n\nCore use cases\n1) Personal image locker: a user forwards/sends photos to the bot, adds tags like “receipt” or “inspiration,” and later searches and retrieves them.\n2) Group curation (optional): a group adds the bot and images are saved to a shared collection with scoped permissions.\n3) Reference library: users create albums (e.g., “Project A”), store images, and export an album as a set.\n\nSuccess criteria\n1) High capture success rate: images are reliably saved with a confirmation and retrievable via a stable identifier.\n2) Fast retrieval: common searches return quickly, with paging.\n3) Trust: transparent retention policy, easy deletion, and predictable privacy boundaries.\n\nNon-goals (to keep scope controlled)\n1) Not a general cloud drive replacement (no arbitrary file types beyond images unless extended later).\n2) No complex collaborative editing; shared collections are simple ownership/role-based.\n3) No heavy image processing pipelines; only lightweight metadata extraction if needed.",
+          "highLevelArchitecture": "High-level components (single Node.js service)\n1) grammY update handler layer\n   1) Routes updates (messages, callbacks, inline queries if used) into feature modules.\n   2) Performs authentication context building (user, chat, role) and basic input validation.\n\n2) Domain services\n   1) Ingestion service: normalizes incoming Telegram media, chooses storage mode, persists metadata.\n   2) Library service: tagging, albums, notes, deduplication checks, pagination.\n   3) Search service: builds MongoDB queries for tags/albums/date ranges/text; returns stable result pages.\n   4) Delivery service: sends stored images back to user, choosing best transport (cached Telegram fileid when available; otherwise upload from storage).\n\n3) Persistence\n   1) MongoDB stores all metadata and relationships (users, images, tags, albums, permissions, audit events).\n   2) File bytes strategy (selectable by configuration)\n      1) Telegram-only mode: store Telegram fileid plus minimal metadata. Fast, cheap, but depends on Telegram retention behavior and limits.\n      2) Durable mode: download the file once and store it in object storage or simple filesystem storage; keep Telegram fileid as an optimization cache.\n\n4) Background work within the same process\n   1) A simple in-process job runner for tasks like “download and persist media after acknowledging user,” “cleanup orphaned files,” and “rebuild derived stats.”\n   2) Use MongoDB as the source of truth for job states if reliability is required; otherwise use an in-memory queue with careful backpressure (acceptable only if occasional loss is tolerable).\n\n5) Configuration and secrets\n   1) TELEGRAMBOTTOKEN from environment variables.\n   2) Storage mode and MongoDB connection from environment variables.\n\nOperational boundaries\n1) The bot is stateless aside from MongoDB and the chosen file storage. Multiple instances are possible in principle, but the plan assumes a single service instance; design avoids relying on in-memory state for correctness.\n2) Rate limiting and backpressure are enforced to prevent running into Telegram API limits or exhausting memory when users bulk-upload images.",
+          "dataModel": "Key entities in MongoDB (document-oriented, with indexes)\n\n1) users\n1) Fields\n   1) telegramUserId (unique)\n   2) createdAt, lastSeenAt\n   3) settings: defaultPrivacyScope, defaultAlbumId, language, timezone\n   4) plan/limits: maxImages, maxStorageBytes (if you later add tiers)\n2) Indexes\n   1) telegramUserId unique\n\n2) chats (optional, only if group features enabled)\n1) Fields\n   1) telegramChatId (unique)\n   2) type (private/group/supergroup)\n   3) title\n   4) createdAt\n2) Indexes\n   1) telegramChatId unique\n\n3) collections\nRepresents a logical library scope.\n1) Types\n   1) user collection: owned by one user\n   2) group collection: owned by a chat with roles\n2) Fields\n   1) collectionId\n   2) ownerType (user/chat)\n   3) ownerId (telegramUserId or telegramChatId)\n   4) createdAt\n   5) policy: whoCanSave, whoCanView, whoCanDelete (for group collections)\n3) Indexes\n   1) ownerType+ownerId unique\n\n4) images\n1) Fields\n   1) imageId (bot-generated stable id)\n   2) collectionId\n   3) uploaderTelegramUserId\n   4) source\n      1) telegram: chatId, messageId\n      2) originType: sent/forwarded\n   5) telegram\n      1) fileId (best size) and optionally fileUniqueId\n      2) width, height, fileSize\n   6) storage\n      1) mode: telegramonly or durable\n      2) objectKey/path (if durable)\n      3) sha256 (if computed) for dedupe and integrity\n   7) metadata\n      1) captionText (normalized)\n      2) note (user-added)\n      3) tags: array of tagIds or normalized tag strings\n      4) albumIds: array\n      5) takenAt (if user sets; optional)\n   8) lifecycle\n      1) createdAt\n      2) deletedAt (soft delete)\n      3) purgeAt (optional)\n2) Indexes\n   1) collectionId + createdAt (for browsing)\n   2) collectionId + tags (multikey)\n   3) collectionId + albumIds (multikey)\n   4) collectionId + text index on captionText and note (if using MongoDB text search)\n   5) telegram.fileUniqueId (optional, for dedupe)\n\n5) tags\n1) Fields\n   1) tagId\n   2) collectionId\n   3) nameNormalized, nameDisplay\n   4) createdAt\n2) Indexes\n   1) collectionId + nameNormalized unique\n\n6) albums\n1) Fields\n   1) albumId\n   2) collectionId\n   3) title\n   4) description\n   5) createdAt\n2) Indexes\n   1) collectionId + title\n\n7) permissions (only for group collections)\n1) Fields\n   1) collectionId\n   2) telegramUserId\n   3) role: admin/editor/viewer\n   4) createdAt\n2) Indexes\n   1) collectionId + telegramUserId unique\n\n8) auditevents (lightweight, optional but useful)\n1) Fields\n   1) eventId\n   2) collectionId\n   3) actorTelegramUserId\n   4) action: saveimage, deleteimage, addtag, removetag, exportalbum\n   5) entityId\n   6) createdAt\n2) Indexes\n   1) collectionId + createdAt\n\nStorage notes\n1) In durable mode, store original bytes under a deterministic path/objectKey derived from imageId (and optionally content hash). Keep metadata in MongoDB.\n2) Soft delete first, then purge bytes on a scheduled cleanup to prevent accidental loss.",
+          "keyFlows": "1) Onboarding and help\n1) User sends /start.\n2) Bot creates or updates user record and creates the default user collection.\n3) Bot explains how to save images: send a photo, optionally add a caption with tags, and how to retrieve later.\n4) Bot offers a one-tap settings flow (storage mode explanation, default album).\n\n2) Saving an image (private chat)\n1) User sends a photo (or image document).\n2) Bot validates the media type and extracts best-quality variant, caption, and message context.\n3) Bot immediately acknowledges with a short confirmation message and a stable reference (imageId) to build trust.\n4) Persistence steps\n   1) Create images document with telegram file metadata.\n   2) Parse tags from caption (e.g., words prefixed with #) and upsert tags.\n   3) Attach tags/albums to the image record.\n5) Durable mode additional steps\n   1) Download file via Telegram API.\n   2) Store bytes in object storage/simple filesystem storage.\n   3) Update images.storage with location and integrity hash.\n6) Bot offers quick actions via inline buttons (Add tag, Add note, Add to album, Delete).\n\n3) Saving from groups (optional)\n1) Group adds the bot; admin runs /enablegrouplibrary.\n2) Bot creates a group collection and sets a default policy (e.g., only admins can delete; members can save).\n3) When images are posted in the group, bot saves only when explicitly triggered (to avoid surprising behavior), for example:\n   1) A user replies to an image with “/save” or uses a context command, or\n   2) The bot offers a “Save to group library” button if permitted.\n4) Permissions are checked against collection policy and stored roles.\n\n4) Tagging and notes\n1) User uses /tag or taps “Add tag” on a saved image.\n2) Bot prompts for tag names and normalizes them.\n3) Bot updates image document and tag catalog.\n4) Notes are stored as user-provided text on the image; optionally support one note per image per collection.\n\n5) Browsing and search\n1) /recent shows the newest images with paging (next/prev).\n2) /search supports queries:\n   1) by tag: tag:receipt\n   2) by album: album:\"Project A\"\n   3) by date range: from:2026-01-01 to:2026-01-31\n   4) text: words searched over caption and note\n3) Bot returns a compact list view (first N results) and supports paging.\n4) Tapping a result sends the image and metadata (tags, album, saved date) and actions.\n\n6) Retrieving an image\n1) User requests by id or by selecting from search results.\n2) Delivery chooses:\n   1) If telegram fileid exists and is still valid, send photo by fileid.\n   2) If durable storage exists, upload bytes from storage.\n3) Bot includes metadata and quick actions.\n\n7) Export\n1) /exportalbum or /export with filters.\n2) Bot warns about size and time.\n3) Bot generates an export job within the same process:\n   1) Collect image list.\n   2) Optionally package metadata in a simple JSON manifest.\n   3) Send images back in batches within Telegram limits, or provide a downloadable archive if within supported constraints.\n4) Record audit event.\n\n8) Deletion and retention\n1) /delete can delete by id, by search filter, or an entire album.\n2) Default is soft delete with an undo window (configurable).\n3) A cleanup task purges soft-deleted items after the window.\n4) /purgemydata deletes all user data upon explicit confirmation.\n\n9) Admin and safety flows\n1) /status for bot admins shows health and basic metrics.\n2) Abuse prevention:\n   1) Per-user ingestion rate limits.\n   2) Maximum file size enforcement.\n   3) Optional allowlist for early-stage launches.\n3) Error handling:\n   1) User-friendly error messages.\n   2) Retries for transient Telegram/network errors.\n   3) Dead-letter style recording in MongoDB for failed durable downloads (so they can be retried).",
+          "techStack": "Runtime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.",
+          "nonFunctional": "Reliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB."
+        },
+        "balanceCentsRemaining": 92,
+        "billing": {
+          "ok": true,
+          "charged": 43,
+          "remaining": 92,
+          "chargedCents": 43,
+          "remainingCents": 92,
+          "currency": "USD",
+          "baseUsd": 0.21464,
+          "markupUsd": 0.21464,
+          "platformFeeUsd": 0,
+          "totalUsd": 0.42928
+        },
+        "title": "Telegram Image Storage Bot ("
+      }
     }
   },
   "runStatus": {
-    "phase": "done",
-    "stage": "cold_start",
-    "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlihmp59:619aee",
-    "lastUserMessage": "make me an image storage bot",
+    "phase": "editing",
+    "stage": "chat",
+    "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmd5bu2:vv9htt",
+    "lastUserMessage": "please make my bot able to speak properly or reply to messages",
     "startedAt": "2026-02-11T20:34:02.848Z",
-    "updatedAt": "2026-02-11T20:37:51.257Z",
-    "message": "GitHub auto-push done: 3677f44",
+    "updatedAt": "2026-02-14T13:41:26.756Z",
+    "message": "Preparing workspace for safe edits…",
     "commands": [
       {
         "name": "delete",
@@ -1352,6 +1870,5 @@
       ],
       "notes": "This does not delete your saved images."
     }
-  ],
-  "title": "Telegram Image Storage Bot ("
+  ]
 }
