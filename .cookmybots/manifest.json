@@ -8,7 +8,6 @@
       "examples": [
         "User: /delete a1b2c3d4 → Bot: Deleted."
       ],
-      "example": "User: /delete a1b2c3d4 → Bot: Deleted.",
       "notes": "Deletion is permanent in this version."
     },
     {
@@ -18,18 +17,16 @@
       "examples": [
         "User: /export → Bot: sends JSON text or a JSON document"
       ],
-      "example": "User: /export → Bot: sends JSON text or a JSON document",
       "notes": "No image files are included in export, only ids and metadata."
     },
     {
       "command": "/help",
-      "description": "Shows all public commands and quick usage examples.",
+      "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
       "usage": "/help",
       "examples": [
-        "User: /help → Bot: prints the command list"
+        "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
       ],
-      "example": "User: /help → Bot: prints the command list",
-      "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+      "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
     },
     {
       "command": "/list",
@@ -39,7 +36,6 @@
         "User: /list → Bot: shows page 1",
         "User: /list 2 → Bot: shows page 2"
       ],
-      "example": "User: /list → Bot: shows page 1",
       "notes": "Use /view <id> to open an item."
     },
     {
@@ -49,28 +45,25 @@
       "examples": [
         "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
       ],
-      "example": "User: /note a1b2c3d4 paid already → Bot: Updated note ...",
       "notes": "Notes are limited to 2000 characters."
     },
     {
       "command": "/reset",
-      "description": "Clears only your AI conversation memory (does not affect your saved images).",
+      "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
       "usage": "/reset",
       "examples": [
         "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
       ],
-      "example": "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged.",
-      "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+      "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
     },
     {
       "command": "/save",
-      "description": "Saves the replied-to photo or image document (useful in groups).",
-      "usage": "Reply to an image with /save",
+      "description": "Simpan gambar yang kamu reply (berguna di group).",
+      "usage": "Reply gambar lalu kirim /save",
       "examples": [
-        "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+        "User: (reply foto) /save → Bot: Saved. Item id: ..."
       ],
-      "example": "User: (replies to an image) /save → Bot: Saved. Item id: ...",
-      "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+      "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
     },
     {
       "command": "/search",
@@ -80,18 +73,16 @@
         "User: /search receipts → Bot: results page 1",
         "User: /search travel 2 → Bot: results page 2"
       ],
-      "example": "User: /search receipts → Bot: results page 1",
       "notes": "Search is always scoped to your userId."
     },
     {
       "command": "/start",
-      "description": "Welcomes you and explains how to save, view, and manage images.",
+      "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
       "usage": "/start",
       "examples": [
-        "User: /start → Bot: explains how to save images and shows key commands"
+        "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
       ],
-      "example": "User: /start → Bot: explains how to save images and shows key commands",
-      "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+      "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
     },
     {
       "command": "/tag",
@@ -101,18 +92,16 @@
         "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
         "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
       ],
-      "example": "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
       "notes": "Tags are normalized to lowercase."
     },
     {
       "command": "/view",
-      "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+      "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
       "usage": "/view <id>",
       "examples": [
-        "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+        "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
       ],
-      "example": "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption",
-      "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+      "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
     }
   ],
   "aiMessages": [
@@ -140,6 +129,14 @@
     {
       "role": "assistant",
       "content": "Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register before catch-all, ensured catch-all calls next() for /commands, improved per-update logging with safe truncation, added bot.catch for handler safety, improved webhook deletion logs, added more robust runner start logging and reduced crash risk by keeping the process alive on unhandledRejection/uncaughtException. Also added Mongo connection attempt logs and safe Telegram media-send failure logs with metadata fallback.\n\nFiles touched (16): .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js…\nValidation: ✅ project passes syntax/basic checks after this edit."
+    },
+    {
+      "role": "user",
+      "content": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram"
+    },
+    {
+      "role": "assistant",
+      "content": "Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang bikin crash), runner dipin ke @grammyjs/runner 2.0.3, dan startup tetap clear webhook. /help juga sudah menyebut aturan AI chat (private vs group), dan /reset tetap khusus hapus memori percakapan tanpa mengganggu fitur penyimpanan gambar.\n\nFiles touched (6): .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\nValidation: ✅ project passes syntax/basic checks after this edit."
     }
   ],
   "createdBy": "698c5da5448c6e227437206a",
@@ -1752,7 +1749,7 @@
       "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmdsexn:w4pbkw",
       "lastUserMessage": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram",
       "startedAt": "2026-02-11T20:34:02.848Z",
-      "updatedAt": "2026-02-14T13:58:26.909Z",
+      "updatedAt": "2026-02-14T13:58:27.360Z",
       "message": "Syncing environment template with used env variables…",
       "commands": [
         {
@@ -2295,7 +2292,7 @@
     "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmdsexn:w4pbkw",
     "lastUserMessage": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram",
     "startedAt": "2026-02-11T20:34:02.848Z",
-    "updatedAt": "2026-02-14T13:58:26.909Z",
+    "updatedAt": "2026-02-14T13:58:27.360Z",
     "message": "Syncing environment template with used env variables…",
     "commands": [
       {
@@ -2835,19 +2832,19 @@
     {
       "key": "TELEGRAM_BOT_TOKEN",
       "title": "Telegram Bot Token",
-      "description": "Token from BotFather used to authenticate with the Telegram Bot API.",
-      "usage": "Used on boot to create the grammY Bot instance.",
-      "howToGet": "Create a bot with @BotFather and copy the token.",
+      "description": "Token bot Telegram dari BotFather.",
+      "usage": "Dipakai untuk membuat instance grammY Bot dan mulai long polling.",
+      "howToGet": "Buat bot lewat @BotFather lalu copy tokennya.",
       "example": "123456789:ABCDEF_fake_example",
       "isSecret": true,
       "required": true
     },
     {
       "key": "MONGODB_URI",
-      "title": "MongoDB Connection String",
-      "description": "Enables long-term storage for the image library and AI memory. If missing, the bot still runs, but memory is in-memory and lost on restart.",
-      "usage": "Used by src/lib/db.js for database connection and collections.",
-      "howToGet": "Create a MongoDB database (Atlas or self-hosted) and copy the connection string.",
+      "title": "MongoDB URI",
+      "description": "Kalau diisi, memori AI (memory_messages) disimpan permanen. Kalau kosong, fallback in-memory dan hilang saat restart.",
+      "usage": "Dipakai di src/lib/db.js dan src/services/memoryStore.js.",
+      "howToGet": "Buat MongoDB Atlas atau server MongoDB sendiri, lalu ambil connection string.",
       "example": "mongodb+srv://user:pass@cluster.example.mongodb.net/dbname",
       "isSecret": true,
       "required": false
@@ -2855,9 +2852,9 @@
     {
       "key": "COOKMYBOTS_AI_ENDPOINT",
       "title": "CookMyBots AI Endpoint",
-      "description": "Base URL for the CookMyBots AI gateway. The bot calls /chat under this base URL.",
-      "usage": "Used by src/lib/ai.js to call POST {endpoint}/chat.",
-      "howToGet": "Provided by CookMyBots.",
+      "description": "Base URL gateway AI CookMyBots. Bot akan memanggil POST {endpoint}/chat.",
+      "usage": "Dipakai di src/lib/ai.js.",
+      "howToGet": "Disediakan oleh CookMyBots.",
       "example": "https://api.cookmybots.com/api/ai",
       "isSecret": false,
       "required": false
@@ -2865,9 +2862,9 @@
     {
       "key": "COOKMYBOTS_AI_KEY",
       "title": "CookMyBots AI Key",
-      "description": "API key for the CookMyBots AI gateway (Authorization: Bearer ...).",
-      "usage": "Used by src/lib/ai.js for gateway authentication.",
-      "howToGet": "Provided by CookMyBots.",
+      "description": "Key untuk autentikasi ke gateway AI CookMyBots (Authorization: Bearer ...).",
+      "usage": "Dipakai di src/lib/ai.js.",
+      "howToGet": "Disediakan oleh CookMyBots.",
       "example": "cmb_ai_key_example",
       "isSecret": true,
       "required": false
@@ -2906,30 +2903,30 @@
   "commandDocs": [
     {
       "command": "/start",
-      "description": "Welcomes you and explains how to save, view, and manage images.",
+      "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
       "usage": "/start",
       "examples": [
-        "User: /start → Bot: explains how to save images and shows key commands"
+        "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
       ],
-      "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+      "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
     },
     {
       "command": "/help",
-      "description": "Shows all public commands and quick usage examples.",
+      "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
       "usage": "/help",
       "examples": [
-        "User: /help → Bot: prints the command list"
+        "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
       ],
-      "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+      "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
     },
     {
       "command": "/save",
-      "description": "Saves the replied-to photo or image document (useful in groups).",
-      "usage": "Reply to an image with /save",
+      "description": "Simpan gambar yang kamu reply (berguna di group).",
+      "usage": "Reply gambar lalu kirim /save",
       "examples": [
-        "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+        "User: (reply foto) /save → Bot: Saved. Item id: ..."
       ],
-      "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+      "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
     },
     {
       "command": "/list",
@@ -2943,12 +2940,12 @@
     },
     {
       "command": "/view",
-      "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+      "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
       "usage": "/view <id>",
       "examples": [
-        "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+        "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
       ],
-      "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+      "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
     },
     {
       "command": "/tag",
@@ -2999,12 +2996,12 @@
     },
     {
       "command": "/reset",
-      "description": "Clears only your AI conversation memory (does not affect your saved images).",
+      "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
       "usage": "/reset",
       "examples": [
         "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
       ],
-      "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+      "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
     }
   ]
 }

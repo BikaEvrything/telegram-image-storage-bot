@@ -2,6 +2,11 @@
 
 All notable changes to this bot project are recorded here.
 
+## 2026-02-14 13:58:27. UTC
+- Request: tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram
+- Summary: Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang b…
+- Files: .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js
+
 ## 2026-02-14 13:51:20. UTC
 - Request: my telegram bot is still not responding
 - Summary: Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register bef…
