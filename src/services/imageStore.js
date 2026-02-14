@@ -1,4 +1,3 @@
-
 import crypto from "node:crypto";
 import { getCollections } from "../lib/db.js";
 import { safeErr } from "../lib/safeErr.js";
@@ -32,7 +31,13 @@ function isImageDoc(doc) {
   const mime = String(doc?.mimeType || "").toLowerCase();
   if (mime.startsWith("image/")) return true;
   const name = String(doc?.fileName || "").toLowerCase();
-  return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".webp") || name.endsWith(".gif");
+  return (
+    name.endsWith(".png") ||
+    name.endsWith(".jpg") ||
+    name.endsWith(".jpeg") ||
+    name.endsWith(".webp") ||
+    name.endsWith(".gif")
+  );
 }
 
 export function extractMediaFromMessage(msg) {
@@ -67,14 +72,7 @@ export function extractMediaFromMessage(msg) {
   return null;
 }
 
-export async function saveImageItem({
-  mongoUri,
-  userId,
-  chatId,
-  messageId,
-  media,
-  log = console,
-}) {
+export async function saveImageItem({ mongoUri, userId, chatId, messageId, media, log = console }) {
   const now = new Date();
 
   if (!media?.fileId || !media?.fileUniqueId) {
@@ -195,7 +193,9 @@ export async function listImages({ mongoUri, userId, page = 1, pageSize = 5, log
   const skip = (p - 1) * limit;
 
   if (!mongoUri) {
-    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+    const arr = (inMem.get(userKey(userId)) || [])
+      .slice()
+      .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     return {
       items: arr.slice(skip, skip + limit),
       page: p,
@@ -323,7 +323,9 @@ export async function searchImages({ mongoUri, userId, query, page = 1, pageSize
     .slice(0, 12);
 
   if (!mongoUri) {
-    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+    const arr = (inMem.get(userKey(userId)) || [])
+      .slice()
+      .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     const lowered = q.toLowerCase();
     const hits = arr.filter((it) => {
       const hay = [it.caption, it.note, (it.tags || []).join(" ")].join(" ").toLowerCase();
@@ -357,7 +359,9 @@ export async function searchImages({ mongoUri, userId, query, page = 1, pageSize
 
 export async function exportItems({ mongoUri, userId, log = console }) {
   if (!mongoUri) {
-    const arr = (inMem.get(userKey(userId)) || []).slice().sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+    const arr = (inMem.get(userKey(userId)) || [])
+      .slice()
+      .sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));
     return arr.map((it) => ({
       id: it._id,
       mediaType: it.mediaType,
@@ -374,10 +378,7 @@ export async function exportItems({ mongoUri, userId, log = console }) {
   const cols = await getCollections(mongoUri, log);
   if (!cols?.images) return [];
 
-  const rows = await cols.images
-    .find({ userId: String(userId) })
-    .sort({ createdAt: 1 })
-    .toArray();
+  const rows = await cols.images.find({ userId: String(userId) }).sort({ createdAt: 1 }).toArray();
 
   return rows.map((it) => ({
     id: it._id,

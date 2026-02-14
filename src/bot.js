@@ -1,4 +1,5 @@
 import { Bot } from "grammy";
+
 import { registerCommands } from "./commands/loader.js";
 import { cfg } from "./lib/config.js";
 import { safeErr } from "./lib/safeErr.js";
@@ -31,7 +32,9 @@ function shouldRespondInGroup({ raw, entities, botUsername, isReplyToBot }) {
 
   if (mentionedByEntity) return true;
 
-  const fallbackTextMatch = String(raw || "").toLowerCase().includes("@" + String(botUsername).toLowerCase());
+  const fallbackTextMatch = String(raw || "")
+    .toLowerCase()
+    .includes("@" + String(botUsername).toLowerCase());
   return fallbackTextMatch;
 }
 
@@ -43,6 +46,12 @@ function systemPrompt() {
     "Supported commands: /save (reply to image), /view <id>, /list [page], /search <query> [page], /tag <id> <tags>, /note <id> <text>, /delete <id>, /export, /reset.",
     "If the request is unrelated to the image library, answer normally but keep it brief.",
   ].join(" ");
+}
+
+function trunc(s, n = 60) {
+  const t = String(s || "").replace(/\s+/g, " ").trim();
+  if (!t) return "";
+  return t.length > n ? t.slice(0, n) + "…" : t;
 }
 
 export function createBot(token, log = console) {
@@ -71,14 +80,18 @@ export function createBot(token, log = console) {
   bot.use(async (ctx, next) => {
     const userId = ctx.from?.id;
     const chatId = ctx.chat?.id;
-    if (userId && chatId) {
-      log.info?.("[update]", {
-        type: ctx.updateType,
-        chatType: ctx.chat?.type,
-        chatId: String(chatId),
-        userId: String(userId),
-      });
-    }
+    const text = ctx.message?.text;
+    const isCmd = typeof text === "string" && text.trim().startsWith("/");
+
+    log.info?.("[update]", {
+      type: ctx.updateType,
+      chatType: ctx.chat?.type,
+      chatId: chatId != null ? String(chatId) : "",
+      userId: userId != null ? String(userId) : "",
+      isCommand: !!isCmd,
+      textPreview: isCmd ? trunc(text, 40) : "",
+    });
+
     return next();
   });
 
@@ -224,7 +237,7 @@ export function createBot(token, log = console) {
       await ctx.reply(String(reply).slice(0, 3500));
     } catch (e) {
       log.error?.("[ai] handler failed", { err: safeErr(e) });
-      await ctx.reply("Sorry, I had trouble with that. Try /help.");
+      await ctx.reply("Sorry, I had trouble with that. Please try again.");
     }
   });
 

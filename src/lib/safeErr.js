@@ -1,4 +1,3 @@
-
 export function safeErr(err) {
   return (
     err?.response?.data?.error?.message ||

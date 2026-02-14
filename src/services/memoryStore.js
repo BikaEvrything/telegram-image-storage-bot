@@ -20,10 +20,15 @@ export async function addTurn({ mongoUri, platform, userId, chatId, role, text, 
   const clean = redactSecrets(String(text || "").slice(0, 4000));
 
   if (!mongoUri) {
+    if (!inMem.__warned) {
+      inMem.__warned = true;
+      log.warn?.("[memory] MONGODB_URI missing; using in-memory memory (not persistent)");
+    }
+
     const k = keyFor({ platform, userId });
     const arr = inMem.get(k) || [];
     arr.push({
-      platform,
+      platform: String(platform),
       userId: String(userId),
       chatId: String(chatId || ""),
       role,
@@ -73,8 +78,7 @@ export async function getRecentTurns({ mongoUri, platform, userId, chatId, limit
       userId: String(userId),
     };
 
-    const useChatScope = !!chatId;
-    if (useChatScope) q.chatId = String(chatId);
+    if (chatId) q.chatId = String(chatId);
 
     const rows = await cols.memory.find(q).sort({ ts: -1 }).limit(lim).toArray();
     return rows.reverse().map(asTurn);

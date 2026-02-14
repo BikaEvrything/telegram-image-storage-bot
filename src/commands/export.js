@@ -1,9 +1,9 @@
-
 import { InputFile } from "grammy";
 import { cfg } from "../lib/config.js";
+import { safeErr } from "../lib/safeErr.js";
 import { exportItems } from "../services/imageStore.js";
 
-export default function register(bot) {
+export default function register(bot, log = console) {
   bot.command("export", async (ctx) => {
     const userId = ctx.from?.id;
     const chatId = ctx.chat?.id;
@@ -12,6 +12,7 @@ export default function register(bot) {
     const rows = await exportItems({
       mongoUri: cfg.MONGODB_URI,
       userId: String(userId),
+      log,
     });
 
     const payload = {
@@ -33,8 +34,9 @@ export default function register(bot) {
       await ctx.api.sendDocument(chatId, file, {
         caption: `Exported ${rows.length} items (metadata only).`,
       });
-    } catch {
-      await ctx.reply("Export is too large to send here.");
+    } catch (e) {
+      log.error?.("[telegram] sendDocument failed", { method: "sendDocument", err: safeErr(e) });
+      await ctx.reply("Sorry, I couldn’t send the export file. Try again later.");
     }
   });
 }

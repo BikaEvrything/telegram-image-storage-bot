@@ -12,12 +12,15 @@ export async function getDb(mongoUri, log = console) {
 
   _connecting = (async () => {
     try {
+      log.info?.("[db] connect start", { mongoSet: true });
+
       _client = new MongoClient(mongoUri, {
         maxPoolSize: 10,
         ignoreUndefined: true,
       });
       await _client.connect();
       _db = _client.db();
+
       log.info?.("[db] connected", { mongo: true });
       return _db;
     } catch (e) {

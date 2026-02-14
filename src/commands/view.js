@@ -1,5 +1,5 @@
-
 import { cfg } from "../lib/config.js";
+import { safeErr } from "../lib/safeErr.js";
 import { getImageById } from "../services/imageStore.js";
 
 function fmtDate(d) {
@@ -10,7 +10,7 @@ function fmtDate(d) {
   }
 }
 
-export default function register(bot) {
+export default function register(bot, log = console) {
   bot.command("view", async (ctx) => {
     const userId = ctx.from?.id;
     const chatId = ctx.chat?.id;
@@ -25,6 +25,7 @@ export default function register(bot) {
       mongoUri: cfg.MONGODB_URI,
       userId: String(userId),
       id,
+      log,
     });
 
     if (!item) return ctx.reply("Not found. Try /list or /search.");
@@ -45,7 +46,11 @@ export default function register(bot) {
       } else {
         await ctx.api.sendDocument(chatId, item.fileId);
       }
-    } catch {
+    } catch (e) {
+      log.error?.("[telegram] send media failed", {
+        method: item.mediaType === "photo" ? "sendPhoto" : "sendDocument",
+        err: safeErr(e),
+      });
       await ctx.reply("I couldn’t re-send the file, but the metadata is still saved.");
     }
 

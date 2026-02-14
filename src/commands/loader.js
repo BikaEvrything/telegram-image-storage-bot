@@ -1,4 +1,3 @@
-
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -18,7 +17,7 @@ export async function registerCommands(bot, log = console) {
       const mod = await import(url);
       const fn = mod?.default || mod?.register;
       if (typeof fn === "function") {
-        await fn(bot);
+        await fn(bot, log);
         log.info?.("[commands] registered", { file: f });
       } else {
         log.warn?.("[commands] skipped (no export)", { file: f });

@@ -4,11 +4,9 @@ How saving works
 Send a Telegram photo or an image document to the bot. The bot saves the Telegram file_id plus metadata (caption, tags, notes). If you upload the same file again, it will be de-duplicated by file_unique_id.
 
 Conversational mode
-If you send a normal text message that is not a slash command, the bot will reply naturally.
+If you send a normal text message that is not a slash command, the bot replies using the CookMyBots AI gateway and includes recent conversation context.
 1) In private chats, it replies to all non-command text.
 2) In groups/supergroups, it replies only when you reply to the bot or mention it by @username.
-
-If your request matches the image library features, the assistant will tell you exactly which command to run and give one short example.
 
 Public commands
 1) /start
@@ -49,29 +47,25 @@ Searches in tags, caption text, and note text.
 Exports your saved item metadata as JSON.
 
 11) /reset
-Clears conversation memory for your Telegram user only. It does not delete your saved images.
+Clears only conversation memory for your Telegram user. It does not delete your saved images.
 
 Environment variables
 1) TELEGRAM_BOT_TOKEN (required)
 Telegram bot token.
 
 2) MONGODB_URI (optional but recommended)
-MongoDB connection string. When set, the image library and AI conversation memory are stored long-term. When missing, the bot runs with an in-memory fallback for memory (lost on restart).
+MongoDB connection string. When set, the image library and AI conversation memory are stored long-term. When missing, the bot runs with in-memory memory fallback (lost on restart).
 
-3) COOKMYBOTS_AI_ENDPOINT (required for AI)
+3) COOKMYBOTS_AI_ENDPOINT
 Base URL for the CookMyBots AI gateway. The bot calls /chat under this base.
 
-4) COOKMYBOTS_AI_KEY (required for AI)
+4) COOKMYBOTS_AI_KEY
 Auth key for the CookMyBots AI gateway.
 
-5) AI_TIMEOUT_MS (optional)
-AI gateway timeout in ms (default 600000).
-
-6) AI_MAX_RETRIES (optional)
-AI gateway retries (default 2).
-
-7) CONCURRENCY (optional)
-Runner concurrency (default 20).
+Troubleshooting: bot not responding
+1) If a webhook is configured, Telegram will not deliver updates to long polling. This bot clears webhook on boot.
+2) If you see 409 Conflict in logs, another instance is polling getUpdates. This can happen during deployments. The bot retries with backoff.
+3) If MONGODB_URI is missing, memory is not persistent. Configure MongoDB for reliable storage.
 
 Run instructions
 1) npm run install:root
