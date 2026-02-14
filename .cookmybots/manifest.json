@@ -8,6 +8,7 @@
       "examples": [
         "User: /delete a1b2c3d4 → Bot: Deleted."
       ],
+      "example": "User: /delete a1b2c3d4 → Bot: Deleted.",
       "notes": "Deletion is permanent in this version."
     },
     {
@@ -17,6 +18,7 @@
       "examples": [
         "User: /export → Bot: sends JSON text or a JSON document"
       ],
+      "example": "User: /export → Bot: sends JSON text or a JSON document",
       "notes": "No image files are included in export, only ids and metadata."
     },
     {
@@ -26,6 +28,7 @@
       "examples": [
         "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
       ],
+      "example": "User: /help → Bot: tampilkan daftar command dan aturan chat AI",
       "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
     },
     {
@@ -36,6 +39,7 @@
         "User: /list → Bot: shows page 1",
         "User: /list 2 → Bot: shows page 2"
       ],
+      "example": "User: /list → Bot: shows page 1",
       "notes": "Use /view <id> to open an item."
     },
     {
@@ -45,6 +49,7 @@
       "examples": [
         "User: /note a1b2c3d4 paid already → Bot: Updated note ..."
       ],
+      "example": "User: /note a1b2c3d4 paid already → Bot: Updated note ...",
       "notes": "Notes are limited to 2000 characters."
     },
     {
@@ -54,6 +59,7 @@
       "examples": [
         "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
       ],
+      "example": "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged.",
       "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
     },
     {
@@ -63,6 +69,7 @@
       "examples": [
         "User: (reply foto) /save → Bot: Saved. Item id: ..."
       ],
+      "example": "User: (reply foto) /save → Bot: Saved. Item id: ...",
       "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
     },
     {
@@ -73,6 +80,7 @@
         "User: /search receipts → Bot: results page 1",
         "User: /search travel 2 → Bot: results page 2"
       ],
+      "example": "User: /search receipts → Bot: results page 1",
       "notes": "Search is always scoped to your userId."
     },
     {
@@ -82,6 +90,7 @@
       "examples": [
         "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
       ],
+      "example": "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group",
       "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
     },
     {
@@ -92,6 +101,7 @@
         "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
         "User: /tag a1b2c3d4 (then reply with: receipts,2026) → Bot: Updated tags ..."
       ],
+      "example": "User: /tag a1b2c3d4 receipts,2026 → Bot: Updated tags ...",
       "notes": "Tags are normalized to lowercase."
     },
     {
@@ -101,6 +111,7 @@
       "examples": [
         "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
       ],
+      "example": "User: /view a1b2c3d4 → Bot: kirim gambar + metadata",
       "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
     }
   ],
@@ -136,7 +147,9 @@
     },
     {
       "role": "assistant",
-      "content": "Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang bikin crash), runner dipin ke @grammyjs/runner 2.0.3, dan startup tetap clear webhook. /help juga sudah menyebut aturan AI chat (private vs group), dan /reset tetap khusus hapus memori percakapan tanpa mengganggu fitur penyimpanan gambar.\n\nFiles touched (6): .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\nValidation: ✅ project passes syntax/basic checks after this edit."
+      "content": "Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang bikin crash), runner dipin ke @grammyjs/runner 2.0.3, dan startup tetap clear webhook. /help juga sudah menyebut aturan AI chat (private vs group), dan /reset tetap khusus hapus memori percakapan tanpa mengganggu fitur penyimpanan gambar.\n\nFiles touched (6): .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\nValidation: ✅ project passes syntax/basic checks after this edit.",
+      "gitBeforeSha": "17e0d41e75ab90b7cd9e1c0538100466e319171c",
+      "gitAfterSha": "58c548d10a20a80bda16bd101e0c2fc2b5418fe9"
     }
   ],
   "createdBy": "698c5da5448c6e227437206a",
@@ -1744,13 +1757,13 @@
       }
     },
     "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmdsexn:w4pbkw": {
-      "phase": "reindex",
+      "phase": "done",
       "stage": "chat",
       "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmdsexn:w4pbkw",
       "lastUserMessage": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram",
       "startedAt": "2026-02-11T20:34:02.848Z",
-      "updatedAt": "2026-02-14T13:58:27.360Z",
-      "message": "Syncing environment template with used env variables…",
+      "updatedAt": "2026-02-14T13:58:28.694Z",
+      "message": "GitHub auto-push done: 58c548d",
       "commands": [
         {
           "name": "delete",
@@ -1803,7 +1816,7 @@
         "fileStructure": {
           ".env.sample": {
             "type": "file",
-            "content": "TELEGRAM_BOT_TOKEN=\nMONGODB_URI=\nCOOKMYBOTS_AI_ENDPOINT=https://api.cookmybots.com/api/ai\nCOOKMYBOTS_AI_KEY=\nAI_TIMEOUT_MS=600000\nAI_MAX_RETRIES=2\nCONCURRENCY=20\n"
+            "content": "# Required environment variables\nTELEGRAM_BOT_TOKEN=\nNODE_ENV=production\n\n# Auto-synced env keys detected from process.env usage:\nAI_MAX_RETRIES=\nAI_TIMEOUT_MS=\nCONCURRENCY=\nCOOKMYBOTS_AI_ENDPOINT=\nCOOKMYBOTS_AI_KEY=\nMONGODB_URI=\n\n"
           },
           ".render.json": {
             "type": "file",
@@ -1811,7 +1824,7 @@
           },
           "CHANGELOG.md": {
             "type": "file",
-            "content": "# Changelog\n\nAll notable changes to this bot project are recorded here.\n\n## 2026-02-14 13:51:20. UTC\n- Request: my telegram bot is still not responding\n- Summary: Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register bef…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js, src/commands/loader.js, src/commands/view.js, src/index.js, src/lib/ai.js, src/lib/config.js, src/lib/db.js, src/lib/logger.js, src/lib/safeErr.js (+2 more)\n\n## 2026-02-14 13:41:28. UTC\n- Request: please make my bot able to speak properly or reply to messages\n- Summary: I added a safer conversational AI mode for non-command text messages without changing the existing image library behaviors. The bot now replies naturally in private chats, and in groups only when mentioned or replied-to…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/reset.js, src/index.js, src/lib/ai.js, src/lib/db.js, src/services/memoryStore.js\n\n## 2026-02-11 20:37:44. UTC\n- Request: make me an image storage bot\n- Summary: Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is mis…\n- Files: .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js, src/commands/delete.js, src/commands/export.js, src/commands/help.js, src/commands/list.js, src/commands/loader.js, src/commands/note.js, src/commands/reset.js, src/commands/save.js (+12…\n\n"
+            "content": "# Changelog\n\nAll notable changes to this bot project are recorded here.\n\n## 2026-02-14 13:58:27. UTC\n- Request: tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram\n- Summary: Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang b…\n- Files: .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\n\n## 2026-02-14 13:51:20. UTC\n- Request: my telegram bot is still not responding\n- Summary: Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register bef…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js, src/commands/loader.js, src/commands/view.js, src/index.js, src/lib/ai.js, src/lib/config.js, src/lib/db.js, src/lib/logger.js, src/lib/safeErr.js (+2 more)\n\n## 2026-02-14 13:41:28. UTC\n- Request: please make my bot able to speak properly or reply to messages\n- Summary: I added a safer conversational AI mode for non-command text messages without changing the existing image library behaviors. The bot now replies naturally in private chats, and in groups only when mentioned or replied-to…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/reset.js, src/index.js, src/lib/ai.js, src/lib/db.js, src/services/memoryStore.js\n\n## 2026-02-11 20:37:44. UTC\n- Request: make me an image storage bot\n- Summary: Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is mis…\n- Files: .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js, src/commands/delete.js, src/commands/export.js, src/commands/help.js, src/commands/list.js, src/commands/loader.js, src/commands/note.js, src/commands/reset.js, src/commands/save.js (+12…\n\n"
           },
           "DOCS.md": {
             "type": "file",
@@ -1845,7 +1858,7 @@
                   },
                   "help.js": {
                     "type": "file",
-                    "content": "\nexport default function register(bot) {\n  bot.command(\"help\", async (ctx) => {\n    const msg = [\n      \"Commands:\",\n      \"/start\",\n      \"/help\",\n      \"/save (reply to an image)\",\n      \"/list [page]  Example: /list 2\",\n      \"/view <id>  Example: /view a1b2c3d4\",\n      \"/tag <id> <tags>  Example: /tag a1b2c3d4 receipts,2026\",\n      \"/note <id> <text>  Example: /note a1b2c3d4 paid already\",\n      \"/delete <id>  Example: /delete a1b2c3d4\",\n      \"/search <query> [page]  Example: /search receipts 2\",\n      \"/export\",\n      \"/reset (clears AI memory)\",\n      \"\",\n      \"Saving images:\",\n      \"1) Send a photo, or send an image as a document.\",\n      \"2) Optionally add a caption.\",\n    ].join(\"\\n\");\n\n    await ctx.reply(msg);\n  });\n}\n"
+                    "content": "export default function register(bot) {\n  bot.command(\"help\", async (ctx) => {\n    const msg = [\n      \"Commands:\",\n      \"/start\",\n      \"/help\",\n      \"/save (reply to an image)\",\n      \"/list [page]  Example: /list 2\",\n      \"/view <id>  Example: /view a1b2c3d4\",\n      \"/tag <id> <tags>  Example: /tag a1b2c3d4 receipts,2026\",\n      \"/note <id> <text>  Example: /note a1b2c3d4 paid already\",\n      \"/delete <id>  Example: /delete a1b2c3d4\",\n      \"/search <query> [page]  Example: /search receipts 2\",\n      \"/export\",\n      \"/reset (clears AI memory)\",\n      \"\",\n      \"AI chat:\",\n      \"Send a normal text message (not starting with /) and I’ll reply.\",\n      \"In groups, I only reply if you mention me (@username) or reply to one of my messages.\",\n      \"\",\n      \"Saving images:\",\n      \"1) Send a photo, or send an image as a document.\",\n      \"2) Optionally add a caption.\",\n    ].join(\"\\n\");\n\n    await ctx.reply(msg);\n  });\n}\n"
                   },
                   "list.js": {
                     "type": "file",
@@ -1861,7 +1874,7 @@
                   },
                   "reset.js": {
                     "type": "file",
-                    "content": "import { cfg } from \"../lib/config.js\";\nimport { clearUserMemory } from \"../services/memoryStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"reset\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    await clearUserMemory({\n      mongoUri: cfg.MONGODB_URI,\n      platform: \"telegram\",\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n    });\n\n    await ctx.reply(\"Conversation memory cleared. Your saved images are unchanged.\");\n  });\n}\n"
+                    "content": "import { cfg } from \"../lib/config.js\";\nimport { clearUserMemory } from \"../services/memoryStore.js\";\n\nexport default function register(bot, log = console) {\n  bot.command(\"reset\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    await clearUserMemory({\n      mongoUri: cfg.MONGODB_URI,\n      platform: \"telegram\",\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      log,\n    });\n\n    await ctx.reply(\"Conversation memory cleared. Your saved images are unchanged.\");\n  });\n}\n"
                   },
                   "save.js": {
                     "type": "file",
@@ -1887,14 +1900,14 @@
               },
               "index.js": {
                 "type": "file",
-                "content": "import \"dotenv/config\";\n\nimport { run } from \"@grammyjs/runner\";\n\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { log } from \"./lib/logger.js\";\nimport { createBot } from \"./bot.js\";\nimport { closeDb } from \"./lib/db.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nasync function getAppVersion() {\n  try {\n    const pkg = await import(new URL(\"../package.json\", import.meta.url), {\n      assert: { type: \"json\" },\n    });\n    return String(pkg?.default?.version || \"\");\n  } catch {\n    try {\n      const pkg = await import(new URL(\"../package.json\", import.meta.url));\n      return String(pkg?.default?.version || \"\");\n    } catch {\n      return \"\";\n    }\n  }\n}\n\nprocess.on(\"unhandledRejection\", (reason) => {\n  log.error(\"[process] UnhandledRejection\", { err: safeErr(reason) });\n  // Keep process alive; runner will keep polling.\n});\n\nprocess.on(\"uncaughtException\", (err) => {\n  log.error(\"[process] UncaughtException\", { err: safeErr(err) });\n  // Keep process alive when feasible.\n});\n\nasync function startRunnerWith409Retry(bot) {\n  const delays = [2000, 5000, 10000, 20000];\n  let attempt = 0;\n\n  while (true) {\n    try {\n      log.info(\"[runner] start\", { concurrency: cfg.CONCURRENCY });\n\n      const runner = run(bot, { concurrency: cfg.CONCURRENCY });\n\n      runner.isRunning()\n        .then(() => {\n          log.warn(\"[runner] stopped\");\n        })\n        .catch((e) => {\n          log.error(\"[runner] isRunning failed\", { err: safeErr(e) });\n        });\n\n      return;\n    } catch (e) {\n      const msg = safeErr(e);\n      const is409 = msg.includes(\"409\") || msg.toLowerCase().includes(\"conflict\");\n\n      const delay = delays[Math.min(attempt, delays.length - 1)];\n      attempt += 1;\n\n      log.error(\"[runner] start failed\", { err: msg, is409, backoffMs: delay });\n      await sleep(delay);\n      continue;\n    }\n  }\n}\n\nasync function boot() {\n  const version = await getAppVersion();\n\n  log.info(\"[boot] starting\", {\n    version: version || \"unknown\",\n    TELEGRAM_BOT_TOKEN_set: !!cfg.TELEGRAM_BOT_TOKEN,\n    MONGODB_URI_set: !!cfg.MONGODB_URI,\n    COOKMYBOTS_AI_KEY_set: !!cfg.COOKMYBOTS_AI_KEY,\n    COOKMYBOTS_AI_ENDPOINT_set: !!cfg.COOKMYBOTS_AI_ENDPOINT,\n  });\n\n  if (!cfg.MONGODB_URI) {\n    log.warn(\"[boot] MONGODB_URI missing; memory will be in-memory and not persistent\");\n  }\n\n  if (!cfg.TELEGRAM_BOT_TOKEN) {\n    log.error(\"TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.\");\n    process.exit(1);\n  }\n\n  const bot = createBot(cfg.TELEGRAM_BOT_TOKEN, log);\n\n  try {\n    await bot.init();\n  } catch (e) {\n    log.warn(\"[boot] bot.init failed (continuing)\", { err: safeErr(e) });\n  }\n\n  try {\n    await bot.api.deleteWebhook({ drop_pending_updates: true });\n    log.info(\"[boot] webhook cleared\");\n  } catch (e) {\n    log.warn(\"[boot] deleteWebhook failed (continuing)\", { err: safeErr(e) });\n  }\n\n  const stop = async () => {\n    log.warn(\"[shutdown] stopping\");\n    try {\n      await bot.stop();\n    } catch (e) {\n      log.error(\"[shutdown] bot.stop failed\", { err: safeErr(e) });\n    }\n\n    await closeDb(log);\n    process.exit(0);\n  };\n\n  process.on(\"SIGINT\", stop);\n  process.on(\"SIGTERM\", stop);\n\n  await startRunnerWith409Retry(bot);\n}\n\nboot().catch((e) => {\n  log.error(\"[boot] fatal\", { err: safeErr(e) });\n  process.exit(1);\n});\n"
+                "content": "import \"dotenv/config\";\n\nimport { run } from \"@grammyjs/runner\";\n\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { log } from \"./lib/logger.js\";\nimport { createBot } from \"./bot.js\";\nimport { closeDb } from \"./lib/db.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nasync function getAppVersion() {\n  try {\n    const pkg = await import(new URL(\"../package.json\", import.meta.url), {\n      assert: { type: \"json\" },\n    });\n    return String(pkg?.default?.version || \"\");\n  } catch {\n    try {\n      const pkg = await import(new URL(\"../package.json\", import.meta.url));\n      return String(pkg?.default?.version || \"\");\n    } catch {\n      return \"\";\n    }\n  }\n}\n\nprocess.on(\"unhandledRejection\", (reason) => {\n  log.error(\"[process] UnhandledRejection\", { err: safeErr(reason) });\n  // Keep process alive; runner will keep polling.\n});\n\nprocess.on(\"uncaughtException\", (err) => {\n  log.error(\"[process] UncaughtException\", { err: safeErr(err) });\n  // Keep process alive when feasible.\n});\n\nasync function startRunnerWith409Retry(bot) {\n  const delays = [2000, 5000, 10000, 20000];\n  let attempt = 0;\n\n  while (true) {\n    try {\n      log.info(\"[runner] start\", { concurrency: cfg.CONCURRENCY });\n      run(bot, { concurrency: cfg.CONCURRENCY });\n      log.info(\"[runner] started\");\n      return;\n    } catch (e) {\n      const msg = safeErr(e);\n      const is409 = msg.includes(\"409\") || msg.toLowerCase().includes(\"conflict\");\n\n      const delay = delays[Math.min(attempt, delays.length - 1)];\n      attempt += 1;\n\n      log.error(\"[runner] start failed\", { err: msg, is409, backoffMs: delay });\n      await sleep(delay);\n    }\n  }\n}\n\nasync function boot() {\n  const version = await getAppVersion();\n\n  log.info(\"[boot] starting\", {\n    version: version || \"unknown\",\n    TELEGRAM_BOT_TOKEN_set: !!cfg.TELEGRAM_BOT_TOKEN,\n    MONGODB_URI_set: !!cfg.MONGODB_URI,\n    COOKMYBOTS_AI_KEY_set: !!cfg.COOKMYBOTS_AI_KEY,\n    COOKMYBOTS_AI_ENDPOINT_set: !!cfg.COOKMYBOTS_AI_ENDPOINT,\n  });\n\n  if (!cfg.MONGODB_URI) {\n    log.warn(\"[boot] MONGODB_URI missing; memory will be in-memory and not persistent\");\n  }\n\n  if (!cfg.TELEGRAM_BOT_TOKEN) {\n    log.error(\"TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.\");\n    process.exit(1);\n  }\n\n  const bot = createBot(cfg.TELEGRAM_BOT_TOKEN, log);\n\n  try {\n    await bot.init();\n  } catch (e) {\n    log.warn(\"[boot] bot.init failed (continuing)\", { err: safeErr(e) });\n  }\n\n  try {\n    await bot.api.deleteWebhook({ drop_pending_updates: true });\n    log.info(\"[boot] webhook cleared\");\n  } catch (e) {\n    log.warn(\"[boot] deleteWebhook failed (continuing)\", { err: safeErr(e) });\n  }\n\n  const stop = async () => {\n    log.warn(\"[shutdown] stopping\");\n    try {\n      await bot.stop();\n    } catch (e) {\n      log.error(\"[shutdown] bot.stop failed\", { err: safeErr(e) });\n    }\n\n    await closeDb(log);\n    process.exit(0);\n  };\n\n  process.on(\"SIGINT\", stop);\n  process.on(\"SIGTERM\", stop);\n\n  await startRunnerWith409Retry(bot);\n}\n\nboot().catch((e) => {\n  log.error(\"[boot] fatal\", { err: safeErr(e) });\n  process.exit(1);\n});\n"
               },
               "lib": {
                 "type": "dir",
                 "children": {
                   "ai.js": {
                     "type": "file",
-                    "content": "import { cfg } from \"./config.js\";\nimport { safeErr } from \"./safeErr.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nexport async function aiChat({ messages, meta = {}, log = console }) {\n  const endpoint = String(cfg.COOKMYBOTS_AI_ENDPOINT || \"\").replace(/\\/+$/, \"\");\n  const keySet = !!cfg.COOKMYBOTS_AI_KEY;\n\n  if (!endpoint || !keySet) {\n    log.warn?.(\"[ai] gateway not configured\", {\n      endpointSet: !!endpoint,\n      keySet,\n    });\n    throw new Error(\"AI is not configured yet.\");\n  }\n\n  const url = endpoint + \"/chat\";\n  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);\n  const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);\n\n  let attempt = 0;\n  while (true) {\n    attempt += 1;\n    const startedAt = Date.now();\n\n    log.info?.(\"[ai] chat start\", {\n      attempt,\n      timeoutMs,\n      messageCount: Array.isArray(messages) ? messages.length : 0,\n    });\n\n    const controller = new AbortController();\n    const t = setTimeout(() => controller.abort(), timeoutMs);\n\n    try {\n      const res = await fetch(url, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,\n        },\n        body: JSON.stringify({ messages, meta }),\n        signal: controller.signal,\n      });\n\n      const text = await res.text();\n      let json = null;\n      try {\n        json = text ? JSON.parse(text) : null;\n      } catch {\n        json = null;\n      }\n\n      if (!res.ok) {\n        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;\n        throw new Error(msg);\n      }\n\n      const content = json?.output?.content;\n      if (!content || typeof content !== \"string\") {\n        throw new Error(\"AI gateway returned no content.\");\n      }\n\n      log.info?.(\"[ai] chat success\", { ms: Date.now() - startedAt });\n      return content;\n    } catch (e) {\n      const errMsg = safeErr(e);\n      log.error?.(\"[ai] chat failure\", { attempt, err: errMsg });\n\n      if (attempt > maxRetries) throw e;\n      await sleep(500 * attempt);\n    } finally {\n      clearTimeout(t);\n    }\n  }\n}\n"
+                    "content": "import { cfg } from \"./config.js\";\nimport { safeErr } from \"./safeErr.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nexport async function aiChat({ messages, meta = {}, log = console }) {\n  const endpoint = String(cfg.COOKMYBOTS_AI_ENDPOINT || \"\").replace(/\\/+$/, \"\");\n  const keySet = !!cfg.COOKMYBOTS_AI_KEY;\n\n  if (!endpoint || !keySet) {\n    log.warn?.(\"[ai] gateway not configured\", {\n      endpointSet: !!endpoint,\n      keySet,\n    });\n    throw new Error(\"AI is not configured yet.\");\n  }\n\n  const url = endpoint + \"/chat\";\n  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);\n  const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);\n\n  let attempt = 0;\n  while (true) {\n    attempt += 1;\n    const startedAt = Date.now();\n\n    log.info?.(\"[ai] chat start\", {\n      attempt,\n      timeoutMs,\n      messageCount: Array.isArray(messages) ? messages.length : 0,\n    });\n\n    const controller = new AbortController();\n    const t = setTimeout(() => controller.abort(), timeoutMs);\n\n    try {\n      const res = await fetch(url, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,\n        },\n        body: JSON.stringify({ messages, meta }),\n        signal: controller.signal,\n      });\n\n      const text = await res.text();\n      let json = null;\n      try {\n        json = text ? JSON.parse(text) : null;\n      } catch {\n        json = null;\n      }\n\n      if (!res.ok) {\n        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;\n        throw new Error(msg);\n      }\n\n      const content = json?.output?.content;\n      if (!content || typeof content !== \"string\") {\n        throw new Error(\"AI gateway returned no content.\");\n      }\n\n      log.info?.(\"[ai] chat success\", {\n        ms: Date.now() - startedAt,\n      });\n\n      return content;\n    } catch (e) {\n      const errMsg = safeErr(e);\n      log.error?.(\"[ai] chat failure\", {\n        attempt,\n        err: errMsg,\n      });\n\n      if (attempt > maxRetries) throw e;\n      await sleep(500 * attempt);\n    } finally {\n      clearTimeout(t);\n    }\n  }\n}\n"
                   },
                   "config.js": {
                     "type": "file",
@@ -1962,13 +1975,13 @@
           },
           {
             "command": "/help",
-            "description": "Shows all public commands and quick usage examples.",
+            "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
             "usage": "/help",
             "examples": [
-              "User: /help → Bot: prints the command list"
+              "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
             ],
-            "example": "User: /help → Bot: prints the command list",
-            "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+            "example": "User: /help → Bot: tampilkan daftar command dan aturan chat AI",
+            "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
           },
           {
             "command": "/list",
@@ -1993,23 +2006,23 @@
           },
           {
             "command": "/reset",
-            "description": "Clears only your AI conversation memory (does not affect your saved images).",
+            "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
             "usage": "/reset",
             "examples": [
               "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
             ],
             "example": "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged.",
-            "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+            "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
           },
           {
             "command": "/save",
-            "description": "Saves the replied-to photo or image document (useful in groups).",
-            "usage": "Reply to an image with /save",
+            "description": "Simpan gambar yang kamu reply (berguna di group).",
+            "usage": "Reply gambar lalu kirim /save",
             "examples": [
-              "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+              "User: (reply foto) /save → Bot: Saved. Item id: ..."
             ],
-            "example": "User: (replies to an image) /save → Bot: Saved. Item id: ...",
-            "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+            "example": "User: (reply foto) /save → Bot: Saved. Item id: ...",
+            "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
           },
           {
             "command": "/search",
@@ -2024,13 +2037,13 @@
           },
           {
             "command": "/start",
-            "description": "Welcomes you and explains how to save, view, and manage images.",
+            "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
             "usage": "/start",
             "examples": [
-              "User: /start → Bot: explains how to save images and shows key commands"
+              "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
             ],
-            "example": "User: /start → Bot: explains how to save images and shows key commands",
-            "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+            "example": "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group",
+            "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
           },
           {
             "command": "/tag",
@@ -2045,32 +2058,32 @@
           },
           {
             "command": "/view",
-            "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+            "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
             "usage": "/view <id>",
             "examples": [
-              "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+              "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
             ],
-            "example": "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption",
-            "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+            "example": "User: /view a1b2c3d4 → Bot: kirim gambar + metadata",
+            "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
           }
         ],
         "envVarDocs": [
           {
             "key": "TELEGRAM_BOT_TOKEN",
             "title": "Telegram Bot Token",
-            "description": "Token from BotFather used to authenticate with the Telegram Bot API.",
-            "usage": "Used on boot to create the grammY Bot instance.",
-            "howToGet": "Create a bot with @BotFather and copy the token.",
+            "description": "Token bot Telegram dari BotFather.",
+            "usage": "Dipakai untuk membuat instance grammY Bot dan mulai long polling.",
+            "howToGet": "Buat bot lewat @BotFather lalu copy tokennya.",
             "example": "123456789:ABCDEF_fake_example",
             "isSecret": true,
             "required": true
           },
           {
             "key": "MONGODB_URI",
-            "title": "MongoDB Connection String",
-            "description": "Enables long-term storage for the image library and AI memory. If missing, the bot still runs, but memory is in-memory and lost on restart.",
-            "usage": "Used by src/lib/db.js for database connection and collections.",
-            "howToGet": "Create a MongoDB database (Atlas or self-hosted) and copy the connection string.",
+            "title": "MongoDB URI",
+            "description": "Kalau diisi, memori AI (memory_messages) disimpan permanen. Kalau kosong, fallback in-memory dan hilang saat restart.",
+            "usage": "Dipakai di src/lib/db.js dan src/services/memoryStore.js.",
+            "howToGet": "Buat MongoDB Atlas atau server MongoDB sendiri, lalu ambil connection string.",
             "example": "mongodb+srv://user:pass@cluster.example.mongodb.net/dbname",
             "isSecret": true,
             "required": false
@@ -2078,9 +2091,9 @@
           {
             "key": "COOKMYBOTS_AI_ENDPOINT",
             "title": "CookMyBots AI Endpoint",
-            "description": "Base URL for the CookMyBots AI gateway. The bot calls /chat under this base URL.",
-            "usage": "Used by src/lib/ai.js to call POST {endpoint}/chat.",
-            "howToGet": "Provided by CookMyBots.",
+            "description": "Base URL gateway AI CookMyBots. Bot akan memanggil POST {endpoint}/chat.",
+            "usage": "Dipakai di src/lib/ai.js.",
+            "howToGet": "Disediakan oleh CookMyBots.",
             "example": "https://api.cookmybots.com/api/ai",
             "isSecret": false,
             "required": false
@@ -2088,9 +2101,9 @@
           {
             "key": "COOKMYBOTS_AI_KEY",
             "title": "CookMyBots AI Key",
-            "description": "API key for the CookMyBots AI gateway (Authorization: Bearer ...).",
-            "usage": "Used by src/lib/ai.js for gateway authentication.",
-            "howToGet": "Provided by CookMyBots.",
+            "description": "Key untuk autentikasi ke gateway AI CookMyBots (Authorization: Bearer ...).",
+            "usage": "Dipakai di src/lib/ai.js.",
+            "howToGet": "Disediakan oleh CookMyBots.",
             "example": "cmb_ai_key_example",
             "isSecret": true,
             "required": false
@@ -2129,30 +2142,30 @@
         "commandDocs": [
           {
             "command": "/start",
-            "description": "Welcomes you and explains how to save, view, and manage images.",
+            "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
             "usage": "/start",
             "examples": [
-              "User: /start → Bot: explains how to save images and shows key commands"
+              "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
             ],
-            "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+            "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
           },
           {
             "command": "/help",
-            "description": "Shows all public commands and quick usage examples.",
+            "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
             "usage": "/help",
             "examples": [
-              "User: /help → Bot: prints the command list"
+              "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
             ],
-            "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+            "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
           },
           {
             "command": "/save",
-            "description": "Saves the replied-to photo or image document (useful in groups).",
-            "usage": "Reply to an image with /save",
+            "description": "Simpan gambar yang kamu reply (berguna di group).",
+            "usage": "Reply gambar lalu kirim /save",
             "examples": [
-              "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+              "User: (reply foto) /save → Bot: Saved. Item id: ..."
             ],
-            "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+            "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
           },
           {
             "command": "/list",
@@ -2166,12 +2179,12 @@
           },
           {
             "command": "/view",
-            "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+            "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
             "usage": "/view <id>",
             "examples": [
-              "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+              "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
             ],
-            "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+            "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
           },
           {
             "command": "/tag",
@@ -2222,12 +2235,12 @@
           },
           {
             "command": "/reset",
-            "description": "Clears only your AI conversation memory (does not affect your saved images).",
+            "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
             "usage": "/reset",
             "examples": [
               "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
             ],
-            "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+            "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
           }
         ],
         "aiMessages": [
@@ -2255,6 +2268,16 @@
           {
             "role": "assistant",
             "content": "Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register before catch-all, ensured catch-all calls next() for /commands, improved per-update logging with safe truncation, added bot.catch for handler safety, improved webhook deletion logs, added more robust runner start logging and reduced crash risk by keeping the process alive on unhandledRejection/uncaughtException. Also added Mongo connection attempt logs and safe Telegram media-send failure logs with metadata fallback.\n\nFiles touched (16): .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js…\nValidation: ✅ project passes syntax/basic checks after this edit."
+          },
+          {
+            "role": "user",
+            "content": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram"
+          },
+          {
+            "role": "assistant",
+            "content": "Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang bikin crash), runner dipin ke @grammyjs/runner 2.0.3, dan startup tetap clear webhook. /help juga sudah menyebut aturan AI chat (private vs group), dan /reset tetap khusus hapus memori percakapan tanpa mengganggu fitur penyimpanan gambar.\n\nFiles touched (6): .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\nValidation: ✅ project passes syntax/basic checks after this edit.",
+            "gitBeforeSha": "17e0d41e75ab90b7cd9e1c0538100466e319171c",
+            "gitAfterSha": "58c548d10a20a80bda16bd101e0c2fc2b5418fe9"
           }
         ],
         "createdBy": "",
@@ -2269,31 +2292,31 @@
           "techStack": "Runtime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.",
           "nonFunctional": "Reliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB."
         },
-        "balanceCentsRemaining": 158,
+        "balanceCentsRemaining": 104,
         "billing": {
           "ok": true,
-          "charged": 70,
-          "remaining": 158,
-          "chargedCents": 70,
-          "remainingCents": 158,
+          "charged": 54,
+          "remaining": 104,
+          "chargedCents": 54,
+          "remainingCents": 104,
           "currency": "USD",
-          "baseUsd": 0.3518,
-          "markupUsd": 0.3518,
+          "baseUsd": 0.26933799999999997,
+          "markupUsd": 0.26933799999999997,
           "platformFeeUsd": 0,
-          "totalUsd": 0.7036
+          "totalUsd": 0.5386759999999999
         },
         "title": "Telegram Image Storage Bot ("
       }
     }
   },
   "runStatus": {
-    "phase": "reindex",
+    "phase": "done",
     "stage": "chat",
     "runId": "23a78649-0459-4ee7-8c52-35a1af635bdd:mlmdsexn:w4pbkw",
     "lastUserMessage": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram",
     "startedAt": "2026-02-11T20:34:02.848Z",
-    "updatedAt": "2026-02-14T13:58:27.360Z",
-    "message": "Syncing environment template with used env variables…",
+    "updatedAt": "2026-02-14T13:58:28.694Z",
+    "message": "GitHub auto-push done: 58c548d",
     "commands": [
       {
         "name": "delete",
@@ -2346,7 +2369,7 @@
       "fileStructure": {
         ".env.sample": {
           "type": "file",
-          "content": "TELEGRAM_BOT_TOKEN=\nMONGODB_URI=\nCOOKMYBOTS_AI_ENDPOINT=https://api.cookmybots.com/api/ai\nCOOKMYBOTS_AI_KEY=\nAI_TIMEOUT_MS=600000\nAI_MAX_RETRIES=2\nCONCURRENCY=20\n"
+          "content": "# Required environment variables\nTELEGRAM_BOT_TOKEN=\nNODE_ENV=production\n\n# Auto-synced env keys detected from process.env usage:\nAI_MAX_RETRIES=\nAI_TIMEOUT_MS=\nCONCURRENCY=\nCOOKMYBOTS_AI_ENDPOINT=\nCOOKMYBOTS_AI_KEY=\nMONGODB_URI=\n\n"
         },
         ".render.json": {
           "type": "file",
@@ -2354,7 +2377,7 @@
         },
         "CHANGELOG.md": {
           "type": "file",
-          "content": "# Changelog\n\nAll notable changes to this bot project are recorded here.\n\n## 2026-02-14 13:51:20. UTC\n- Request: my telegram bot is still not responding\n- Summary: Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register bef…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js, src/commands/loader.js, src/commands/view.js, src/index.js, src/lib/ai.js, src/lib/config.js, src/lib/db.js, src/lib/logger.js, src/lib/safeErr.js (+2 more)\n\n## 2026-02-14 13:41:28. UTC\n- Request: please make my bot able to speak properly or reply to messages\n- Summary: I added a safer conversational AI mode for non-command text messages without changing the existing image library behaviors. The bot now replies naturally in private chats, and in groups only when mentioned or replied-to…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/reset.js, src/index.js, src/lib/ai.js, src/lib/db.js, src/services/memoryStore.js\n\n## 2026-02-11 20:37:44. UTC\n- Request: make me an image storage bot\n- Summary: Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is mis…\n- Files: .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js, src/commands/delete.js, src/commands/export.js, src/commands/help.js, src/commands/list.js, src/commands/loader.js, src/commands/note.js, src/commands/reset.js, src/commands/save.js (+12…\n\n"
+          "content": "# Changelog\n\nAll notable changes to this bot project are recorded here.\n\n## 2026-02-14 13:58:27. UTC\n- Request: tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram\n- Summary: Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang b…\n- Files: .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\n\n## 2026-02-14 13:51:20. UTC\n- Request: my telegram bot is still not responding\n- Summary: Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register bef…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js, src/commands/loader.js, src/commands/view.js, src/index.js, src/lib/ai.js, src/lib/config.js, src/lib/db.js, src/lib/logger.js, src/lib/safeErr.js (+2 more)\n\n## 2026-02-14 13:41:28. UTC\n- Request: please make my bot able to speak properly or reply to messages\n- Summary: I added a safer conversational AI mode for non-command text messages without changing the existing image library behaviors. The bot now replies naturally in private chats, and in groups only when mentioned or replied-to…\n- Files: .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/reset.js, src/index.js, src/lib/ai.js, src/lib/db.js, src/services/memoryStore.js\n\n## 2026-02-11 20:37:44. UTC\n- Request: make me an image storage bot\n- Summary: Generated a complete production-ready Telegram bot project for Image Vault using grammY and @grammyjs/runner, with MongoDB-backed image library + AI long-term memory (and safe in-memory fallbacks when MONGODB_URI is mis…\n- Files: .env.sample, DOCS.md, README.md, package.json, project.json, src/bot.js, src/commands/delete.js, src/commands/export.js, src/commands/help.js, src/commands/list.js, src/commands/loader.js, src/commands/note.js, src/commands/reset.js, src/commands/save.js (+12…\n\n"
         },
         "DOCS.md": {
           "type": "file",
@@ -2388,7 +2411,7 @@
                 },
                 "help.js": {
                   "type": "file",
-                  "content": "\nexport default function register(bot) {\n  bot.command(\"help\", async (ctx) => {\n    const msg = [\n      \"Commands:\",\n      \"/start\",\n      \"/help\",\n      \"/save (reply to an image)\",\n      \"/list [page]  Example: /list 2\",\n      \"/view <id>  Example: /view a1b2c3d4\",\n      \"/tag <id> <tags>  Example: /tag a1b2c3d4 receipts,2026\",\n      \"/note <id> <text>  Example: /note a1b2c3d4 paid already\",\n      \"/delete <id>  Example: /delete a1b2c3d4\",\n      \"/search <query> [page]  Example: /search receipts 2\",\n      \"/export\",\n      \"/reset (clears AI memory)\",\n      \"\",\n      \"Saving images:\",\n      \"1) Send a photo, or send an image as a document.\",\n      \"2) Optionally add a caption.\",\n    ].join(\"\\n\");\n\n    await ctx.reply(msg);\n  });\n}\n"
+                  "content": "export default function register(bot) {\n  bot.command(\"help\", async (ctx) => {\n    const msg = [\n      \"Commands:\",\n      \"/start\",\n      \"/help\",\n      \"/save (reply to an image)\",\n      \"/list [page]  Example: /list 2\",\n      \"/view <id>  Example: /view a1b2c3d4\",\n      \"/tag <id> <tags>  Example: /tag a1b2c3d4 receipts,2026\",\n      \"/note <id> <text>  Example: /note a1b2c3d4 paid already\",\n      \"/delete <id>  Example: /delete a1b2c3d4\",\n      \"/search <query> [page]  Example: /search receipts 2\",\n      \"/export\",\n      \"/reset (clears AI memory)\",\n      \"\",\n      \"AI chat:\",\n      \"Send a normal text message (not starting with /) and I’ll reply.\",\n      \"In groups, I only reply if you mention me (@username) or reply to one of my messages.\",\n      \"\",\n      \"Saving images:\",\n      \"1) Send a photo, or send an image as a document.\",\n      \"2) Optionally add a caption.\",\n    ].join(\"\\n\");\n\n    await ctx.reply(msg);\n  });\n}\n"
                 },
                 "list.js": {
                   "type": "file",
@@ -2404,7 +2427,7 @@
                 },
                 "reset.js": {
                   "type": "file",
-                  "content": "import { cfg } from \"../lib/config.js\";\nimport { clearUserMemory } from \"../services/memoryStore.js\";\n\nexport default function register(bot) {\n  bot.command(\"reset\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    await clearUserMemory({\n      mongoUri: cfg.MONGODB_URI,\n      platform: \"telegram\",\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n    });\n\n    await ctx.reply(\"Conversation memory cleared. Your saved images are unchanged.\");\n  });\n}\n"
+                  "content": "import { cfg } from \"../lib/config.js\";\nimport { clearUserMemory } from \"../services/memoryStore.js\";\n\nexport default function register(bot, log = console) {\n  bot.command(\"reset\", async (ctx) => {\n    const userId = ctx.from?.id;\n    const chatId = ctx.chat?.id;\n    if (!userId) return ctx.reply(\"I couldn’t read your user id from Telegram.\");\n\n    await clearUserMemory({\n      mongoUri: cfg.MONGODB_URI,\n      platform: \"telegram\",\n      userId: String(userId),\n      chatId: String(chatId || \"\"),\n      log,\n    });\n\n    await ctx.reply(\"Conversation memory cleared. Your saved images are unchanged.\");\n  });\n}\n"
                 },
                 "save.js": {
                   "type": "file",
@@ -2430,14 +2453,14 @@
             },
             "index.js": {
               "type": "file",
-              "content": "import \"dotenv/config\";\n\nimport { run } from \"@grammyjs/runner\";\n\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { log } from \"./lib/logger.js\";\nimport { createBot } from \"./bot.js\";\nimport { closeDb } from \"./lib/db.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nasync function getAppVersion() {\n  try {\n    const pkg = await import(new URL(\"../package.json\", import.meta.url), {\n      assert: { type: \"json\" },\n    });\n    return String(pkg?.default?.version || \"\");\n  } catch {\n    try {\n      const pkg = await import(new URL(\"../package.json\", import.meta.url));\n      return String(pkg?.default?.version || \"\");\n    } catch {\n      return \"\";\n    }\n  }\n}\n\nprocess.on(\"unhandledRejection\", (reason) => {\n  log.error(\"[process] UnhandledRejection\", { err: safeErr(reason) });\n  // Keep process alive; runner will keep polling.\n});\n\nprocess.on(\"uncaughtException\", (err) => {\n  log.error(\"[process] UncaughtException\", { err: safeErr(err) });\n  // Keep process alive when feasible.\n});\n\nasync function startRunnerWith409Retry(bot) {\n  const delays = [2000, 5000, 10000, 20000];\n  let attempt = 0;\n\n  while (true) {\n    try {\n      log.info(\"[runner] start\", { concurrency: cfg.CONCURRENCY });\n\n      const runner = run(bot, { concurrency: cfg.CONCURRENCY });\n\n      runner.isRunning()\n        .then(() => {\n          log.warn(\"[runner] stopped\");\n        })\n        .catch((e) => {\n          log.error(\"[runner] isRunning failed\", { err: safeErr(e) });\n        });\n\n      return;\n    } catch (e) {\n      const msg = safeErr(e);\n      const is409 = msg.includes(\"409\") || msg.toLowerCase().includes(\"conflict\");\n\n      const delay = delays[Math.min(attempt, delays.length - 1)];\n      attempt += 1;\n\n      log.error(\"[runner] start failed\", { err: msg, is409, backoffMs: delay });\n      await sleep(delay);\n      continue;\n    }\n  }\n}\n\nasync function boot() {\n  const version = await getAppVersion();\n\n  log.info(\"[boot] starting\", {\n    version: version || \"unknown\",\n    TELEGRAM_BOT_TOKEN_set: !!cfg.TELEGRAM_BOT_TOKEN,\n    MONGODB_URI_set: !!cfg.MONGODB_URI,\n    COOKMYBOTS_AI_KEY_set: !!cfg.COOKMYBOTS_AI_KEY,\n    COOKMYBOTS_AI_ENDPOINT_set: !!cfg.COOKMYBOTS_AI_ENDPOINT,\n  });\n\n  if (!cfg.MONGODB_URI) {\n    log.warn(\"[boot] MONGODB_URI missing; memory will be in-memory and not persistent\");\n  }\n\n  if (!cfg.TELEGRAM_BOT_TOKEN) {\n    log.error(\"TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.\");\n    process.exit(1);\n  }\n\n  const bot = createBot(cfg.TELEGRAM_BOT_TOKEN, log);\n\n  try {\n    await bot.init();\n  } catch (e) {\n    log.warn(\"[boot] bot.init failed (continuing)\", { err: safeErr(e) });\n  }\n\n  try {\n    await bot.api.deleteWebhook({ drop_pending_updates: true });\n    log.info(\"[boot] webhook cleared\");\n  } catch (e) {\n    log.warn(\"[boot] deleteWebhook failed (continuing)\", { err: safeErr(e) });\n  }\n\n  const stop = async () => {\n    log.warn(\"[shutdown] stopping\");\n    try {\n      await bot.stop();\n    } catch (e) {\n      log.error(\"[shutdown] bot.stop failed\", { err: safeErr(e) });\n    }\n\n    await closeDb(log);\n    process.exit(0);\n  };\n\n  process.on(\"SIGINT\", stop);\n  process.on(\"SIGTERM\", stop);\n\n  await startRunnerWith409Retry(bot);\n}\n\nboot().catch((e) => {\n  log.error(\"[boot] fatal\", { err: safeErr(e) });\n  process.exit(1);\n});\n"
+              "content": "import \"dotenv/config\";\n\nimport { run } from \"@grammyjs/runner\";\n\nimport { cfg } from \"./lib/config.js\";\nimport { safeErr } from \"./lib/safeErr.js\";\nimport { log } from \"./lib/logger.js\";\nimport { createBot } from \"./bot.js\";\nimport { closeDb } from \"./lib/db.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nasync function getAppVersion() {\n  try {\n    const pkg = await import(new URL(\"../package.json\", import.meta.url), {\n      assert: { type: \"json\" },\n    });\n    return String(pkg?.default?.version || \"\");\n  } catch {\n    try {\n      const pkg = await import(new URL(\"../package.json\", import.meta.url));\n      return String(pkg?.default?.version || \"\");\n    } catch {\n      return \"\";\n    }\n  }\n}\n\nprocess.on(\"unhandledRejection\", (reason) => {\n  log.error(\"[process] UnhandledRejection\", { err: safeErr(reason) });\n  // Keep process alive; runner will keep polling.\n});\n\nprocess.on(\"uncaughtException\", (err) => {\n  log.error(\"[process] UncaughtException\", { err: safeErr(err) });\n  // Keep process alive when feasible.\n});\n\nasync function startRunnerWith409Retry(bot) {\n  const delays = [2000, 5000, 10000, 20000];\n  let attempt = 0;\n\n  while (true) {\n    try {\n      log.info(\"[runner] start\", { concurrency: cfg.CONCURRENCY });\n      run(bot, { concurrency: cfg.CONCURRENCY });\n      log.info(\"[runner] started\");\n      return;\n    } catch (e) {\n      const msg = safeErr(e);\n      const is409 = msg.includes(\"409\") || msg.toLowerCase().includes(\"conflict\");\n\n      const delay = delays[Math.min(attempt, delays.length - 1)];\n      attempt += 1;\n\n      log.error(\"[runner] start failed\", { err: msg, is409, backoffMs: delay });\n      await sleep(delay);\n    }\n  }\n}\n\nasync function boot() {\n  const version = await getAppVersion();\n\n  log.info(\"[boot] starting\", {\n    version: version || \"unknown\",\n    TELEGRAM_BOT_TOKEN_set: !!cfg.TELEGRAM_BOT_TOKEN,\n    MONGODB_URI_set: !!cfg.MONGODB_URI,\n    COOKMYBOTS_AI_KEY_set: !!cfg.COOKMYBOTS_AI_KEY,\n    COOKMYBOTS_AI_ENDPOINT_set: !!cfg.COOKMYBOTS_AI_ENDPOINT,\n  });\n\n  if (!cfg.MONGODB_URI) {\n    log.warn(\"[boot] MONGODB_URI missing; memory will be in-memory and not persistent\");\n  }\n\n  if (!cfg.TELEGRAM_BOT_TOKEN) {\n    log.error(\"TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.\");\n    process.exit(1);\n  }\n\n  const bot = createBot(cfg.TELEGRAM_BOT_TOKEN, log);\n\n  try {\n    await bot.init();\n  } catch (e) {\n    log.warn(\"[boot] bot.init failed (continuing)\", { err: safeErr(e) });\n  }\n\n  try {\n    await bot.api.deleteWebhook({ drop_pending_updates: true });\n    log.info(\"[boot] webhook cleared\");\n  } catch (e) {\n    log.warn(\"[boot] deleteWebhook failed (continuing)\", { err: safeErr(e) });\n  }\n\n  const stop = async () => {\n    log.warn(\"[shutdown] stopping\");\n    try {\n      await bot.stop();\n    } catch (e) {\n      log.error(\"[shutdown] bot.stop failed\", { err: safeErr(e) });\n    }\n\n    await closeDb(log);\n    process.exit(0);\n  };\n\n  process.on(\"SIGINT\", stop);\n  process.on(\"SIGTERM\", stop);\n\n  await startRunnerWith409Retry(bot);\n}\n\nboot().catch((e) => {\n  log.error(\"[boot] fatal\", { err: safeErr(e) });\n  process.exit(1);\n});\n"
             },
             "lib": {
               "type": "dir",
               "children": {
                 "ai.js": {
                   "type": "file",
-                  "content": "import { cfg } from \"./config.js\";\nimport { safeErr } from \"./safeErr.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nexport async function aiChat({ messages, meta = {}, log = console }) {\n  const endpoint = String(cfg.COOKMYBOTS_AI_ENDPOINT || \"\").replace(/\\/+$/, \"\");\n  const keySet = !!cfg.COOKMYBOTS_AI_KEY;\n\n  if (!endpoint || !keySet) {\n    log.warn?.(\"[ai] gateway not configured\", {\n      endpointSet: !!endpoint,\n      keySet,\n    });\n    throw new Error(\"AI is not configured yet.\");\n  }\n\n  const url = endpoint + \"/chat\";\n  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);\n  const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);\n\n  let attempt = 0;\n  while (true) {\n    attempt += 1;\n    const startedAt = Date.now();\n\n    log.info?.(\"[ai] chat start\", {\n      attempt,\n      timeoutMs,\n      messageCount: Array.isArray(messages) ? messages.length : 0,\n    });\n\n    const controller = new AbortController();\n    const t = setTimeout(() => controller.abort(), timeoutMs);\n\n    try {\n      const res = await fetch(url, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,\n        },\n        body: JSON.stringify({ messages, meta }),\n        signal: controller.signal,\n      });\n\n      const text = await res.text();\n      let json = null;\n      try {\n        json = text ? JSON.parse(text) : null;\n      } catch {\n        json = null;\n      }\n\n      if (!res.ok) {\n        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;\n        throw new Error(msg);\n      }\n\n      const content = json?.output?.content;\n      if (!content || typeof content !== \"string\") {\n        throw new Error(\"AI gateway returned no content.\");\n      }\n\n      log.info?.(\"[ai] chat success\", { ms: Date.now() - startedAt });\n      return content;\n    } catch (e) {\n      const errMsg = safeErr(e);\n      log.error?.(\"[ai] chat failure\", { attempt, err: errMsg });\n\n      if (attempt > maxRetries) throw e;\n      await sleep(500 * attempt);\n    } finally {\n      clearTimeout(t);\n    }\n  }\n}\n"
+                  "content": "import { cfg } from \"./config.js\";\nimport { safeErr } from \"./safeErr.js\";\n\nfunction sleep(ms) {\n  return new Promise((r) => setTimeout(r, ms));\n}\n\nexport async function aiChat({ messages, meta = {}, log = console }) {\n  const endpoint = String(cfg.COOKMYBOTS_AI_ENDPOINT || \"\").replace(/\\/+$/, \"\");\n  const keySet = !!cfg.COOKMYBOTS_AI_KEY;\n\n  if (!endpoint || !keySet) {\n    log.warn?.(\"[ai] gateway not configured\", {\n      endpointSet: !!endpoint,\n      keySet,\n    });\n    throw new Error(\"AI is not configured yet.\");\n  }\n\n  const url = endpoint + \"/chat\";\n  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);\n  const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);\n\n  let attempt = 0;\n  while (true) {\n    attempt += 1;\n    const startedAt = Date.now();\n\n    log.info?.(\"[ai] chat start\", {\n      attempt,\n      timeoutMs,\n      messageCount: Array.isArray(messages) ? messages.length : 0,\n    });\n\n    const controller = new AbortController();\n    const t = setTimeout(() => controller.abort(), timeoutMs);\n\n    try {\n      const res = await fetch(url, {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,\n        },\n        body: JSON.stringify({ messages, meta }),\n        signal: controller.signal,\n      });\n\n      const text = await res.text();\n      let json = null;\n      try {\n        json = text ? JSON.parse(text) : null;\n      } catch {\n        json = null;\n      }\n\n      if (!res.ok) {\n        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;\n        throw new Error(msg);\n      }\n\n      const content = json?.output?.content;\n      if (!content || typeof content !== \"string\") {\n        throw new Error(\"AI gateway returned no content.\");\n      }\n\n      log.info?.(\"[ai] chat success\", {\n        ms: Date.now() - startedAt,\n      });\n\n      return content;\n    } catch (e) {\n      const errMsg = safeErr(e);\n      log.error?.(\"[ai] chat failure\", {\n        attempt,\n        err: errMsg,\n      });\n\n      if (attempt > maxRetries) throw e;\n      await sleep(500 * attempt);\n    } finally {\n      clearTimeout(t);\n    }\n  }\n}\n"
                 },
                 "config.js": {
                   "type": "file",
@@ -2505,13 +2528,13 @@
         },
         {
           "command": "/help",
-          "description": "Shows all public commands and quick usage examples.",
+          "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
           "usage": "/help",
           "examples": [
-            "User: /help → Bot: prints the command list"
+            "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
           ],
-          "example": "User: /help → Bot: prints the command list",
-          "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+          "example": "User: /help → Bot: tampilkan daftar command dan aturan chat AI",
+          "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
         },
         {
           "command": "/list",
@@ -2536,23 +2559,23 @@
         },
         {
           "command": "/reset",
-          "description": "Clears only your AI conversation memory (does not affect your saved images).",
+          "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
           "usage": "/reset",
           "examples": [
             "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
           ],
           "example": "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged.",
-          "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+          "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
         },
         {
           "command": "/save",
-          "description": "Saves the replied-to photo or image document (useful in groups).",
-          "usage": "Reply to an image with /save",
+          "description": "Simpan gambar yang kamu reply (berguna di group).",
+          "usage": "Reply gambar lalu kirim /save",
           "examples": [
-            "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+            "User: (reply foto) /save → Bot: Saved. Item id: ..."
           ],
-          "example": "User: (replies to an image) /save → Bot: Saved. Item id: ...",
-          "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+          "example": "User: (reply foto) /save → Bot: Saved. Item id: ...",
+          "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
         },
         {
           "command": "/search",
@@ -2567,13 +2590,13 @@
         },
         {
           "command": "/start",
-          "description": "Welcomes you and explains how to save, view, and manage images.",
+          "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
           "usage": "/start",
           "examples": [
-            "User: /start → Bot: explains how to save images and shows key commands"
+            "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
           ],
-          "example": "User: /start → Bot: explains how to save images and shows key commands",
-          "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+          "example": "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group",
+          "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
         },
         {
           "command": "/tag",
@@ -2588,32 +2611,32 @@
         },
         {
           "command": "/view",
-          "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+          "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
           "usage": "/view <id>",
           "examples": [
-            "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+            "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
           ],
-          "example": "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption",
-          "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+          "example": "User: /view a1b2c3d4 → Bot: kirim gambar + metadata",
+          "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
         }
       ],
       "envVarDocs": [
         {
           "key": "TELEGRAM_BOT_TOKEN",
           "title": "Telegram Bot Token",
-          "description": "Token from BotFather used to authenticate with the Telegram Bot API.",
-          "usage": "Used on boot to create the grammY Bot instance.",
-          "howToGet": "Create a bot with @BotFather and copy the token.",
+          "description": "Token bot Telegram dari BotFather.",
+          "usage": "Dipakai untuk membuat instance grammY Bot dan mulai long polling.",
+          "howToGet": "Buat bot lewat @BotFather lalu copy tokennya.",
           "example": "123456789:ABCDEF_fake_example",
           "isSecret": true,
           "required": true
         },
         {
           "key": "MONGODB_URI",
-          "title": "MongoDB Connection String",
-          "description": "Enables long-term storage for the image library and AI memory. If missing, the bot still runs, but memory is in-memory and lost on restart.",
-          "usage": "Used by src/lib/db.js for database connection and collections.",
-          "howToGet": "Create a MongoDB database (Atlas or self-hosted) and copy the connection string.",
+          "title": "MongoDB URI",
+          "description": "Kalau diisi, memori AI (memory_messages) disimpan permanen. Kalau kosong, fallback in-memory dan hilang saat restart.",
+          "usage": "Dipakai di src/lib/db.js dan src/services/memoryStore.js.",
+          "howToGet": "Buat MongoDB Atlas atau server MongoDB sendiri, lalu ambil connection string.",
           "example": "mongodb+srv://user:pass@cluster.example.mongodb.net/dbname",
           "isSecret": true,
           "required": false
@@ -2621,9 +2644,9 @@
         {
           "key": "COOKMYBOTS_AI_ENDPOINT",
           "title": "CookMyBots AI Endpoint",
-          "description": "Base URL for the CookMyBots AI gateway. The bot calls /chat under this base URL.",
-          "usage": "Used by src/lib/ai.js to call POST {endpoint}/chat.",
-          "howToGet": "Provided by CookMyBots.",
+          "description": "Base URL gateway AI CookMyBots. Bot akan memanggil POST {endpoint}/chat.",
+          "usage": "Dipakai di src/lib/ai.js.",
+          "howToGet": "Disediakan oleh CookMyBots.",
           "example": "https://api.cookmybots.com/api/ai",
           "isSecret": false,
           "required": false
@@ -2631,9 +2654,9 @@
         {
           "key": "COOKMYBOTS_AI_KEY",
           "title": "CookMyBots AI Key",
-          "description": "API key for the CookMyBots AI gateway (Authorization: Bearer ...).",
-          "usage": "Used by src/lib/ai.js for gateway authentication.",
-          "howToGet": "Provided by CookMyBots.",
+          "description": "Key untuk autentikasi ke gateway AI CookMyBots (Authorization: Bearer ...).",
+          "usage": "Dipakai di src/lib/ai.js.",
+          "howToGet": "Disediakan oleh CookMyBots.",
           "example": "cmb_ai_key_example",
           "isSecret": true,
           "required": false
@@ -2672,30 +2695,30 @@
       "commandDocs": [
         {
           "command": "/start",
-          "description": "Welcomes you and explains how to save, view, and manage images.",
+          "description": "Mulai dan lihat ringkasan cara menyimpan dan mengelola gambar, plus info chat AI.",
           "usage": "/start",
           "examples": [
-            "User: /start → Bot: explains how to save images and shows key commands"
+            "User: /start → Bot: jelasin cara save gambar, dan aturan chat AI di private vs group"
           ],
-          "notes": "If the bot is not responding after deploy, check logs for webhook clearing and 409 conflict backoff."
+          "notes": "Di grup, bot hanya merespons kalau di-mention atau kalau kamu reply pesan bot."
         },
         {
           "command": "/help",
-          "description": "Shows all public commands and quick usage examples.",
+          "description": "Daftar semua command publik dan cara pakainya, termasuk mode chat AI untuk pesan non-slash.",
           "usage": "/help",
           "examples": [
-            "User: /help → Bot: prints the command list"
+            "User: /help → Bot: tampilkan daftar command dan aturan chat AI"
           ],
-          "notes": "Normal chat messages (not starting with /) are handled by the AI assistant."
+          "notes": "Pesan teks biasa (tanpa /) akan dijawab AI di private chat. Di grup, harus mention atau reply."
         },
         {
           "command": "/save",
-          "description": "Saves the replied-to photo or image document (useful in groups).",
-          "usage": "Reply to an image with /save",
+          "description": "Simpan gambar yang kamu reply (berguna di group).",
+          "usage": "Reply gambar lalu kirim /save",
           "examples": [
-            "User: (replies to an image) /save → Bot: Saved. Item id: ..."
+            "User: (reply foto) /save → Bot: Saved. Item id: ..."
           ],
-          "notes": "If you don’t reply to an image, it will instruct you to send a photo."
+          "notes": "Kalau di private chat, kamu juga bisa langsung kirim foto tanpa /save."
         },
         {
           "command": "/list",
@@ -2709,12 +2732,12 @@
         },
         {
           "command": "/view",
-          "description": "Re-sends the saved image using Telegram file_id and shows metadata.",
+          "description": "Kirim ulang gambar yang sudah tersimpan berdasarkan id.",
           "usage": "/view <id>",
           "examples": [
-            "User: /view a1b2c3d4 → Bot: sends the image and its tags/note/caption"
+            "User: /view a1b2c3d4 → Bot: kirim gambar + metadata"
           ],
-          "notes": "If Telegram can’t re-send the file, the bot will still show saved metadata."
+          "notes": "Kalau Telegram gagal kirim ulang file, bot tetap kirim metadata."
         },
         {
           "command": "/tag",
@@ -2765,12 +2788,12 @@
         },
         {
           "command": "/reset",
-          "description": "Clears only your AI conversation memory (does not affect your saved images).",
+          "description": "Menghapus memori percakapan AI untuk user ini saja (tidak menghapus gambar).",
           "usage": "/reset",
           "examples": [
             "User: /reset → Bot: Conversation memory cleared. Your saved images are unchanged."
           ],
-          "notes": "Works even if MONGODB_URI is missing (in-memory fallback)."
+          "notes": "Scoped ke userId dan chatId (jadi tidak menghapus memory chat lain)."
         }
       ],
       "aiMessages": [
@@ -2798,6 +2821,16 @@
         {
           "role": "assistant",
           "content": "Hardened Telegram reliability without changing image library command semantics: pinned runner to 2.0.3, added structured logger + safeErr helper, added startup version/config presence logs, ensured commands register before catch-all, ensured catch-all calls next() for /commands, improved per-update logging with safe truncation, added bot.catch for handler safety, improved webhook deletion logs, added more robust runner start logging and reduced crash risk by keeping the process alive on unhandledRejection/uncaughtException. Also added Mongo connection attempt logs and safe Telegram media-send failure logs with metadata fallback.\n\nFiles touched (16): .env.sample, DOCS.md, README.md, package.json, src/bot.js, src/commands/export.js…\nValidation: ✅ project passes syntax/basic checks after this edit."
+        },
+        {
+          "role": "user",
+          "content": "tolong buatkan bot saya bisa membalas pesan atau teks apapun dalam percakapan di telegram"
+        },
+        {
+          "role": "assistant",
+          "content": "Aku sudah bikin routing chat AI untuk pesan teks biasa tetap aman (slash command tetap diprioritaskan), dan memperbaiki reliability runner yang error di log: sekarang tidak lagi memanggil runner.isRunning().then (yang bikin crash), runner dipin ke @grammyjs/runner 2.0.3, dan startup tetap clear webhook. /help juga sudah menyebut aturan AI chat (private vs group), dan /reset tetap khusus hapus memori percakapan tanpa mengganggu fitur penyimpanan gambar.\n\nFiles touched (6): .env.sample, package.json, src/commands/help.js, src/commands/reset.js, src/index.js, src/lib/ai.js\nValidation: ✅ project passes syntax/basic checks after this edit.",
+          "gitBeforeSha": "17e0d41e75ab90b7cd9e1c0538100466e319171c",
+          "gitAfterSha": "58c548d10a20a80bda16bd101e0c2fc2b5418fe9"
         }
       ],
       "createdBy": "",
@@ -2812,18 +2845,18 @@
         "techStack": "Runtime and framework\n1) Node.js (ESM) single service.\n2) grammY for Telegram bot handling (commands, callbacks, middleware).\n3) TELEGRAMBOTTOKEN loaded from environment variables.\n\nPersistence\n1) MongoDB as the primary database for:\n   1) users, collections, images, tags, albums, permissions\n   2) optional audit events and job state\n2) In-memory maps may be used only for ephemeral concerns such as:\n   1) short-lived conversation state (if not persisted)\n   2) simple per-process rate limiting counters\n   These must not be required for correctness across restarts.\n\nFile storage\n1) Two supported strategies selectable by config:\n   1) Telegram-only storage (store fileid and metadata in MongoDB).\n   2) Durable storage using object storage or simple filesystem storage for image bytes, with MongoDB storing object keys/paths.\n\nDeployment\n1) A generic Node.js server in the cloud running the single service.\n2) Configuration via environment variables (token, MongoDB URI, storage mode, admin ids, limits).\n\nBest-practice libraries and capabilities (within the same service)\n1) Structured logging.\n2) Input validation and consistent error handling.\n3) Observability hooks (basic metrics and health endpoint if the hosting environment supports HTTP).\n4) Graceful shutdown handling to finish in-flight saves and close MongoDB connections cleanly.",
         "nonFunctional": "Reliability and consistency\n1) Use MongoDB as the source of truth for what is “saved.” A save is considered successful once the images document exists.\n2) In durable mode, treat byte persistence as a second step; mark images as pendingdurable until the file is stored. Retrieval can fall back to telegram fileid during the transition.\n3) Ensure idempotency for save operations:\n   1) Optionally dedupe using telegram.fileUniqueId within the same collection.\n   2) If a user re-sends the same image, either create a new record (simpler) or link to existing with a reference (more complex).\n\nPerformance\n1) Index MongoDB for the primary query patterns: recent, tag filtering, album filtering, and text search.\n2) Use pagination everywhere; avoid sending massive result sets.\n3) Apply backpressure on ingestion and durable downloads to prevent memory spikes.\n\nSecurity and privacy\n1) Store minimal personal data: telegramUserId and settings.\n2) For group libraries, enforce role checks for save/delete/export.\n3) Avoid exposing internal storage paths/keys to users.\n4) Provide clear commands for data deletion and retention behavior.\n\nTelegram API limits and UX constraints\n1) Respect Telegram rate limits with a small internal throttling strategy.\n2) Batch sends for exports and large result browsing.\n3) Prefer editing existing messages for pagination controls where appropriate to reduce clutter.\n\nOperational readiness\n1) Health checks: confirm MongoDB connectivity and basic bot responsiveness.\n2) Logging: include request/update ids, user ids (hashed if you prefer), and action types.\n3) Admin alerts: surface repeated failures (e.g., durable download errors) through an admin-only command and optionally an admin chat notification.\n\nTesting strategy (design-level)\n1) Unit tests for query building, tag normalization, permission checks.\n2) Integration tests for MongoDB persistence and key Telegram update types.\n3) Manual test scripts for export, deletion, and recovery after restart.\n\nData lifecycle\n1) Soft delete with purge window.\n2) Optional automatic retention policy per collection (e.g., purge after N days) for users who want it.\n3) Regular cleanup job to remove orphaned files in storage and reconcile with MongoDB."
       },
-      "balanceCentsRemaining": 158,
+      "balanceCentsRemaining": 104,
       "billing": {
         "ok": true,
-        "charged": 70,
-        "remaining": 158,
-        "chargedCents": 70,
-        "remainingCents": 158,
+        "charged": 54,
+        "remaining": 104,
+        "chargedCents": 54,
+        "remainingCents": 104,
         "currency": "USD",
-        "baseUsd": 0.3518,
-        "markupUsd": 0.3518,
+        "baseUsd": 0.26933799999999997,
+        "markupUsd": 0.26933799999999997,
         "platformFeeUsd": 0,
-        "totalUsd": 0.7036
+        "totalUsd": 0.5386759999999999
       },
       "title": "Telegram Image Storage Bot ("
     }
