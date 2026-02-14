@@ -1,66 +1,82 @@
-import { safeErr } from "./safeErr.js";
 import { cfg } from "./config.js";
+import { safeErr } from "./safeErr.js";
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
 export async function aiChat({ messages, meta = {}, log = console }) {
-  const endpoint = cfg.COOKMYBOTS_AI_ENDPOINT;
-  const key = cfg.COOKMYBOTS_AI_KEY;
+  const endpoint = String(cfg.COOKMYBOTS_AI_ENDPOINT || "").replace(/\/+$/, "");
+  const keySet = !!cfg.COOKMYBOTS_AI_KEY;
 
-  if (!endpoint || !key) {
+  if (!endpoint || !keySet) {
+    log.warn?.("[ai] gateway not configured", {
+      endpointSet: !!endpoint,
+      keySet,
+    });
     throw new Error("AI is not configured yet.");
   }
 
-  const url = endpoint.replace(/\/+$/, "") + "/chat";
+  const url = endpoint + "/chat";
+  const timeoutMs = Number(cfg.AI_TIMEOUT_MS || 600000);
   const maxRetries = Number(cfg.AI_MAX_RETRIES || 2);
 
   let attempt = 0;
-
-  while (attempt <= maxRetries) {
-    attempt++;
+  while (true) {
+    attempt += 1;
     const startedAt = Date.now();
 
-    try {
-      log.info?.("[ai] chat start", { attempt });
+    log.info?.("[ai] chat start", {
+      attempt,
+      timeoutMs,
+      messageCount: Array.isArray(messages) ? messages.length : 0,
+    });
 
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
       const res = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${key}`,
+          Authorization: `Bearer ${cfg.COOKMYBOTS_AI_KEY}`,
         },
         body: JSON.stringify({ messages, meta }),
+        signal: controller.signal,
       });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`HTTP ${res.status}: ${text}`);
+      const text = await res.text();
+      let json = null;
+      try {
+        json = text ? JSON.parse(text) : null;
+      } catch {
+        json = null;
       }
 
-      const json = await res.json();
-      const content = json?.output?.content;
+      if (!res.ok) {
+        const msg = json?.error || json?.message || text || `HTTP ${res.status}`;
+        throw new Error(msg);
+      }
 
-      if (!content) {
+      const content = json?.output?.content;
+      if (!content || typeof content !== "string") {
         throw new Error("AI gateway returned no content.");
       }
 
-      log.info?.("[ai] success", {
+      log.info?.("[ai] chat success", {
         ms: Date.now() - startedAt,
       });
 
       return content;
-
     } catch (e) {
       const errMsg = safeErr(e);
-      log.error?.("[ai] failure", { attempt, err: errMsg });
+      log.error?.("[ai] chat failure", { attempt, err: errMsg });
 
-      if (attempt > maxRetries) {
-        throw e;
-      }
-
+      if (attempt > maxRetries) throw e;
       await sleep(500 * attempt);
+    } finally {
+      clearTimeout(t);
     }
   }
 }

@@ -8,16 +8,25 @@ Key features
 3) List and search your library with pagination
 4) View an item by id (re-sends using Telegram file_id)
 5) Add tags and notes, delete items, and export a JSON summary
-6) AI assistant for non-command text messages, with long-term memory stored in MongoDB when available
+6) Conversational mode: send a normal text message (not a slash command) and the bot replies naturally
+7) Long-term conversation memory stored in MongoDB when available
+
+Conversational mode rules
+1) In private chats, the bot replies to all non-command text messages.
+2) In groups/supergroups, the bot replies only when you reply to the bot or mention it by @username.
+3) The assistant is instructed to be concise. When your request matches bot features, it will tell you the exact command to use and give one short example.
+
+Reset behavior
+/reset clears only your conversation memory for the AI assistant. It does not delete or modify your saved images.
 
 Architecture overview
 1) src/index.js boots the process, validates env, clears webhook, and starts long polling via @grammyjs/runner with conflict backoff
-2) src/bot.js wires middleware, commands, and the catch-all AI text handler
+2) src/bot.js wires middleware, commands, image saving handlers, and the catch-all conversational text handler
 3) src/commands/*.js are individual command modules registered by src/commands/loader.js
 4) src/lib/db.js manages a single shared Mongo connection (optional)
 5) src/services/imageStore.js is the CRUD layer for saved images
-6) src/services/memoryStore.js is long-term conversation memory with MongoDB or in-memory fallback
-7) src/lib/ai.js wraps CookMyBots AI gateway calls with retries and logging
+6) src/services/memoryStore.js is long-term conversation memory with MongoDB or an in-memory fallback
+7) src/lib/ai.js wraps CookMyBots AI gateway calls with retries, timeouts, and logging
 
 Setup
 Prerequisites
@@ -38,7 +47,7 @@ Run in production
 
 Environment variables
 1) TELEGRAM_BOT_TOKEN (required) Telegram bot token
-2) MONGODB_URI (optional) MongoDB connection for image library and long-term memory. If missing, the bot still runs but saves to in-memory stores (data will be lost on restart).
+2) MONGODB_URI (optional) MongoDB connection for image library and long-term memory. If missing, the bot still runs but conversation memory is in-memory (lost on restart).
 3) COOKMYBOTS_AI_ENDPOINT (required for AI) Base URL of the CookMyBots AI gateway (example: https://api.cookmybots.com/api/ai)
 4) COOKMYBOTS_AI_KEY (required for AI) API key for CookMyBots AI gateway
 5) AI_TIMEOUT_MS (optional) Timeout for AI gateway calls (default 600000)
@@ -98,7 +107,7 @@ Check TELEGRAM_BOT_TOKEN is set and correct.
 2) 409 Conflict (another getUpdates)
 The bot automatically retries with backoff. This can happen during deploy overlap.
 
-3) Data disappears after restart
+3) Conversation memory disappears after restart
 Set MONGODB_URI. Without it, the bot uses an in-memory fallback.
 
 Extending the bot

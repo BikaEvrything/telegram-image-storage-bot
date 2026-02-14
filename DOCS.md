@@ -3,6 +3,13 @@ Image Vault stores a user’s uploaded images into a personal library and lets t
 How saving works
 Send a Telegram photo or an image document to the bot. The bot saves the Telegram file_id plus metadata (caption, tags, notes). If you upload the same file again, it will be de-duplicated by file_unique_id.
 
+Conversational mode
+If you send a normal text message that is not a slash command, the bot will reply naturally.
+1) In private chats, it replies to all non-command text.
+2) In groups/supergroups, it replies only when you reply to the bot or mention it by @username.
+
+If your request matches the image library features, the assistant will tell you exactly which command to run and give one short example.
+
 Public commands
 1) /start
 Explains what the bot does and how to save images.
@@ -42,14 +49,14 @@ Searches in tags, caption text, and note text.
 Exports your saved item metadata as JSON.
 
 11) /reset
-Clears the AI conversation memory for your user.
+Clears conversation memory for your Telegram user only. It does not delete your saved images.
 
 Environment variables
 1) TELEGRAM_BOT_TOKEN (required)
 Telegram bot token.
 
 2) MONGODB_URI (optional but recommended)
-MongoDB connection string. When set, the image library and AI memory are stored long-term. When missing, the bot runs with an in-memory fallback (data is lost on restart).
+MongoDB connection string. When set, the image library and AI conversation memory are stored long-term. When missing, the bot runs with an in-memory fallback for memory (lost on restart).
 
 3) COOKMYBOTS_AI_ENDPOINT (required for AI)
 Base URL for the CookMyBots AI gateway. The bot calls /chat under this base.

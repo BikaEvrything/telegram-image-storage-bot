@@ -1,4 +1,3 @@
-
 import { getCollections } from "../lib/db.js";
 import { safeErr } from "../lib/safeErr.js";
 import { redactSecrets } from "../utils/redact.js";
@@ -23,8 +22,15 @@ export async function addTurn({ mongoUri, platform, userId, chatId, role, text, 
   if (!mongoUri) {
     const k = keyFor({ platform, userId });
     const arr = inMem.get(k) || [];
-    arr.push({ platform, userId: String(userId), chatId: String(chatId || ""), role, text: clean, ts: new Date() });
-    inMem.set(k, arr.slice(-200));
+    arr.push({
+      platform,
+      userId: String(userId),
+      chatId: String(chatId || ""),
+      role,
+      text: clean,
+      ts: new Date(),
+    });
+    inMem.set(k, arr.slice(-250));
     return;
   }
 
@@ -33,23 +39,29 @@ export async function addTurn({ mongoUri, platform, userId, chatId, role, text, 
     if (!cols?.memory) return;
 
     await cols.memory.insertOne({
-      platform,
       userId: String(userId),
+      platform: String(platform),
       chatId: String(chatId || ""),
       role,
       text: clean,
       ts: new Date(),
     });
   } catch (e) {
-    log.error?.("[memory] addTurn failed", { err: safeErr(e) });
+    log.error?.("[memory] write failed", {
+      collection: "memory_messages",
+      op: "insertOne",
+      err: safeErr(e),
+    });
   }
 }
 
 export async function getRecentTurns({ mongoUri, platform, userId, chatId, limit = 16, log = console }) {
+  const lim = Math.min(20, Math.max(1, Number(limit || 16)));
+
   if (!mongoUri) {
     const k = keyFor({ platform, userId });
     const arr = inMem.get(k) || [];
-    return arr.slice(-limit).map(asTurn);
+    return arr.slice(-lim).map(asTurn);
   }
 
   try {
@@ -57,20 +69,21 @@ export async function getRecentTurns({ mongoUri, platform, userId, chatId, limit
     if (!cols?.memory) return [];
 
     const q = {
-      platform,
+      platform: String(platform),
       userId: String(userId),
     };
-    if (chatId) q.chatId = String(chatId);
 
-    const rows = await cols.memory
-      .find(q)
-      .sort({ ts: -1 })
-      .limit(limit)
-      .toArray();
+    const useChatScope = !!chatId;
+    if (useChatScope) q.chatId = String(chatId);
 
+    const rows = await cols.memory.find(q).sort({ ts: -1 }).limit(lim).toArray();
     return rows.reverse().map(asTurn);
   } catch (e) {
-    log.error?.("[memory] getRecentTurns failed", { err: safeErr(e) });
+    log.error?.("[memory] read failed", {
+      collection: "memory_messages",
+      op: "find(sort/limit)",
+      err: safeErr(e),
+    });
     return [];
   }
 }
@@ -86,11 +99,19 @@ export async function clearUserMemory({ mongoUri, platform, userId, chatId, log 
     const cols = await getCollections(mongoUri, log);
     if (!cols?.memory) return;
 
-    const q = { platform, userId: String(userId) };
+    const q = {
+      platform: String(platform),
+      userId: String(userId),
+    };
+
     if (chatId) q.chatId = String(chatId);
 
     await cols.memory.deleteMany(q);
   } catch (e) {
-    log.error?.("[memory] clearUserMemory failed", { err: safeErr(e) });
+    log.error?.("[memory] delete failed", {
+      collection: "memory_messages",
+      op: "deleteMany",
+      err: safeErr(e),
+    });
   }
 }

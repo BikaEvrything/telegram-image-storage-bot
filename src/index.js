@@ -1,4 +1,3 @@
-
 import "dotenv/config";
 import { run } from "@grammyjs/runner";
 
@@ -49,6 +48,10 @@ async function boot() {
     aiEndpointSet: !!cfg.COOKMYBOTS_AI_ENDPOINT,
     aiKeySet: !!cfg.COOKMYBOTS_AI_KEY,
   });
+
+  if (!cfg.MONGODB_URI) {
+    console.warn("[boot] MONGODB_URI missing; using in-memory fallback for memory (lost on restart)");
+  }
 
   if (!cfg.TELEGRAM_BOT_TOKEN) {
     console.error("TELEGRAM_BOT_TOKEN is required. Add it in your environment and redeploy.");

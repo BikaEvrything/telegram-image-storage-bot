@@ -1,4 +1,3 @@
-
 import { Bot } from "grammy";
 import { registerCommands } from "./commands/loader.js";
 import { cfg } from "./lib/config.js";
@@ -19,30 +18,31 @@ function stripMention(text, username) {
   return t.replace(re, " ").replace(/\s+/g, " ").trim();
 }
 
-function looksLikeLibraryIntent(t) {
-  const s = String(t || "").toLowerCase();
-  return (
-    s.includes("show") ||
-    s.includes("find") ||
-    s.includes("list") ||
-    s.includes("search") ||
-    s.includes("images") ||
-    s.includes("photos") ||
-    s.includes("tagged")
-  );
+function shouldRespondInGroup({ raw, entities, botUsername, isReplyToBot }) {
+  if (isReplyToBot) return true;
+  if (!botUsername) return false;
+
+  const ents = Array.isArray(entities) ? entities : [];
+  const mentionedByEntity = ents.some((e) => {
+    if (!e || e.type !== "mention") return false;
+    const s = String(raw || "").slice(e.offset, e.offset + e.length);
+    return s.toLowerCase() === ("@" + String(botUsername).toLowerCase());
+  });
+
+  if (mentionedByEntity) return true;
+
+  const fallbackTextMatch = String(raw || "").toLowerCase().includes("@" + String(botUsername).toLowerCase());
+  return fallbackTextMatch;
 }
 
-function extractSearchQuery(t) {
-  const s = String(t || "").trim();
-  if (!s) return "";
-
-  const m = s.match(/tag(?:ged)?\s+([a-z0-9_\-]+)/i);
-  if (m?.[1]) return m[1];
-
-  const m2 = s.match(/(?:show|find|search)\s+(?:my\s+)?(.+)/i);
-  if (m2?.[1]) return m2[1].trim();
-
-  return s;
+function systemPrompt() {
+  return [
+    "You are a helpful assistant inside a Telegram image library bot.",
+    "Be concise and use plain language.",
+    "If the user’s intent matches the bot’s features, instruct them using the exact commands below and include one short example.",
+    "Supported commands: /save (reply to image), /view <id>, /list [page], /search <query> [page], /tag <id> <tags>, /note <id> <text>, /delete <id>, /export, /reset.",
+    "If the request is unrelated to the image library, answer normally but keep it brief.",
+  ].join(" ");
 }
 
 export function createBot(token, log = console) {
@@ -147,105 +147,86 @@ export function createBot(token, log = console) {
   });
 
   bot.on("message:text", async (ctx, next) => {
-  const raw = String(ctx.message?.text || "");
-  if (isCommandText(raw)) return next();
+    const raw = String(ctx.message?.text || "");
+    if (raw.startsWith("/")) return next();
 
-  const chatType = ctx.chat?.type || "private";
-  const isPrivate = chatType === "private";
+    const chatType = ctx.chat?.type || "private";
+    const isPrivate = chatType === "private";
 
-  const botUsername = ctx.me?.username || bot.botInfo?.username || "";
+    const botUsername = ctx.me?.username || bot.botInfo?.username || "";
 
-  const replyTo = ctx.message?.reply_to_message;
-  const isReplyToBot =
-    !!replyTo?.from?.is_bot &&
-    !!botUsername &&
-    String(replyTo?.from?.username || "").toLowerCase() ===
-      String(botUsername).toLowerCase();
+    const replyTo = ctx.message?.reply_to_message;
+    const isReplyToBot =
+      !!replyTo?.from?.is_bot &&
+      !!botUsername &&
+      String(replyTo?.from?.username || "").toLowerCase() === String(botUsername).toLowerCase();
 
-  const ents = Array.isArray(ctx.message?.entities)
-    ? ctx.message.entities
-    : [];
-
-  const isMentioned =
-    !!botUsername &&
-    ents.some((e) => {
-      if (!e || e.type !== "mention") return false;
-      const s = raw.slice(e.offset, e.offset + e.length);
-      return (
-        s.toLowerCase() === "@" + String(botUsername).toLowerCase()
-      );
-    });
-
-  // 👉 PRIVATE CHAT: selalu aktif
-  // 👉 GROUP: hanya jika mention atau reply ke bot
-  if (!isPrivate && !isMentioned && !isReplyToBot) return next();
-
-  const t = stripMention(raw, botUsername);
-  if (!t) return ctx.reply("What can I help you with?");
-
-  const userId = ctx.from?.id;
-  const chatId = ctx.chat?.id;
-  if (!userId) return ctx.reply("User ID not detected.");
-
-  try {
-    // Simpan pesan user
-    await addTurn({
-      mongoUri: cfg.MONGODB_URI,
-      platform: "telegram",
-      userId: String(userId),
-      chatId: String(chatId || ""),
-      role: "user",
-      text: t,
-      log,
-    });
-
-    const turns = await getRecentTurns({
-      mongoUri: cfg.MONGODB_URI,
-      platform: "telegram",
-      userId: String(userId),
-      chatId: String(chatId || ""),
-      limit: 16,
-      log,
-    });
-
-    const messages = [];
-
-    // 🔥 Prompt baru lebih conversational
-    messages.push({
-      role: "system",
-      content:
-        "You are a friendly and intelligent AI assistant inside a Telegram bot. You can chat naturally, answer general knowledge questions, and also help manage image storage when needed. Keep responses clear and helpful.",
-    });
-
-    for (const m of turns) {
-      if (!m?.text) continue;
-      messages.push({ role: m.role, content: String(m.text) });
+    if (!isPrivate) {
+      const ok = shouldRespondInGroup({
+        raw,
+        entities: ctx.message?.entities,
+        botUsername,
+        isReplyToBot,
+      });
+      if (!ok) return next();
     }
 
-    const reply = await aiChat({
-      messages,
-      meta: { projectId: "image-vault", platform: "telegram" },
-      log,
-    });
+    const t = stripMention(raw, botUsername);
+    if (!t) return ctx.reply("What should I help you with?");
 
-    // Simpan balasan AI
-    await addTurn({
-      mongoUri: cfg.MONGODB_URI,
-      platform: "telegram",
-      userId: String(userId),
-      chatId: String(chatId || ""),
-      role: "assistant",
-      text: reply,
-      log,
-    });
+    const userId = ctx.from?.id;
+    const chatId = ctx.chat?.id;
+    if (!userId) return ctx.reply("I couldn’t read your user id from Telegram.");
 
-    await ctx.reply(String(reply).slice(0, 3500));
-  } catch (e) {
-    log.error?.("[ai] handler failed", { err: safeErr(e) });
-    await ctx.reply("AI error: " + safeErr(e));
-  }
-});
+    try {
+      await addTurn({
+        mongoUri: cfg.MONGODB_URI,
+        platform: "telegram",
+        userId: String(userId),
+        chatId: String(chatId || ""),
+        role: "user",
+        text: t,
+        log,
+      });
 
+      const turns = await getRecentTurns({
+        mongoUri: cfg.MONGODB_URI,
+        platform: "telegram",
+        userId: String(userId),
+        chatId: String(chatId || ""),
+        limit: 18,
+        log,
+      });
+
+      const messages = [];
+      messages.push({ role: "system", content: systemPrompt() });
+      for (const m of turns) {
+        if (!m?.text) continue;
+        messages.push({ role: m.role, content: String(m.text) });
+      }
+
+      const reply = await aiChat({
+        messages,
+        meta: { projectId: "telegram-image-storage-bot", platform: "telegram" },
+        log,
+      });
+
+      await addTurn({
+        mongoUri: cfg.MONGODB_URI,
+        platform: "telegram",
+        userId: String(userId),
+        chatId: String(chatId || ""),
+        role: "assistant",
+        text: reply,
+        log,
+      });
+
+      await ctx.reply(String(reply).slice(0, 3500));
+    } catch (e) {
+      log.error?.("[ai] handler failed", { err: safeErr(e) });
+      await ctx.reply("Sorry, I had trouble with that. Try /help.");
+    }
+  });
 
   return bot;
 }

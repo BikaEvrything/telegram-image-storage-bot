@@ -1,4 +1,3 @@
-
 import { cfg } from "../lib/config.js";
 import { clearUserMemory } from "../services/memoryStore.js";
 
@@ -15,6 +14,6 @@ export default function register(bot) {
       chatId: String(chatId || ""),
     });
 
-    await ctx.reply("Memory cleared.");
+    await ctx.reply("Conversation memory cleared. Your saved images are unchanged.");
   });
 }
